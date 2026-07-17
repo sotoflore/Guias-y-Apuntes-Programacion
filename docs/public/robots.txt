@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://devnotes.example.com/sitemap.xml

@@ -2,25 +2,7 @@
   {
     "text": "Guide",
     "link": "/guide/start/introduction",
-    "activeMatch": "/guide/",
-    "items": [
-      {
-        "text": "Getting Started",
-        "link": "/guide/start/introduction"
-      },
-      {
-        "text": "Markdown & MDX",
-        "link": "/guide/use-mdx/"
-      },
-      {
-        "text": "Zustand",
-        "link": "/guide/zustand/introduction"
-      },
-      {
-        "text": "nest",
-        "link": "/guide/nest/01-introduction"
-    }
-    ]
+    "activeMatch": "/guide/"
   },
   {
     "text": "API",
