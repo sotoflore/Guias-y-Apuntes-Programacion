@@ -1,0 +1,41 @@
+:where(:root) {
+  --rp-c-brand: #e11d48;
+  --rp-c-brand-light: #f43f5e;
+  --rp-c-brand-lighter: #fda4af;
+  --rp-c-brand-dark: #be123c;
+  --rp-c-brand-darker: #9f1239;
+  --rp-c-brand-tint: #e11d4829;
+}
+
+.rp-home-hero__title-brand {
+  background: none;
+  -webkit-text-fill-color: unset;
+  color: var(--rp-c-brand);
+  background-clip: unset;
+  text-shadow: 0 1px 2px rgba(225, 29, 72, 0.15);
+}
+
+.rp-button--brand {
+  background: var(--rp-c-brand) !important;
+  color: #fff;
+}
+
+.rp-button--brand:hover {
+  background: var(--rp-c-brand-dark) !important;
+}
+
+:where(html:not(.rp-dark)) {
+  --rp-home-background-bg:
+    radial-gradient(ellipse 60% 50% at 0% 0%, #e11d481a 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 100% 0%, #f43f5e12 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 30% 20%, #e11d480d 0%, transparent 80%),
+    #fff;
+}
+
+:where(html.rp-dark) {
+  --rp-home-background-bg:
+    radial-gradient(ellipse 60% 50% at 0% 0%, #e11d4824 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 100% 0%, #f43f5e1a 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 30% 20%, #e11d4814 0%, transparent 80%),
+    #121212;
+}
