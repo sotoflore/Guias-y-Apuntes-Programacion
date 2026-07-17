@@ -1,1 +1,9 @@
-["introduction"]
+[
+    "01-introduccion",
+    "02-creacion-store",
+    "03-lectura-y-modificacion-state",
+    "05-middlewares",
+    "06-persistencia-estado",
+    "patron-slice",
+    "consumir-api"
+]

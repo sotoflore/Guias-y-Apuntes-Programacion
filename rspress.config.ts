@@ -68,7 +68,7 @@ export default defineConfig({
                         scope: '/',
                         display: 'standalone',
                         orientation: 'portrait-primary',
-                        theme_color: '#e11d48',
+                        theme_color: '#28020a',
                         background_color: '#ffffff',
                         lang: 'es',
                         categories: ['education', 'developer tools'],

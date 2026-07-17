@@ -1,0 +1,176 @@
+import { PackageManagerTabs } from '@rspress/core/theme';
+
+# Creación del Store
+
+Un **store** en Zustand consta de:
+
+- **Estado**: Datos de la aplicación (variables reactivas).
+- **Acciones**: Funciones que modifican el estado.
+- **Getters/selectors**: Acceso al estado actual (opcional).
+
+```ts
+import { create, StateCreator } from 'zustand';
+
+// 1. Define el tipo de tu estado
+interface MyState {
+    //... estado inicial y acciones ...
+}
+
+// 2. Define la función de configuración (StateCreator)
+// Esta función recibe `set` y `get` como argumentos
+const storeConfig: StateCreator<MyState> = (set, get) => ({
+    // ... estado inicial y acciones ...
+});
+
+// 3. Crea el hook useMyStore
+export const useMyStore = create<MyState>(storeConfig);
+```
+- **`MyState`**: Es la interfaz que define la estructura completa del store que estás creando.
+- **`storeConfig`**: Función de Configuración. Es la que inicializa y define el contenido del store.
+- **`StateCreator`**:  Es un tipo proporcionado por Zustand que define la firma de la función de configuración utilizada para crear tu store.
+- **`set`**: Función para modificar el estado. Permite actualizar el estado de manera inmutable.
+- **`get`**: Función para leer el estado actual.
+- **`create`**: Es una función de alto nivel que toma la función de configuración y la envuelve para crear un hook.
+
+A continuación, se presenta una guía paso a paso para la instalación y definición de un store en Zustand para la gestión de estado global en una aplicación.
+
+## 1. Instalación de la Dependencia
+
+Para comenzar, debe instalar Zustand en su proyecto utilizando su gestor de paquetes preferido (**`npm`** o **yarn**).
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm install zustand',
+    yarn: 'yarn add zustand',
+    pnpm: 'pnpm add zustand',
+  }}
+/>
+
+Esto añadirá la librería a tu proyecto.
+
+## 2. Creación del Store
+
+El store de Zustand es el corazón de la gestión de estado. Se define como un hook personalizado que encapsula el estado y las funciones para modificarlo (acciones).
+
+**Estructura básica de un store**
+
+```js title="useCounterStore.ts"
+import { create } from 'zustand'
+
+interface State {
+    // Estado inicial
+    stateValue: string;
+}
+ 
+interface Actions {
+    // Acciones para modificar el estado
+    setStateValue: (newValue: string) => void;
+}
+
+export const useStore = create<State & Actions>((set) => ({
+  // Estado inicial
+  stateValue: 'algo',
+
+  setStateValue: (newValue) => set({ stateValue: newValue })
+}))
+```
+- **`create()`**: función principal que inicializa el store.
+- **`(set)`**: parámetro que Zustand te da para actualizar el estado.
+- **`set({ ... })`**: reemplaza o actualiza las propiedades del estado.
+- Puedes agregar tantas propiedades o funciones como necesites.
+
+### 2.1 Estructura de Directorios
+Se recomienda crear una carpeta dedicada (por ejemplo, **`src/store`**) y un archivo para cada store (ej. **`useCounterStore`** o **`useAuthStore`**). Cada uno maneja su propio estado, lo que mejora la modularidad.
+
+**Por ejemplo**:
+```txt
+src/
+└── store/                  #Directorio para todos los stores
+    ├── index.ts            #(Opcional) Exportar todos los stores
+    ├── authStore.ts        #Ejemplo de un store
+    └── counterStore.ts     #Ejemplo de un store
+```
+
+### 2.2 Definición del Store
+Primero importamos la función **`create`** de Zustand para definir el estado inicial y las acciones.
+
+```ts title="src/store/useCounterStore.ts"
+import { create } from 'zustand';
+```
+Luego creamos una constante con el nombre **`useCounterStore`** (esto es porque zustand usa hooks por debajo y en su documentación nombre las stores de esta manera).
+
+Para definir la store usamos la función **`create`**.
+
+```ts title="src/store/useCounterStore.ts"
+import { create } from 'zustand';
+
+export const useCounterStore = create()
+```
+La función **`create`** toma una función callback como parámetro, que retorna un objeto, para crear la store.
+
+```ts title="src/store/useCounterStore.ts"
+import { create } from 'zustand';
+
+export const useCounterStore = create( () => ({
+
+}))
+```
+Para mejor auto completado, usaremos una interfaz para definir las propiedades de nuestra store, así como las funciones. Luego establecemos el valor inicial de las propiedades, en este caso la propiedad **`count`** inicialmente sera **`0`**.
+
+```ts title="src/store/useCounterStore.ts"
+// Definimos el tipo del estado
+interface CounterState {
+    count: number;
+}
+
+interface CounterActions {
+    increment: () => void;
+    decrement: () => void;
+    incrementBy: (value: number) => void;
+}
+
+// Creamos el store con tipado estricto
+export const useCounterStore = create<CounterState & CounterActions>((set) => ({
+    count: 0,
+
+    increment: () => set((state) => ({ count: state.count + 1 })),
+    decrement: () => set((state) => ({ count: state.count - 1 })),
+    increaseBy: (value: number) => set((state) => ({ count: state.count + value })),
+}))
+```
+- **`count: 0`** es el estado inicial.
+- La función **`create`** recibe una función callback que retorna el objeto del store.
+- La función **`set`** es la función que permite modificar el estado.
+- **`increment`** y **`decrement`** son las acciones que modifican el estado.
+
+## 3. Uso del store en componentes
+
+Una vez creado el store, se puede usar en cualquier componente sin envolver la app con un Provider ni modificar el árbol de componentes.
+
+>**Por qué Zustand no necesita un Provider como otras soluciones de estado global en React?** Porque su store no depende del Context API de React.
+En lugar de envolver toda la aplicación en un contexto global, Zustand crea un estado independiente del árbol de componentes, al que cualquier componente puede acceder directamente mediante el hook del store. Eimina la necesidad de configurar un **`<Provider>`** en el nivel raíz de la app.
+
+### 3.1 Acceso al Estado y Acciones
+Para acceder al estado o a las acciones dentro de un componente, llame al hook del store y pase una función selectora para elegir qué partes del estado necesita.
+
+```tsx title="src/components/Counter.tsx"
+import useCounterStore from '../store/useCounterStore';
+
+function Counter() {
+
+  const count = useCounterStore((state) => state.count);
+  const increment = useCounterStore((state) => state.increment);
+  const decrement = useCounterStore((state) => state.decrement);
+
+  return (
+    <div>
+      <h2>Contador: {count}</h2>
+      <button onClick={increment}>Incrementar</button>
+      <button onClick={decrement}>Decrementar</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+>Al utilizar una función selectora, el componente solo se re-renderizará cuando las porciones de estado seleccionadas cambien. Esto garantiza una óptima eficiencia en la actualización de la UI.
