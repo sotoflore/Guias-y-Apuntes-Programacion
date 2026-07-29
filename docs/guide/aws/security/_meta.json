@@ -1,0 +1,32 @@
+[
+    {
+        "type": "file",
+        "name": "iam",
+        "label": "IAM"
+    },
+    {
+        "type": "file",
+        "name": "cognito",
+        "label": "Cognito"
+    },
+    {
+        "type": "file",
+        "name": "kms",
+        "label": "KMS"
+    },
+    {
+        "type": "file",
+        "name": "secrets-manager",
+        "label": "Secrets Manager"
+    },
+    {
+        "type": "file",
+        "name": "waf",
+        "label": "WAF"
+    },
+    {
+        "type": "file",
+        "name": "guardduty",
+        "label": "GuardDuty"
+    }
+]

@@ -22,11 +22,11 @@ export default defineConfig({
         dark: '/logo-app.svg',
     },
     head: [
-        ['meta', { name: 'theme-color', content: '#e11d48' }],
+        ['meta', { name: 'theme-color', content: '#28020a' }],
         ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
         ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }],
         ['meta', { name: 'apple-mobile-web-app-title', content: 'DevNotes' }],
-        ['meta', { name: 'msapplication-TileColor', content: '#e11d48' }],
+        ['meta', { name: 'msapplication-TileColor', content: '#28020a' }],
         ['meta', { name: 'msapplication-tap-highlight', content: 'no' }],
         ['meta', { name: 'application-name', content: 'DevNotes' }],
         ['meta', { name: 'subject', content: 'Apuntes y guías para desarrolladores web' }],

@@ -9,7 +9,7 @@
 Además, su diseño modular permite el uso de middlewares (como **`persist`**, **`devtools`** o **`subscribeWithSelector`**) y es completamente compatible con TypeScript, React Native y SSR (Server-Side Rendering), lo que lo convierte en una opción escalable tanto para proyectos pequeños como para aplicaciones empresariales.
 
 :::info Documentación Oficial
-https://zustand.docs.pmnd.rs/getting-started/introduction
+https://zustand.docs.pmnd.rs/learn/getting-started/introduction
 :::
 
 **Características**:

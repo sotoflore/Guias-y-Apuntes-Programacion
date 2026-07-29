@@ -39,6 +39,10 @@ features:
     details: Desarrollo móvil con React, navegación, componentes nativos,animaciones y publicación en App Store y Google Play.
     icon: /icons/react-native.svg
     link: /guide/start/introduction
+  - title: AWS
+    details: Guía completa de servicios cloud EC2, Lambda, S3, DynamoDB, VPC, IAM, ECS, CDK, patrones de arquitectura y más.
+    icon: /icons/aws.svg
+    link: /guide/aws/index
   - title: Explorar más
     details: Nuevas tecnologías y guías en camino bases de datos, testing, DevOps, arquitectura de software y más.
     icon: /icons/plus.svg

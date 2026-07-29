@@ -1,0 +1,6 @@
+[
+  { "type": "file", "name": "vpc", "label": "VPC" },
+  { "type": "file", "name": "route53", "label": "Route 53" },
+  { "type": "file", "name": "cloudfront", "label": "CloudFront" },
+  { "type": "file", "name": "elb", "label": "Load Balancer" }
+]

@@ -1,45 +1,9 @@
-# Rspress website
-
-## Setup
-
-Install the dependencies:
-
-```bash
-npm install
-```
-
-## Get started
-
-Start the dev server:
-
-```bash
-npm run dev
-```
-
-Build the website for production:
-
-```bash
-npm run build
-```
-
-Preview the production build locally:
-
-```bash
-npm run preview
-```
-
-```txt
 [
-    {
-        "type": "file",
-        "name": "index",
-        "label": "Introducción a AWS"
-    },
     "index",
     {
         "type": "file",
         "name": "introduction",
-        "label": "Fundamentos"
+        "label": "Fundamentos de Cloud Computing"
     },
     {
         "type": "file",
@@ -147,4 +111,3 @@ npm run preview
         "label": "Glosario"
     }
 ]
-```

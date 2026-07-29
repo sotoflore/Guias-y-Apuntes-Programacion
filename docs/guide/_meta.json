@@ -6,6 +6,16 @@
     },
     {
         "type": "dir-section-header",
+        "name": "fundamentals-cloud-computing",
+        "label": "Fundamentos de Cloud Computing"
+    },
+    {
+        "type": "dir-section-header",
+        "name": "aws",
+        "label": "Amazón Web Services (AWS)"
+    },
+    {
+        "type": "dir-section-header",
         "name": "use-mdx",
         "label": "Markdown & MDX"
     },

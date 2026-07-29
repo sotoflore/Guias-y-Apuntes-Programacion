@@ -1,1 +1,8 @@
-["components", { "type": "dir", "name": "code-blocks" }, "container"]
+[
+    "components",
+    {
+        "type": "dir",
+        "name": "code-blocks"
+    },
+    "container"
+]
