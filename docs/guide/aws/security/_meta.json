@@ -1,32 +1,37 @@
 [
     {
         "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "permiso-y-acceso-usuario",
+        "label": "Permisos y Acceso de Usuario"
+    },
+    {
+        "type":"file",
+        "name":"proteccion-redes-y-app",
+        "label":"Protección de Redes y Aplicaciones"
+    },
+    {
+        "type": "file",
+        "name": "proteccion-datos",
+        "label":"Protección de los Datos"
+    },
+    {
+        "type": "file",
+        "name":"deteccion-y-respuesta-incidentes",
+        "label": "Detección y Respuesta a Incidentes"
+    },
+    {
+        "type": "file",
         "name": "iam",
         "label": "IAM"
     },
     {
         "type": "file",
         "name": "cognito",
-        "label": "Cognito"
-    },
-    {
-        "type": "file",
-        "name": "kms",
-        "label": "KMS"
-    },
-    {
-        "type": "file",
-        "name": "secrets-manager",
-        "label": "Secrets Manager"
-    },
-    {
-        "type": "file",
-        "name": "waf",
-        "label": "WAF"
-    },
-    {
-        "type": "file",
-        "name": "guardduty",
-        "label": "GuardDuty"
+        "label": "Amazon Cognito"
     }
 ]

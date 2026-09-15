@@ -30,7 +30,7 @@ IAM ofrece **usuarios**, **grupos** y **roles** para que pueda configurar el acc
 
 4. **Roles de IAM**. Un rol de IAM es una identidad que puede asumir para obtener acceso temporal a permisos. Por ejemplo, es posible que un empleado deba trabajar como barista por la mañana y como cajero por la tarde. Cuando alguien asume un rol de IAM, abandona todos los permisos que tenía en el rol anterior y recibe los permisos del nuevo.
 
-5. **Políticas de IAM**. Una política de IAM es un documento JSON que concede o deniega los permisos para acceder a los servicios y los recursos de AWS. Las políticas de IAM también pueden definir el nivel de acceso que se tiene a los recursos. Por ejemplo, puede permitir que los empleados accedan a todos los buckets de Amazon S3 dentro de su cuenta de AWS o solo a un bucket específico.
+5. **Políticas de IAM**. Una política de IAM es un documento JSON que concede o deniega los permisos para acceder a los servicios y los recursos de AWS. Esta se puede agregar a los usuarios, grupos y roles de IAM. Las políticas de IAM también pueden definir el nivel de acceso que se tiene a los recursos. Por ejemplo, puede permitir que los empleados accedan a todos los buckets de Amazon S3 dentro de su cuenta de AWS o solo a un bucket específico.
 
 ## 2. Servicios adicionales de administración del acceso
 
