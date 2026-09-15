@@ -2,7 +2,6 @@
 
 **Amazon Cognito** es el servicio de AWS para gestionar la **identidad** de los usuarios de una aplicación: quién es cada usuario, cómo se registra, cómo inicia sesión y qué puede hacer dentro de tu sistema y dentro de la propia AWS. Para quien está aprendiendo Cloud Computing, Cognito es el puente entre dos mundos que hasta ahora se han tratado por separado: el mundo de la aplicación (frontend, backend, APIs) y el mundo de la plataforma AWS (IAM, S3, DynamoDB, API Gateway).
 
-Una aplicación moderna rara vez tiene un solo usuario y una sola forma de entrar. Tiene clientes web y móviles, usuarios que llegan con Google o con su email y contraseña, perfiles con permisos distintos (cliente, administrador, invitado) y, a veces, necesidad de acceder a servicios de AWS en nombre de esos usuarios. Gestionar todo eso a mano es costoso y propenso a errores de seguridad. Cognito lo empaqueta como un **servicio gestionado**: el mismo tipo de abstracción que ya viste en el modelo *Backend as a Service* (BaaS) en el documento de [Serverless](/guide/fundamentals-cloud-computing/serverles).
 
 :::tip Analogía: la recepción de un gimnasio
 Imagina un gimnasio con piscina, sala de pesas y área VIP.
@@ -76,7 +75,7 @@ Cada una de estas funciones es un punto de fallo de seguridad. Los atacantes ata
 
 Al delegar la identidad en Cognito, el equipo conserva el control de **lo que los usuarios pueden hacer** (a través de grupos, atributos y roles) y transfiere a AWS la responsabilidad operativa de **cómo se verifica la identidad**: almacenamiento seguro de contraseñas, emisión y validación de tokens, MFA, bloqueo de cuentas y escalado automático ante millones de usuarios.
 
-Esto encaja con el **modelo de responsabilidad compartida**: AWS asegura la plataforma de Cognito (los centros de datos, el servicio, la infraestructura) y tu equipo asegura la configuración (políticas de contraseña, MFA obligatorio, permisos de los roles). Ver el documento [Modelo de Responsabilidad Compartida](/guide/fundamentals-cloud-computing/09-responsabilidad-compartida) para el contexto general.
+Esto encaja con el **modelo de responsabilidad compartida**: AWS asegura la plataforma de Cognito (los centros de datos, el servicio, la infraestructura) y tu equipo asegura la configuración (políticas de contraseña, MFA obligatorio, permisos de los roles). Ver el documento [Modelo de Responsabilidad Compartida](/guide/aws/responsabilidad-compartida) para el contexto general.
 
 ### 2.3 ¿Cuándo utilizar Cognito?
 
@@ -143,7 +142,7 @@ Un **Identity Provider (IdP)** es un servicio que **autentica a los usuarios** y
 
 Un **token** es el vehículo de la identidad verificada. Cognito emite **tokens JWT** firmados: la aplicación o el backend pueden confiar en su contenido sin preguntar a Cognito cada vez, porque la firma demuestra que el token fue emitido por Cognito y no fue alterado. Los **claims** del token (email, `sub`, grupos) son los datos que el backend usa para autorizar. En la sección de tokens se detallan sus tipos y usos.
 
-> **Nota**: en el contexto AWS, el punto donde se valida la identidad y se decide el acceso está repartido: Cognito autentica usuarios finales, IAM autoriza el acceso a servicios AWS, y el API Gateway valida tokens en el borde de tus APIs. Ver [API Gateway](/guide/fundamentals-cloud-computing/api-gateway) (sección de autenticación y autorización) e [IAM](/guide/aws/security/iam) para profundizar en cada pieza.
+> **Nota**: en el contexto AWS, el punto donde se valida la identidad y se decide el acceso está repartido: Cognito autentica usuarios finales, IAM autoriza el acceso a servicios AWS, y el API Gateway valida tokens en el borde de tus APIs. 
 
 :::info Idea clave
 La identidad tiene tres piezas: **quién eres** (identidad), **qué pruebas presentas** (credenciales) y **qué se te permite** (autorización). Cognito autentica con el User Pool y materializa la autorización mediante tokens, grupos y, para servicios AWS, con el Identity Pool.
@@ -588,7 +587,7 @@ En el frontend, Amplify o el Hosted UI absorben la complejidad de los flujos. En
 
 ### 10.1 El authorizer de Cognito
 
-El **API Gateway** puede validar los tokens de Cognito de forma nativa con un **authorizer de tipo `COGNITO_USER_POOLS`**: el Gateway verifica la firma y la expiración del token de cada petición y, si es válido, pasa los claims al backend. De este modo la validación ocurre **en el borde**, antes de invocar tu Lambda, tal como recomienda el documento de [API Gateway](/guide/fundamentals-cloud-computing/api-gateway) (autenticación y autorización centralizadas en el Gateway).
+El **API Gateway** puede validar los tokens de Cognito de forma nativa con un **authorizer de tipo `COGNITO_USER_POOLS`**: el Gateway verifica la firma y la expiración del token de cada petición y, si es válido, pasa los claims al backend. De este modo la validación ocurre **en el borde**, antes de invocar tu Lambda, tal como recomienda el documento de [API Gateway](/guide/aws/cloud-computing/api-gateway) (autenticación y autorización centralizadas en el Gateway).
 
 ### 10.2 Flujo con Lambda
 
@@ -616,7 +615,7 @@ Consideraciones de diseño:
 
 - El authorizer de Cognito **valida** el token, pero la **autorización fina** (¿puede este grupo ejecutar esta acción?) puede hacerse en el propio Gateway (recursos protegidos por grupo) o en la Lambda leyendo `cognito:groups`.
 - Para lógica de autorización más compleja, el API Gateway ofrece **Lambda authorizers** personalizados que devuelven políticas IAM de acceso por petición (ver la [Guía técnica de Amazon Cognito](/guide/aws/security/cognito)).
-- Combinar el authorizer con **rate limiting** y control de tráfico del Gateway protege las funciones de abuso (ver [API Gateway](/guide/fundamentals-cloud-computing/api-gateway)).
+- Combinar el authorizer con **rate limiting** y control de tráfico del Gateway protege las funciones de abuso (ver [API Gateway](/guide/aws/cloud-computing/api-gateway)).
 
 :::info Idea clave
 Con el authorizer de Cognito, la validación de tokens se centraliza en el API Gateway: tu Lambda recibe peticiones ya autenticadas, con los claims del usuario en el contexto, y solo tiene que ocuparse de la lógica y de la autorización fina.
@@ -702,7 +701,7 @@ sequenceDiagram
     App->>App: Valida el ID Token (JWKS) y confía en la identidad
 ```
 
-> **Nota**: el documento [API Gateway](/guide/fundamentals-cloud-computing/api-gateway) ya introduce OAuth2/OIDC como mecanismos de autenticación en el borde; aquí se aplican al rol de Cognito como proveedor de identidad.
+> **Nota**: el documento [API Gateway](/guide/aws/cloud-computing/api-gateway) ya introduce OAuth2/OIDC como mecanismos de autenticación en el borde; aquí se aplican al rol de Cognito como proveedor de identidad.
 
 :::info Idea clave
 Cognito implementa los estándares: es un **authorization server OAuth 2.0** (emite Access Tokens y scopes) y un **OpenID Provider** (emite el ID Token que autentica al usuario). El flujo de código de autorización con PKCE es el patrón recomendado para aplicaciones modernas.
@@ -891,6 +890,6 @@ Los tres resuelven el mismo problema central —no implementar autenticación a 
 
 - [Guía técnica de Amazon Cognito](/guide/aws/security/cognito) — configuración detallada con AWS CLI, SDKs, Lambda triggers y Hosted UI.
 - [IAM](/guide/aws/security/iam) — roles, políticas y el modelo de permisos de AWS.
-- [API Gateway](/guide/fundamentals-cloud-computing/api-gateway) — validación de tokens en el borde y authorizers.
-- [Serverless](/guide/fundamentals-cloud-computing/serverles) — Cognito como servicio BaaS dentro de arquitecturas serverless.
-- [Modelo de Responsabilidad Compartida](/guide/fundamentals-cloud-computing/09-responsabilidad-compartida) — quién asegura qué en la nube.
+- [API Gateway](/guide/aws/cloud-computing/api-gateway) — validación de tokens en el borde y authorizers.
+- [Serverless](/guide/aws/cloud-computing/serverles) — Cognito como servicio BaaS dentro de arquitecturas serverless.
+- [Modelo de Responsabilidad Compartida](/guide/aws/responsabilidad-compartida) — quién asegura qué en la nube.
