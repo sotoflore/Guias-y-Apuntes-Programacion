@@ -1,0 +1,37 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "componentes-redes",
+        "label": "Componentes de redes"
+    },
+    {
+        "type": "file",
+        "name": "organizacion-recursos",
+        "label": "Organización de los recursos"
+    },
+    {
+        "type": "file",
+        "name": "formas-conectar",
+        "label": "Formas de conectarse a la nube"
+    },
+    {
+        "type": "file",
+        "name": "seguridad-control-acceso",
+        "label": "Seguridad y control de acceso"
+    }, 
+    {
+        "type": "file",
+        "name": "demostracion-vpc",
+        "label": "Demostración de Amazon VPC"
+    },
+    {
+        "type": "file",
+        "name": "redes-globales",
+        "label": "Redes globales"
+    }
+]

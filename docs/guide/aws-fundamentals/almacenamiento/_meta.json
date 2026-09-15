@@ -1,0 +1,32 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "almacenamiento-bloques",
+        "label": "Almacenamiento de bloques"
+    },
+    {
+        "type": "file",
+        "name": "almacenamiento-objetos",
+        "label": "Almacenamiento de objetos"
+    },  
+    {
+        "type": "file",
+        "name": "almacenamiento-archivos",
+        "label": "Almacenamiento de archivos"
+    },
+    {
+        "type": "file",
+        "name": "aws-storage-gateway",
+        "label": "AWS Storage Gateway"
+    },
+    {
+        "type": "file",
+        "name": "recuperacion-elastica-ante-desastres",
+        "label": "Recuperación Elástica ante desastres"
+    }
+]

@@ -1,0 +1,180 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Análisis de Datos
+
+El **análisis de datos** es el proceso de recopilar, organizar, transformar, explorar e interpretar datos con el objetivo de obtener información útil que permita comprender situaciones, identificar patrones y tomar mejores decisiones.
+
+En el contexto de la computación en la nube, el análisis de datos permite a las organizaciones trabajar con grandes cantidades de información provenientes de aplicaciones, sitios web, dispositivos IoT, sistemas empresariales y otras fuentes. Los datos pueden ser analizados para responder preguntas como: **¿qué ocurrió?**, **¿por qué ocurrió?**, **¿qué está ocurriendo actualmente?** y **¿qué podría ocurrir en el futuro?**
+
+## 1. Conceptos clave
+
+Tanto la **IA** y el **ML**, como el **análisis de datos**, están respaldados por **datos fiables**. Repasemos las distintas formas en las que los analistas preparan y utilizan los datos.
+
+### 1.1 Canalizaciones de datos para procesos de ETL
+
+Tanto la **IA/el ML**, como el **análisis de datos** tradicional, necesitan **datos limpios** y accesibles en un formato que puedan utilizar las herramientas de análisis y los algoritmos de IA. Es para este propósito que se utilizan los procesos de extracción, transformación y carga (extraction, transformation and load, ETL). Con ETL, se realizan los siguientes pasos:
+
+1. Extraer los datos de varias fuentes y guardarlos.
+2. Pasarlosa un formato uniforme y utilizable para que los consuman las herramientas posteriores.
+3. Cargarlos en un sistema de destino, como un almacén de datos o una plataforma de análisis.
+
+Las **canalizaciones de datos** (data pipelines) son líneas de ensamblaje automatizadas que se usan para hacer que el proceso de ETL sea eficaz y repetible. AWS cuenta con un conjunto de servicios integrados que puede utilizar para crear sus propias canalizaciones de datos.
+
+![Canalizaciones de datos para procesos de ETL](/aws/ia-ml/analisis-datos-canalizaciones-datos.png)
+
+### 1.2 Análisis de datos
+
+Durante el análisis de datos, los analistas transforman los datos históricos sin procesar para descubrir información y tendencias valiosas. Este análisis de datos tradicional se puede aplicar a casos de uso importantes, como pueden ser los siguientes:
+
+- Empresas de préstamos que explican las decisiones de préstamo a los clientes.
+- Investigadores médicos que analizan datos de ensayos clínicos mediante pruebas de hipótesis.
+- Empresas de seguros que hacen que sus modelos de evaluación de riesgos sean transparentes para los reguladores.
+
+![Análisis de datos](/aws/ia-ml/analisis-datos-intro.png)
+
+## 2. Servicios de canalizaciones de datos de AWS
+
+Profundicemos un poco más en los servicios que se utilizan en una típica canalización de datos de AWS.
+
+
+<Tabs>
+  <Tab label="Ingesta de Datos">
+    ![Ingesta de Datos](/aws/ia-ml/analisis-datos-ingesta.png)
+
+    La **ingesta de datos** implica mover los datos de los sistemas de origen a la solución de almacenamiento que se elija. Utilice la ingesta en tiempo real cuando sea necesario obtener los datos de forma inmediata. Utilice la ingesta por lotes en los casos en los que se tolere cierta latencia.
+
+    - **Amazon Kinesis Data Streams**
+
+    ![Amazon Kinesis Data Streams](/icons/amazon-kinesis-data-streams.svg)
+
+    Puede utilizar para la ingesta en tiempo real de terabytes de datos de aplicaciones, transmisiones y sensores. Este servicio sin servidor incluso ofrece aprovisionamiento y escalado automáticos en su modo bajo demanda.
+
+
+    - **Amazon Data Firehose**
+
+    ![Amazon Data Firehose](/icons/amazon-data-firehose.svg)
+
+    Es una opción con la que se puede realizar una ingesta de datos casi en tiempo real. Este servicio completamente administrado proporciona aprovisionamiento y escalado automáticos. También entrega datos a lagos de datos, almacenes y servicios de análisis en cuestión de segundos.
+  </Tab>
+  <Tab label="Almacenamiento">
+    ![Almacenamiento](/aws/ia-ml/analisis-datos-almacenamiento.png)
+
+    Los datos pueden provenir de muchas fuentes diferentes. Para obtener información, los datos suelen consolidarse en una única ubicación. Para esto, existen dos opciones de almacenamiento. Los **lagos de datos** (data lakes) flexibles almacenan enormes cantidades de datos sin procesar. Por otro lado, los **almacenes de datos** (data warehouses) más estructurados están optimizados para la inteligencia empresarial.
+
+    - **Amazon S3**
+
+    ![Amazon S3](/icons/amazon-simple-storage.svg)
+
+    Es una opción popular para los lagos de datos (data lakes). Este servicio de almacenamiento de objetos puede almacenar prácticamente cualquier cantidad de datos, estructurados o no, de forma segura. Amazon S3 también es totalmente elástico y aplica el escalado automático a medida que se agregan y eliminan datos.
+
+
+    - **Amazon Redshift**
+
+    ![Amazon Redshift](/icons/amazon-redshift.svg)
+
+    Es un servicio de almacenamiento de datos completamente administrado que puede almacenar petabytes de datos estructurados o semiestructurados. Gracias a la escalabilidad y al modelo de precios de pago por uso, las organizaciones pueden analizar grandes conjuntos de datos de forma rentable.
+  </Tab>
+  <Tab label="Catalogación">
+    ![Catalogación](/aws/ia-ml/analisis-datos-catalogacion.png)
+
+    La **catalogación de los datos** con metadatos le proporciona un inventario de los datos de su organización.
+
+    - **Catálogo de datos de AWS Glue**
+
+    ![Catálogo de datos de AWS Glue](/icons/catalogo-aws-glue.png)
+
+    Ofrece un repositorio de metadatos centralizado, escalable y administrado que mejora el descubrimiento de datos. También mejora la eficiencia general de las canalizaciones de datos al entregar metadatos a varios almacenes de datos y servicios de análisis.    
+    
+  </Tab>
+  <Tab label="Procesamiento de Datos">
+    ![Procesamiento de Datos](/aws/ia-ml/analisis-datos-procesamiento.png)
+
+    Los **servicios de procesamiento de datos** limpian y transforman los datos a fin de que estén listos para su análisis.
+
+    - **AWS Glue**
+
+    ![AWS Glue](/icons/aws-glue.svg)
+
+    Es un servicio de ETL completamente administrado que hace que la preparación de datos sea más sencilla, rápida y rentable. Los trabajos de ETL de AWS Glue pueden utilizar el catálogo de datos de AWS Glue para acceder a los metadatos acerca de los orígenes de datos, lo que puede ayudar a informar las transformaciones definidas en el script de ETL.
+
+    - **Amazon EMR**
+
+    ![Amazon EMR](/icons/amazon-emr.svg)
+
+    Es ideal para el procesamiento de datos a gran escala y para las organizaciones que tienen experiencia con macrodatos. Gestiona de forma automática el aprovisionamiento de la infraestructura, la administración de clústeres y el escalado. Amazon EMR admite marcos de trabajo de macrodatos populares, como Apache Spark, Apache Hadoop y Apache Hive.
+    
+  </Tab>
+  <Tab label="Análisis y visualización de datos">
+    ![Análisis y visualización de datos](/aws/ia-ml/analisis-datos-analisis-visualizacion.png)
+    
+    Las herramientas de consulta y visualización ayudan a obtener información importante acerca de sus datos.
+
+    - **Amazon Athena**
+
+    ![Amazon Athena](/icons/amazon-athena.svg)
+
+    Puede ejecutar consultas SQL para analizar datos en orígenes de datos relacionales, no relacionales, de objetos y personalizados. Este servicio sin servidor completamente administrado puede acceder a los datos alojados en Amazon S3, en las instalaciones o, incluso, en entornos multinube. Ofrece una solución rentable para el análisis de datos ya que solo deberá pagar por las consultas que ejecute.
+
+
+    - **Amazon Redshift**
+
+    ![Amazon Redshift](/icons/amazon-redshift.svg)
+
+    Es una solución de almacén de datos completamente administrada. Su almacenamiento en columnas y su arquitectura de procesamiento paralelo a nivel masivo hacen que sea ideal para analizar grandes conjuntos de datos. Con esta herramienta, puede realizar consultas SQL complejas en grandes conjuntos de datos para cargas de trabajo analíticas frecuentes y de alto rendimiento.
+
+
+    - **Amazon QuickSight**
+
+    ![Amazon QuickSight](/icons/amazon-quickSight.svg)
+
+    Tanto los usuarios técnicos como los no técnicos pueden crear paneles e informes interactivos y modernos rápidamente a partir de diversos orígenes de datos y sin tener que administrar la infraestructura. Amazon Q en QuickSight ofrece consultas en lenguaje natural para que los analistas empresariales y los usuarios puedan crear, descubrir y compartir información significativa en cuestión de segundos.
+
+
+    - **Amazon OpenSearch Service**
+
+    ![Amazon OpenSearch Service](/icons/amazon-openSearch.svg)
+
+    Puede buscar contenido relevante por medio de coincidencias precisas de palabras clave o consultas en lenguaje natural. Los paneles unificados proporcionan una visualización de datos en tiempo real a medida que se analizan y supervisan los registros, los seguimientos y las métricas de diferentes aplicaciones.
+  </Tab>
+</Tabs>
+
+## 3. Arquitectura de IA/ML y análisis de datos
+
+Entrega de datos de clientes para el análisis y el entrenamiento de modelos de ML.
+
+Una empresa de comercio electrónico utiliza una canalización de datos automatizada para ingerir y procesar datos y, luego, enviarlos a múltiples partes interesadas. Como resultado, los científicos de datos y los ingenieros de ML pueden utilizar el mismo conjunto de datos para el análisis y el entrenamiento de modelos de ML.
+
+![Arquitectura de IA/ML y análisis de datos](/aws/ia-ml/analisis-datos-ejemplo-diagrama.png)
+
+Pasos que componen la solución:
+
+1. **Dar recomendaciones**. Una empresa de comercio electrónico utiliza un modelo de ML para hacer recomendaciones de productos.
+
+2. **Almacenar los datos de la aplicación**. Una base de datos de Amazon DynamoDB almacena los datos históricos de los clientes que se recopilan a través de la aplicación. Esto tiene sentido para las lecturas y escrituras de baja latencia, pero no es ideal para el entrenamiento de modelos de ML.
+
+3. **Ingerir datos**. Kinesis Data Streams ingiere los datos de DynamoDB. A continuación, Amazon Data Firehose agrega los datos.
+
+4. **Procesar los datos**. Los datos están en formato JSON, por lo que Firehose invoca una función de AWS Lambda que los pasa a formato `.csv`.
+
+5. **Entregar los datos**. Luego, Firehose entrega los datos al lago de datos de Amazon S3 de la empresa, donde quedan disponibles para varios consumidores.
+
+6. **Catalogar los datos**. El catálogo de datos de AWS Glue sirve como repositorio de metadatos, con tablas que describen el esquema y la ubicación de los datos de Amazon S3.
+
+7. **Llevar a cabo un análisis de datos**. Los científicos de datos utilizan Athena para recopilar información por medio de consultas.
+
+8. **Entrenar un modelo**. La IA de SageMaker lee el mismo conjunto de datos directamente desde Amazon S3. Los ingenieros de ML pueden entonces entrenar nuevas versiones del modelo de recomendación con la información más reciente.
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/)
+- [Amazon Data Firehose](https://aws.amazon.com/firehose/)
+- [Amazon S3](https://aws.amazon.com/s3/)
+- [Amazon Redshift](https://aws.amazon.com/redshift/)
+- [AWS Glue Data Catalog](https://aws.amazon.com/glue/)
+- [AWS Glue](https://aws.amazon.com/glue/)
+- [Amazon EMR](https://aws.amazon.com/emr/)
+- [Amazon Athena](https://aws.amazon.com/athena/)
+- [Amazon QuickSight](https://aws.amazon.com/quicksight/)
+- [Amazon OpenSearch Service](https://aws.amazon.com/opensearch-service/)

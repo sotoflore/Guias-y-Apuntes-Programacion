@@ -1,0 +1,169 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Introducción a la supervisión y cumplimiento 
+
+En la nube de AWS, la **supervisión** es el proceso continuo de recopilación, visualización y seguimiento del estado y el rendimiento de la infraestructura, los servicios y las aplicaciones de AWS. El objetivo de la supervisión es **ayudar a garantizar un rendimiento óptimo** e **identificar posibles problemas**.
+
+## 1. La importancia de la supervisión
+
+La supervisión de los recursos de la nube es importante. Proporciona una forma de observar y analizar continuamente la actividad del sistema, el tráfico de la red y los eventos de seguridad para detectar posibles amenazas o anomalías. La supervisión y la observabilidad son componentes fundamentales para garantizar la seguridad, la disponibilidad, la fiabilidad y el rendimiento de sus cargas de trabajo y datos basados en la nube.
+
+![La importancia de la supervisión](/aws/monitoreo/monitoreo-supervision-intro.png)
+
+La supervisión se realiza con herramientas de supervisión en tiempo real, recopilación y análisis de registros, y paneles. En las siguientes lecciones, identificará varias herramientas de supervisión diferentes y lo que hacen.
+
+## 2. Controle sus recursos y aplicaciones
+
+### 2.1 Amazon CloudWatch
+
+![Amazon CloudWatch](/icons/amazon-cloudWatch.svg)
+
+**CloudWatch** supervisa sus recursos de AWS y las aplicaciones que ejecuta en AWS en tiempo real. Con CloudWatch, obtiene visibilidad de todo el sistema respecto de la utilización de los recursos, el rendimiento de las aplicaciones y el estado operativo. CloudWatch hace más que solo supervisar. Tiene varias características que funcionan en conjunto:
+
+- Métricas de CloudWatch
+- Alarmas de CloudWatch
+- Paneles de CloudWatch
+- Registros de CloudWatch
+
+**Característica de CloudWatch**:
+
+![Característica de CloudWatch](/aws/monitoreo/monitoreo-amazon-cloudwatch.png)
+
+1. **Métricas**. CloudWatch recopila métricas de todos los recursos, aplicaciones y servicios de AWS que se ejecutan en servidores en las instalaciones y de AWS.
+
+2. **Alarmas**. Con las alarmas de CloudWatch, puede definir umbrales en las métricas de CloudWatch y enviar notificaciones o realizar cambios automáticamente en los recursos.
+
+3. **Paneles**. Los paneles son páginas de inicio personalizables en la consola de CloudWatch que puede usar para supervisar sus recursos en una sola vista.
+
+4. **Registros**. Registros de CloudWatch centraliza los registros de todos los sistemas, las aplicaciones y los servicios de AWS que usted utiliza.
+
+**Beneficios**
+
+CloudWatch le ayuda a visualizar y analizar sus recursos, operar de manera eficiente con la automatización, utilizar una vista integrada, supervisar de forma proactiva y obtener información.
+
+**Caso de uso**
+
+se puede usar para supervisar la infraestructura y solucionar sus problemas.
+
+**Ejemplo**: una empresa minorista utiliza las características de CloudWatch para supervisar la ejecución de su aplicación en instancias de Amazon Elastic Compute Cloud (Amazon EC2). CloudWatch recopila automáticamente las métricas, como la utilización, en las instancias de EC2. La empresa configura CloudWatch para recopilar registros sobre el rendimiento de la aplicación. También tiene alarmas para cuando la utilización de Amazon EC2 es demasiado alta durante un período prolongado. Incluso tiene una acción configurada para automatizar y escalar verticalmente la cantidad de instancias de EC2 cuando suena la alarma. Por último, la empresa creó un panel personalizado para visualizar todo en un solo lugar. Ahora puede analizar los registros para obtener información sobre los problemas de rendimiento o los errores de la aplicación.
+
+![Ejemplo Amazon CloudWatch](/aws/monitoreo/monitoreo-amazon-cloudwatch-ejemplo.jpg)
+
+## 3. La importancia de la auditoría
+
+Imagine a una empresa financiera con una solución en la nube híbrida que intenta averiguar qué ocurre cuando se realizan cambios en sus recursos en la nube y en las instalaciones. Necesitan esta información con el fin de solucionar problemas y proporcionar registros detallados para garantizar el cumplimiento. Ahí es donde **CloudTrail** puede ayudar.
+
+Un trabajador de TI que quiere ver qué pasó, quién lo hizo y cuándo sucedió el hecho en su centro de datos en las instalaciones y en los recursos de la nube de AWS.
+
+![La importancia de la auditoría](/aws/monitoreo/monitoreo-amazon-cloudtrail.png)
+
+### 3.1 AWS CloudTrail
+
+![AWS CloudTrail](/icons/aws-cloudTrail.svg)
+
+**CloudTrail** rastrea la actividad de los usuarios y el uso de las API en la nube de AWS, en las instalaciones e incluso con otros proveedores de la nube. CloudTrail proporciona un historial detallado de las llamadas a la API, para que pueda realizar un seguimiento de los cambios e identificar quién los realizó y cuándo. Esto le ayuda a comprender qué acciones se llevaron a cabo en sus recursos de AWS.
+
+**Beneficios**
+
+CloudTrail proporciona auditoría, supervisión de la seguridad y solución de problemas operativos. También le ayuda a demostrar el cumplimiento y a mejorar su posición de seguridad.
+
+**Casos de uso**
+
+Se puede usar para el cumplimiento y la auditoría, la identificación de incidentes de seguridad y la resolución de problemas operativos.
+
+**Características de CloudTrail**:
+
+- **Eventos de CloudTrail**. Los eventos de CloudTrail recopilan detalles sobre las acciones realizadas en su cuenta de AWS, como las llamadas a la API, las acciones de la consola u otras actividades. El historial de eventos proporciona un registro visible, explorable, descargable e inmutable de los últimos 90 días en el que se muestran los eventos de administración en una región de AWS. CloudTrail no cobra nada por ver el historial de eventos.
+
+- **Registros de CloudTrail**. CloudTrail supervisa los eventos y los envía como archivos de registro a su bucket de Amazon Simple Storage Service (Amazon S3). Como los registros de CloudTrail se almacenan de forma segura, se pueden usar para demostrar el cumplimiento de normativas como la industria de tarjetas de pago (PCI) y la Ley de Portabilidad y Responsabilidad de Seguros de Salud (HIPAA).
+
+- **Información de CloudTrail**. Información de CloudTrail analiza sus patrones normales de volumen de llamadas a la API y las tasas de error de la API. Además, genera eventos de información cuando los volúmenes de llamadas a la API y las tasas de error se desvían de estos patrones normales. Puede habilitar Información de CloudTrail en sus almacenes de datos de pistas o eventos para detectar comportamientos anómalos y actividades inusuales.
+
+## 4. Beneficios del cumplimiento con AWS
+
+El **cumplimiento** se refiere a que sus recursos y datos en la nube se adhieren a las normativas, los estándares del sector y las políticas internas pertinentes en relación con la seguridad y la protección de datos. AWS le ayuda a satisfacer los objetivos y requisitos de cumplimiento de las siguientes maneras:
+
+- Heredación de los controles de seguridad más recientes que AWS usa en su propia infraestructura
+- Validación por parte de terceros para miles de requisitos globales
+- Simplificación y automatización del cumplimiento
+- Informes de cumplimiento bajo demanda
+
+### 4.1 AWS Artifact
+
+![AWS Artifact](/icons/aws-artifact.svg)
+
+**AWS Artifact** es un servicio que proporciona acceso gratuito y bajo demanda a los informes de seguridad y cumplimiento de AWS y a determinados acuerdos en línea.
+
+AWS Artifact consta de dos tipos:
+
+<Tabs>
+  <Tab label="Acuerdos de AWS Artifact">
+    Imagine que su empresa necesita firmar un acuerdo con AWS en relación con el uso de determinados tipos de información en los servicios de AWS. Lo puede hacer a través de acuerdos de AWS Artifact.
+
+    En los acuerdos de AWS Artifact, puede revisar, aceptar y administrar los acuerdos de una cuenta individual y de todas sus cuentas de AWS Organizations. Se ofrecen diferentes tipos de acuerdos para atender las necesidades de los clientes que están sujetos a normativas específicas, como la Ley de Portabilidad y Responsabilidad de Seguros de Salud (HIPAA).
+  </Tab>
+  <Tab label="Informes de AWS Artifact">
+    Ahora bien, imagine que un miembro del equipo de desarrollo de su empresa está creando una aplicación y necesita más información sobre su responsabilidad para cumplir con ciertos estándares normativos. Puede aconsejarle que acceda a esta información en los informes de AWS Artifact.
+
+    Los informes de AWS Artifact proporciona informes de cumplimiento de auditores de terceros. Esos auditores probaron y verificaron que AWS cumple con una variedad de estándares y reglamentos de seguridad globales, regionales y específicos del sector. AWS Artifact Reports se mantiene actualizado con los informes publicados de forma más reciente. Puede proporcionar los artefactos de auditoría de AWS a sus auditores o reguladores como prueba de los controles de seguridad de AWS.
+  </Tab>
+</Tabs>
+
+**Beneficios**
+
+AWS Artifact le ayuda a administrar a escala, ahorrar tiempo con el acceso bajo demanda a los informes de cumplimiento e implementar con más confianza.
+
+**Casos de uso**
+
+Se puede usar para administrar acuerdos en línea seleccionados y evaluar la seguridad y el cumplimiento de terceros.
+
+## 5. Auditoría de los recursos de AWS para garantizar el cumplimiento
+
+AWS ofrece varios servicios que puede usar para garantizar que sus recursos cumplan con los estándares o requisitos de su empresa.
+
+La mayoría de las empresas querrán que siga las pautas de configuración específicas para sus diferentes recursos de AWS. Esto significa que necesitará una forma de evaluar y auditar los recursos que cree en AWS para asegurarse de que cumplen esas reglas. Ahí es donde AWS Config puede ayudar.
+
+### 5.1 AWS Config
+
+![AWS Config](/icons/aws-config.svg)
+
+**AWS Config** es un servicio que puede utilizar para examinar, auditar y evaluar las configuraciones de sus recursos de AWS.
+
+**Beneficios**
+
+AWS Config ayuda a evaluar las configuraciones en función del estado deseado, administrar los cambios en la configuración de los recursos y simplificar la resolución de problemas y la corrección.
+
+**Casos de uso**
+
+Se puede usar con el fin de auditar continuamente la supervisión y el análisis de la seguridad y para optimizar la resolución de problemas operativos y la administración de cambios.
+
+![AWS Config](/aws/monitoreo/monitoreo-auditoria-config.png)
+
+### 5.2 AWS Audit Manager
+
+![AWS Audit Manager](/icons/aws-audit-manager.svg)
+
+**Audit Manager** es un servicio que audita continuamente el uso de AWS para simplificar la evaluación de riesgos y cumplimiento. Ayuda a recopilar pruebas y administrar los datos de auditoría.
+
+**Beneficios**
+
+Audit Manager ahorra tiempo con la recopilación automatizada de pruebas, optimiza la colaboración entre los equipos y ayuda a garantizar la integridad de las auditorías con permisos de solo lectura.
+
+**Caso de uso**
+
+Se puede utilizar con el fin de automatizar la recopilación de pruebas, realizar auditorías continuas para evaluar el cumplimiento e implementar evaluaciones de riesgos internas.
+
+Un gerente que usa Audit Manager y dos equipos que completan sus auditorías con la ayuda de la recopilación automatizada.
+
+![AWS Audit Manager](/aws/monitoreo/monitoreo-auditoria-audit-manager.png)
+
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/)
+- [AWS CloudTrail](https://aws.amazon.com/cloudtrail/)
+- [AWS Artifact](https://aws.amazon.com/artifact/)
+- [AWS Config](https://aws.amazon.com/config/)
+- [AWS Audit Manager](https://aws.amazon.com/audit-manager/)

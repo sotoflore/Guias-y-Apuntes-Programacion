@@ -6,13 +6,13 @@
     },
     {
         "type": "dir-section-header",
-        "name": "fundamentals-cloud-computing",
-        "label": "Fundamentos de Cloud Computing"
+        "name": "aws",
+        "label": "Amazón Web Services (AWS)"
     },
     {
         "type": "dir-section-header",
-        "name": "aws",
-        "label": "Amazón Web Services (AWS)"
+        "name": "aws-fundamentals",
+        "label": "Fundamentos de AWS"
     },
     {
         "type": "dir-section-header",

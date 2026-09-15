@@ -83,7 +83,8 @@ export const useStore = create<State & Actions>((set) => ({
 Se recomienda crear una carpeta dedicada (por ejemplo, **`src/store`**) y un archivo para cada store (ej. **`useCounterStore`** o **`useAuthStore`**). Cada uno maneja su propio estado, lo que mejora la modularidad.
 
 **Por ejemplo**:
-```txt
+
+```tree
 src/
 └── store/                  #Directorio para todos los stores
     ├── index.ts            #(Opcional) Exportar todos los stores

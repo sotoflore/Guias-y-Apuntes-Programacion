@@ -1,0 +1,627 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Introducción a Amazon EC2
+
+La **computación** se refiere a la potencia de procesamiento necesaria para ejecutar aplicaciones, administrar datos y realizar cálculos. En la nube, esta potencia está disponible bajo demanda. Puede acceder a ella de forma remota sin tener que poseer ni mantener un hardware físico. Básicamente, la computación en la nube significa crear máquinas virtuales con un proveedor de la nube para ejecutar aplicaciones y tareas a través de internet.
+
+**Amazon EC2** (Amazon Elastic Compute Cloud ) proporciona capacidad de computación escalable bajo demanda en la nube de Amazon Web Services (AWS). El uso de Amazon EC2 reduce los costos de hardware para que pueda desarrollar e implementar aplicaciones con mayor rapidez.
+
+Puede usar **Amazon EC2** para lanzar tantos servidores virtuales como necesite, configurar la seguridad y las redes, y administrar el almacenamiento. Puede agregar capacidad (escalar verticalmente) para gestionar tareas que requieren mucha computación, como los procesos mensuales o anuales, o los picos de tráfico del sitio web. Cuando el uso disminuye, puede volver a reducir la capacidad (reducir verticalmente).
+
+![ec2 introducción](/aws/compute/ec2-intro.jpg)
+
+## 1. Amazon EC2
+
+![Amazon EC2](/icons/amazon-ec2.svg)
+
+**Amazon EC2** (Elastic Compute Cloud) es un servicio web que proporciona capacidad de cómputo escalable en la nube de AWS. En términos sencillos, EC2 te permite **crear y ejecutar servidores virtuales** (llamados **instancias**) **bajo demanda**, sin necesidad de comprar, configurar ni mantener hardware físico.
+
+En palabras simples:
+
+>EC2 te permite alquilar capacidad de cómputo de AWS para ejecutar aplicaciones, páginas web, APIs, bases de datos, servidores, Machine Learning y procesamiento de video. y otros programas sin tener que comprar ni mantener un servidor físico.
+
+Sus características principales incluyen:
+
+- **Capacidad de cómputo redimensionable**: Permite escalar la potencia de procesamiento hacia arriba o hacia abajo según la demanda de tus aplicaciones.
+- **Flexibilidad**: Elimina la preocupación de gestionar hardware físico, permitiendo ejecutar aplicaciones directamente en la infraestructura de AWS.
+- **Eficiencia en costos**: Su modelo de pago por uso lo hace una solución altamente rentable en comparación con los centros de datos tradicionales.
+
+:::info ¿Qué significa computación bajo demanda?
+Significa que puedes solicitar capacidad de cómputo **cuando la necesites** y pagar **solo por el tiempo que la utilices**. No hay compromisos a largo plazo (a menos que elijas Reserved Instances o Savings Plans).
+
+**Ejemplo:** Necesitas un servidor para procesar datos durante 3 horas. Creas una instancia EC2, ejecutas tu trabajo y la terminas. Pagas solo por esas 3 horas.
+:::
+
+### 1.1 ¿Qué significa "Elastic Compute Cloud"?
+
+Cada palabra tiene un significado preciso:
+
+- **Elastic**: Se adapta y escala según la demanda. Puedes aumentar o reducir capacidad rápidamente.
+- **Compute**: Se refiere a poder de cómputo (CPU, memoria) para ejecutar aplicaciones.
+- **Cloud**: Está disponible a través de internet, sin infraestructura física local.
+
+### 1.2 ¿Qué significa elasticidad en EC2?
+
+**Elasticidad** es la capacidad de ajustar recursos automáticamente según la demanda. EC2 puede:
+
+- **Escalar horizontalmente**: Agregar más instancias cuando aumenta el tráfico.
+- **Escalar verticalmente**: Cambiar a una instancia con más CPU/memoria.
+- **Reducir**: Eliminar instancias cuando el tráfico disminuye.
+
+:::tip Ejemplo 
+Una tienda online recibe 10 veces más tráfico durante Black Friday. EC2 Auto Scaling puede agregar instancias automáticamente para manejar la carga y eliminarlas cuando el tráfico vuelva a la normalidad.
+:::
+
+## 2. Comparación de los recursos en las instalaciones y en la nube
+
+Al diseñar la infraestructura para su empresa, la selección de los recursos correctos puede afectar significativamente la eficiencia, la flexibilidad y los costos generales.
+
+![Qué problema resuelve](/aws/compute/ec2-problema.jpg)
+
+<Tabs>
+  <Tab label="Desafíos de los recursos en las instalaciones (On-Premise)">
+    Imagine que es responsable de diseñar la infraestructura de su empresa para que sea compatible con nuevos sitios web. Con los recursos en las instalaciones tradicionales, debe comprar el hardware por adelantado, esperar a la entrega y encargarse de la instalación y la configuración. Este proceso lleva mucho tiempo y es costoso e inflexible, porque está limitado a una capacidad específica que podría no adaptarse a las demandas cambiantes.
+
+    ![Desafíos de los recursos en las instalaciones](/aws/compute/compute-comparacion-ec2-nube.png)
+  </Tab>
+  <Tab label="Beneficios del uso de los recursos en la nube">
+    Por el contrario, con **Amazon EC2**, puede lanzar, escalar y detener instancias rápidamente según sus necesidades, sin las demoras ni los costos iniciales asociados con los recursos tradicionales en las instalaciones.
+
+    ![Beneficios del uso de los recursos en la nube](/aws/compute/compute-comparacion-ec2-nube_v1.png)
+  </Tab>
+</Tabs>
+
+
+## 3. ¿Qué es una instancia EC2?
+
+Una **instancia EC2** es un servidor virtual que se ejecuta en la infraestructura de AWS. Cuando "creas una instancia EC2", estás creando una máquina virtual con recursos de computación (CPU), memoria, almacenamiento y red que puedes configurar y utilizar como lo harías con un servidor físico, pero sin preocuparte por el hardware subyacente.
+
+>Una **instancia EC2** es un servidor virtual, no un servidor físico. Y cada instancia se ejecuta dentro de una **zona de disponibilidad** (Availability Zone) específica dentro de una región.
+
+### 3.1 Cómo se crea una instancia
+
+1. **Entrar a Amazon EC2**: Desde la consola de AWS, seleccionas la Región donde quieres crear la instancia.
+
+Para crear una **instancia EC2** necesitas especificar:
+
+2. **AMI (Amazon Machine Image)**: El "molde" con el SO y configuración inicial.
+3. **Tipo de instancia**: Cuánta CPU, memoria y recursos necesitas.
+4. **Par de llaves (Key Pair)**: Para acceder de forma segura.
+5. **Grupo de seguridad (Security Group)**: Reglas de firewall.
+6. **Almacenamiento**: Volúmenes EBS para datos persistentes.
+
+![crear instancia](/aws/compute/ec2-crear-instancia.jpg)
+
+### 3.2 Recursos de una instancia
+
+Cada **instancia EC2** tiene asignados recursos específicos:
+
+<Tabs>
+  <Tab label="Sistema Operativo">
+    - Linux (Ubuntu, Amazon Linux, Red Hat, SUSE, etc.) o Windows Server.
+    - Se elige al crear la instancia a través de la AMI.
+  </Tab>
+  <Tab label="CPU">
+    - Determina cuánto procesamiento puede realizar la instancia.
+    - Se mide en vCPUs (virtual CPUs).
+    - Más CPU = mejor rendimiento para tareas intensivas de procesamiento.
+  </Tab>
+  <Tab label="Memoria RAM">
+    - Determina cuántos datos puede mantener la instancia "en uso activo" para acceso rápido.
+    - Más memoria = mejor para bases de datos, aplicaciones en memoria, caching.
+  </Tab>
+  <Tab label="Almacenamiento">
+    - Espacio persistente para datos y sistema operativo.
+    - Generalmente se usa Amazon EBS (bloques de almacenamiento virtual).
+    - Puede ser SSD (rápido, para transacciones) o HDD (mayor capacidad).
+  </Tab>
+  <Tab label="Red">
+    - Conectividad de la instancia con Internet y otros servicios AWS.
+    - Cada instancia recibe una IP privada dentro de la VPC.
+    - Puede recibir una IP pública para acceso desde Internet.
+  </Tab>
+  <Tab label="Dirección IP">
+    - **IP privada**: Para comunicación dentro de la VPC (siempre asignada).
+    - **IP pública**: Para acceso desde Internet (asignada dinámicamente o Elastic IP).
+   </Tab>
+</Tabs>
+
+## 4. Funcionamiento de Amazon EC2
+
+Descubrió que AWS administra infraestructuras complejas y ofrece capacidad de computación bajo demanda que está disponible siempre que la necesite. Puede solicitar instancias de EC2 y tenerlas listas para usarlas en cuestión de minutos. Pero, ¿cómo se empieza realmente?
+
+**Acceso a la capacidad de computación bajo demanda**
+
+Con Amazon EC2, puede lanzar instancias virtuales en la nube, conectarse a ellas y utilizarlas rápidamente. Aquí se incluye información general sobre cómo funciona el proceso.
+
+<Tabs>
+  <Tab label="1. Lanzamiento de una instancia">
+    ![Lanzamiento de una instancia](/aws/compute/compute-funcionamiento-ec2-primer-paso.png)
+
+    **Lanzamiento de una instancia**. Al lanzar una **instancia de EC2**, comience por seleccionar una **imagen de máquina de Amazon** (AMI), que define el sistema operativo y puede incluir software adicional. También debe seleccionar un tipo de instancia, que determina los recursos de hardware subyacentes, como el rendimiento de la CPU, la memoria y la red.
+  </Tab>
+  <Tab label="2. Conexión a la instancia">
+    ![Conexión a la instancia](/aws/compute/compute-funcionamiento-ec2-segundo-paso.png)
+
+    Puede conectarse a una instancia de EC2 de varias maneras. Las aplicaciones pueden interactuar con los servicios que se ejecutan en la instancia a través de la red.
+
+    Los usuarios o administradores pueden conectarse mediante **SSH** para las instancias de Linux o mediante el Protocolo de escritorio remoto (Remote Desktop Protocol, RDP) para las instancias de Windows. Como alternativa, los servicios de AWS, como AWS Systems Manager, ofrecen un método seguro y simplificado para acceder a las instancias.
+  </Tab>
+  <Tab label="3. Uso de la instancia">
+    ![Uso de la instancia](/aws/compute/compute-funcionamiento-ec2-tercer-paso.png)
+
+    Una vez establecida la conexión a la instancia, puede empezar a usarla para ejecutar comandos, instalar software, agregar almacenamiento, organizar archivos y realizar otras tareas.
+  </Tab>
+</Tabs>
+
+## 5. Componentes fundamentales de Amazon EC2
+
+Los siguientes componentes forman parte de la configuración y administración de Amazon EC2. Cada uno cumple una función específica para **crear**, **configurar**, **acceder**, **proteger** y **administrar** las instancias EC2.
+
+![Componentes fundamentales de Amazon EC2](/aws/compute/compute-componentes-ec2.jpg)
+
+<Tabs>
+  <Tab label="Amazon Machine Image (AMI)">
+    Una **AMI** (Amazon Machine Image) es una plantilla preconfigurada utilizada para lanzar una instancia de EC2. Actúa como un "molde" que contiene toda la información necesaria para iniciar un servidor virtual sin tener que configurarlo desde cero.
+
+    >Las AMI son imágenes de máquinas virtuales prediseñadas que tienen los componentes básicos necesarios para lanzar una instancia.
+
+    ![Amazon Machine Image](/aws/compute/ec2-ami.jpg)
+
+    **Componentes de la AMI**
+
+    Una AMI incluye el **sistema operativo** (Linux, Windows, etc.), la **configuración del almacenamiento**, el **tipo de arquitectura**, los **permisos de lanzamiento** y cualquier **software adicional** que ya esté instalado (Servidores web, bases de datos, herramientas de desarrollo.). Puede usar una AMI para lanzar varias instancias de EC2 que tengan la misma configuración.
+
+    **Tipos de AMIs**
+
+    Las AMI se pueden usar de tres maneras. 
+
+    - **AMIs personalizadas**. En primer lugar, puede tener la suya propia mediante la creación de una AMI personalizada con configuraciones y software específicos adaptados a sus necesidades.
+
+    - **AMIs proporcionadas por AWS**. En segundo lugar, puede usar las AMI de AWS preconfiguradas, que ya están preparadas para sistemas operativos y software comunes. Son gratuitas (solo pagas por los recursos de la instancia).
+
+    - **AMIs de terceros**. Por último, puede comprar AMI en AWS Marketplace, donde los proveedores de terceros ofrecen software especializado diseñado para casos de uso específicos.
+
+    >Una AMI puede usarse para crear **múltiples instancias idénticas**. Cada instancia es independiente, pero todas comparten la misma configuración base de la AMI.
+
+    **Capacidad de repetición de las AMI**
+
+    Las AMI proporcionan capacidad de repetición a través de un entorno coherente para cada nueva instancia. Como las configuraciones son idénticas y las implementaciones están automatizadas, los entornos de desarrollo y de prueba son coherentes. Esto ayuda a escalar, reduce los errores y optimiza la administración de entornos a gran escala.
+
+    ![Capacidad de repetición de las AMI](/aws/compute/compute-ami-ec2.png)
+
+    :::warning AMI ≠ Instancia
+    **Una AMI NO es una instancia.** Una AMI es una **plantilla** (como un plano de arquitectura). Una instancia es el **servidor ejecutándose** (como la casa construida). Puedes crear muchas instancias desde una sola AMI, pero cada instancia es independiente.
+    :::
+  </Tab>
+  <Tab label="Key Pairs y acceso a EC2">
+    Los **Key Pairs** (pares de claves) son un componente de seguridad esencial utilizado para permitir una autenticación segura al acceder a tus instancias. Funcionan de la siguiente manera:
+
+    - **Composición**: Un par de claves consta de dos partes: una clave pública, que es almacenada por AWS, y una clave privada, que tú debes descargar en tu máquina local al momento de crear la instancia.
+    - **Función**: Estas claves trabajan en conjunto para verificar tu identidad. Son obligatorias si deseas conectarte mediante SSH (en instancias Linux) o mediante RDP (en instancias Windows).
+    - **Precaución Crítica**: Es fundamental crear y descargar el par de claves antes de lanzar la instancia. Si pierdes la clave privada o no la descargas a tiempo, no podrás recuperar el acceso a tu servidor.
+
+    ![pares de llaves](/aws/compute/ec2-pares-llaves.jpg)
+
+    **Key Pair vs IAM Access Key**
+    
+    | Característica             | **EC2 Key Pair**                              | **IAM Access Key**                                      |
+    | -------------------------- | --------------------------------------------- | ------------------------------------------------------- |
+    | **Propósito**           | Autenticarse para acceder a una instancia EC2 | Autenticarse para realizar llamadas programáticas a AWS |
+    | **Acceso**             | Acceso al sistema operativo de una instancia  | Acceso a servicios y APIs de AWS                        |
+    | **Uso típico**          | SSH (Linux) / RDP (Windows)                   | AWS CLI / SDK / APIs                                    |
+    | **Asociado a**          | Una instancia EC2                             | Un usuario IAM                                          |
+    | **Credenciales**        | Clave pública + clave privada                 | Access Key ID + Secret Access Key                       |
+    | **Ejemplo**             | Entrar al servidor EC2                        | Ejecutar `aws s3 ls` desde la CLI                       |
+    | **Nivel de acceso**     | Sistema operativo de la instancia             | Recursos y servicios de AWS según permisos IAM          |
+    | **Gestionado mediante** | EC2                                           | IAM                                                     |
+
+    :::info Recuerda
+    - **Key Pair:** Sirve para **conectarte** a una instancia (como la llave de la puerta de tu servidor).
+    - **IAM Access Key:** Sirve para **llamar a servicios AWS** desde código o la CLI (como las credenciales para usar la API de AWS).
+
+    :::
+  </Tab>
+  <Tab label="Security Groups">
+    Un **grupo de seguridad** funciona como un firewall virtual para las instancias de EC2 para controlar el tráfico entrante (inbound) y saliente (outbound). Las reglas de entrada controlan el tráfico entrante a la instancia y las reglas de salida controlan el tráfico saliente desde la instancia. Al iniciar una instancia puede especificar uno o varios grupos de seguridad. Si no especifica un grupo de seguridad, **Amazon EC2** utiliza el grupo de seguridad predeterminado para la **VPC**. Una vez lanzada la instancia, puede cambiar sus grupos de seguridad.
+
+    ![grupos de seguridad](/aws/compute/ec2-grupo-seguridad.jpg)
+
+    **Para qué sirve**
+
+    - **Proteger instancias:** Controlar qué tráfico de red puede llegar a la instancia.
+    - **Limitar acceso:** Permitir solo puertos y protocolos específicos.
+    - **Definir reglas:** Establecer reglas de permitir/denegar basadas en IP, puerto y protocolo.
+
+    >Los Security Groups son **stateful (con estado)**: si permites el tráfico entrante en un puerto, el tráfico de respuesta automáticamente se permite salir, sin necesidad de una regla adicional.
+
+    **Puertos comunes y protocolos**
+
+    | Puerto | Protocolo | Uso | Ejemplo |
+    |---|---|---|---|
+    | 22 | SSH | Acceso remoto a Linux | Administrar instancia Linux |
+    | 3389 | RDP | Acceso remoto a Windows | Administrar instancia Windows |
+    | 80 | HTTP | Tráfico web no cifrado | Sitios web HTTP |
+    | 443 | HTTPS | Tráfico web cifrado | Sitios web HTTPS |
+    | 21 | FTP | Transferencia de archivos | Subir/descargar archivos |
+
+    **Security Group vs Network ACL**
+
+    | Característica | Security Group | Network ACL |
+    |---|---|---|
+    | Nivel | Instancia EC2 | Subnet |
+    | Estado | Stateful | Stateless |
+    | Reglas | Solo permitir (allow rules) | Permitir y denegar |
+    | Por defecto | Deniega todo lo entrante, permite todo lo saliente | Permite todo lo entrante y saliente |
+
+    :::info Recuerda:
+    Si la pregunta habla de "**firewall a nivel de instancia**", la respuesta es Security Group. Si habla de "**firewall a nivel de subnet**", la respuesta es Network ACL.
+    :::
+  </Tab>
+   <Tab label="Elastic IP Addresses">
+    Una **Elastic IP** es una dirección IP estática pública que puedes asociar a cualquier instancia EC2. Es útil cuando necesitas una dirección IP que no cambie al detener/arrancar instancias.
+
+    **Consideraciones de precio**
+
+    - Gratis cuando está asociada a una instancia en ejecución.
+    - Cobrado cuando está sin asociar o asociada a una instancia detenida.
+    - AWS cobra por Elastic IPs no utilizados como incentivo a liberar direcciones desperdiciadas.
+  </Tab>
+</Tabs>
+
+## 6. Tipos de instancias de Amazon EC2
+
+Un **tipo de instancia (Instance Type)** define la combinación de recursos de una instancia de **Amazon EC2**, como **CPU, memoria, almacenamiento y capacidad de red**. AWS ofrece diferentes familias de instancias, cada una optimizada para distintos tipos de cargas de trabajo. Esto permite seleccionar la combinación de recursos más adecuada según las necesidades de rendimiento de una aplicación y optimizar el uso de los recursos.
+
+
+![tipos de instancias](/aws/compute/ec2-tipos-instancia.jpg)
+
+**Las familias principales**
+
+Tanto si ejecuta un servicio web sencillo como si ejecuta tareas complejas de procesamiento de datos, Amazon EC2 ofrece la flexibilidad necesaria para seleccionar el tipo de instancia que mejor se adapte a sus necesidades.
+
+<Tabs>
+  <Tab label="General Purpos">
+    Las instancias de **uso general** proporcionan una combinación equilibrada de los recursos de computación, memoria y redes. Son ideales para cargas de trabajo diversas, como servicios web, repositorios de código y los casos en los que el rendimiento de la carga de trabajo es incierto.
+
+    - **Uso típico**: Aplicaciones web, servidores de desarrollo, entornos de testing, aplicaciones de uso general.
+    - **Por ejemplo**: Un servidor web que atiende solicitudes HTTP con un consumo moderado de CPU y memoria.
+  </Tab>
+  <Tab label="Compute Optimized">
+    Las instancias **optimizadas para la computación** son ideales para tareas con uso intensivo de computación, como servidores de juegos, computación de alto rendimiento (HPC), machine learning y modelado científico.
+
+    - **Uso típico**: Procesamiento intensivo de cómputo, renderizado de video, análisis científico, servidores de juegos, batch processing.
+    - **Por ejemplo**: Un servicio que procesa miles de imágenes por minuto y necesita mucha CPU pero no tanta memoria.
+  </Tab>
+  <Tab label="Memory Optimized">
+   Las instancias **optimizadas para memoria** se utilizan para tareas que consumen mucha memoria, como el procesamiento de grandes conjuntos de datos, el análisis de datos y las bases de datos. Proporcionan un rendimiento rápido para cargas de trabajo que consumen mucha memoria.
+
+   - **Uso típico**: Bases de datos en memoria (Redis, Memcached), big data analytics, procesamiento de grandes conjuntos de datos en memoria.
+   - **Por ejemplo**:
+    Una base de datos relacional que necesita cargar grandes tablas en memoria para consultas rápidas.
+  </Tab>
+  <Tab label="Storage Optimized">
+   Las instancias **optimizadas para el almacenamiento** están diseñadas para cargas de trabajo que requieren un alto volumen de accesos secuenciales de lectura y escritura a conjuntos de datos muy grandes almacenados en el almacenamiento local. Por ejemplo, son ideales para bases de datos de alto rendimiento, procesamiento de datos, transmisión de datos y las aplicaciones con uso intensivo de E/S..
+
+   - **Uso típico**: Procesamiento de grandes volúmenes de datos secuenciales, log processing, data warehousing.
+   - **Por ejemplo**: Un servidor que procesa terabytes de logs diarios desde almacenamiento local de alta velocidad.
+  </Tab>
+  <Tab label="Accelerated Computing">
+   Las instancias de **computación acelerada** utilizan aceleradores de hardware, como las unidades de procesamiento gráfico (graphics processing unit, GPU), para gestionar tareas de manera eficiente, como los cálculos de punto flotante, el procesamiento de gráficos y el machine learning.
+
+   - **Uso típico**: Machine Learning, deep learning, renderizado gráfico, simulaciones científicas, cómputo de alto rendimiento.
+    
+    - **Por ejemplo**: Un modelo de deep learning que necesita GPUs para entrenar con millones de parámetros.
+  </Tab>
+</Tabs>
+
+:::info ¿Qué son los tipos de instancias de EC2 optimizadas para HPC?
+Las instancias de **computación de alto rendimiento (HPC)** ofrecen la mejor relación calidad-precio para ejecutar cargas de trabajo de HPC a gran escala. Las instancias de HPC son ideales para aplicaciones que se benefician de procesadores de alto rendimiento, como simulaciones complejas, aprendizaje profundo y renderización de efectos visuales.
+:::
+
+Los **tipos de instancia** se nombran según la familia de instancias y el tamaño. Para obtener información sobre estas convenciones de nomenclatura, consulte las [convenciones de nomenclatura de los tipos de instancias de Amazon EC2](https://docs.aws.amazon.com/es_es/ec2/latest/instancetypes/instance-type-names.html).
+
+> **Recuerda:**
+> - **Si la pregunta menciona "CPU intensivo"**, piensa en Compute Optimized.
+> - **Si la pregunta menciona "base de datos en memoria"**, piensa en Memory Optimized.
+> - **Si la pregunta menciona "GPU" o "machine learning"**, piensa en Accelerated Computing.
+> - **Si no hay requerimientos específicos**, piensa en General Purpose.
+
+## 7. Computación y responsabilidad compartida
+
+El modelo de responsabilidad compartida de AWS describe la división de obligaciones entre el cliente y AWS. AWS se encarga de la seguridad de la nube (hardware e infraestructura), mientras que el cliente es responsable de la seguridad en la nube (aplicaciones, datos y control de acceso).
+
+Un **servicio no administrado** como Amazon EC2 requiere que usted realice todas las tareas de administración y configuración de seguridad necesarias. Cuando implementa una instancia de EC2, es responsable de configurar la seguridad, administrar el sistema operativo (SO) invitado, aplicar actualizaciones y configurar firewalls (grupos de seguridad).
+
+![Computación y responsabilidad compartida](/aws/compute/compute-modelo-responsabilidad-compartida-ec2.png)
+
+
+## 8. Precios de Amazon EC2
+
+AWS ofrece múltiples modelos de precios para EC2, cada uno optimizado para diferentes patrones de uso. Elegir el modelo correcto puede reducir costos significativamente.
+
+![opciones de precio ec2](/aws/compute/ec2-opciones-precio.jpg)
+
+<Tabs>
+  <Tab label="Instancias Bajo demanda">
+    Las **instancias bajo demanda** ofrecen capacidad de computación bajo un modelo de pago por uso, por hora o por segundo. No se requiere pago anticipado ni compromiso a largo plazo. Gracias a estas, no tendrá que preocuparse de los costos y las complejidades de la planificación, la compra y el mantenimiento de hardware. Además, estas instancias transforman lo que generalmente son costos fijos grandes en costos variables mucho más pequeños.
+
+    **Cuándo utilizarlo**:
+    
+    - Desarrollo y testing.
+    - Aplicaciones con tráfico impredecible.
+    - Cargas de trabajo de corta duración.
+    - Primeros pasos con EC2.
+
+    Recuerda:
+    >Si la pregunta describe un escenario con uso impredecible, de corta duración o de prueba, la respuesta probablemente sea On-Demand.
+  </Tab>
+  <Tab label="Instancias reservadas">
+   Ofrecen un precio significativamente menor a cambio de un compromiso. Ahorre hasta un 75% si se compromete a un plazo de 1 o 3 años para cargas de trabajo predecibles mediante el uso de familias de instancias y regiones de AWS específicas.
+
+   **Cuándo utilizarlo**:
+
+    - Aplicaciones con uso predecible y estable (siempre activa).
+    - Bases de datos que ejecutan 24/7.
+    - Servidores empresariales que siempre están encendidos.
+  </Tab>
+  <Tab label="Savings Plans">
+  Los **Savings Plans** (planes de ahorro) ofrecen un modelo de precios flexible, a cambio de comprometerse a un uso determinado constante (gasto por hora) durante el término de 1 o 3 años y poder ahorrar hasta un 72%.
+  
+  > Es un compromiso de gasto (no de instancia específica) a cambio de un descuento.
+
+  A diferencia de las instancias reservadas, este compromiso no está vinculado a una instancia específica, lo que proporciona una mayor flexibilidad para ajustar tus recursos (cambiar tipo de instancia, región y OS) mientras mantienes costos reducidos.
+
+  Recuerda:
+
+  >Si la pregunta describe uso predecible, constante y a largo plazo, piensa en Reserved Instances o Savings Plans.
+  </Tab>
+  <Tab label="Instancias spot">
+    Las **instancias Spot** son una modalidad de precios, que permite utilizar la capacidad no utilizada de Amazon EC2 (Capacidad de computación sobrante) en la nube de AWS con un ahorro significativo, que puede alcanzar hasta el 90% en comparación con las instancias bajo demanda.
+
+    **¿Cómo funcionan?**
+
+    - **Disponibilidad**: AWS pone a disposición de los usuarios los recursos de cómputo que no están siendo ocupados en ese momento.
+    - **Interrupción**: El aspecto fundamental de este modelo es que, si AWS necesita recuperar esa capacidad para otros usuarios o tareas, puede reclamar la instancia en cualquier momento. Por este motivo, el usuario recibe una notificación de interrupción previa a que la instancia sea terminada.
+
+    ```text
+    Capacidad EC2 no utilizada por otros clientes
+            ↓
+    AWS la ofrece como Spot Instance
+            ↓
+    Tú la usas a un costo muy bajo
+            ↓
+    Pero AWS puede recuperarla cuando la necesite
+            ↓
+    Tu instancia se detiene (interrupción)
+    ```
+
+    **Caso de uso ideal**: 
+
+    Debido a su naturaleza interrumpible, son excelentes para cargas de trabajo flexibles y tolerantes a fallos, como el procesamiento de Big Data, aplicaciones sin estado, cargas de trabajo en contenedores o pruebas de integración (CI/CD). No se recomiendan para aplicaciones críticas (base de datos de producción, servidores de pago) que requieran una disponibilidad constante sin interrupciones.
+
+  </Tab>
+  <Tab label="Hosts dedicados">
+   Los **hosts dedicados** permiten el uso exclusivo de servidores físicos y ofrecen un control total sobre la ubicación de las instancias y la asignación de recursos. Esto los hace ideales para cargas de trabajo que requieren altos niveles de seguridad,licencias o cumplimiento normativo. Más caro pero ofrece mayor control.
+
+   **Características clave**:
+   
+    - **Control total de ubicación**: Proporcionan una mayor visibilidad y control sobre dónde se despliegan específicamente las instancias dentro del servidor físico.
+    - **Afinidad de host**: Permiten mantener las instancias en el mismo servidor físico, lo cual es fundamental para el cumplimiento de normativas de licencias de software que requieren seguimiento basado en sockets o núcleos físicos.
+    - **Aislamiento**: Al no compartir el hardware con otros clientes, son ideales para organizaciones con requisitos estrictos de seguridad, cumplimiento (compliance) o necesidades específicas de gestión de licencias.
+  </Tab>
+  <Tab label="Instancias dedicadas">
+  Pague por instancias que se ejecutan en hardware dedicado exclusivamente a su cuenta. Esta opción permite aislarse de otros clientes de AWS.
+
+ **Características clave**:
+
+    - No tienes control sobre qué servidor físico se utiliza.
+    - No cumple con requisitos de licenciamiento que requieren hardware específico.
+    - Menos caro que Dedicated Host.
+    - No hay multitenencia a nivel de hardware.
+  </Tab>
+</Tabs>
+
+### 8.1 Instancias dedicadas y Hosts dedicados
+
+Los **hosts dedicados** permiten el uso exclusivo de servidores físicos y ofrecen un control total sobre la ubicación de las instancias y la asignación de recursos. Esto los hace ideales para cargas de trabajo que requieren altos niveles de seguridad o cumplimiento normativo. Pero, ¿y si no necesita ese nivel de control?
+
+Puede usar **instancias dedicadas**, que ofrecen aislamiento físico de otras cuentas de AWS y, al mismo tiempo, conservan la flexibilidad y el ahorro de costos de una infraestructura compartida.
+
+La diferencia clave es que las instancias dedicadas proporcionan aislamiento sin tener que elegir en qué servidor físico se ejecutan. Los hosts dedicados le brindan un servidor físico completo para uso exclusivo, lo que ofrece un control total sobre la ubicación de las instancias y la asignación de recursos.
+
+En última instancia, la elección correcta depende de los requisitos específicos de su carga de trabajo y del nivel de control que necesite sobre su infraestructura.
+
+### 8.2 Optimización de costos
+
+Para optimizar los costos y la asignación de recursos, AWS ofrece una variedad de opciones de precios que incluyen Savings Plans, reservas de capacidad de Amazon EC2 e instancias reservadas (reserved instances, RI). Cada una de estas opciones está diseñada para satisfacer distintas necesidades de carga de trabajo y capacidad.
+
+<Tabs>
+  <Tab label="Savings Plans">
+    **Savings Plans** ofrece descuentos en comparación con las tarifas bajo demanda a cambio de comprometerse a utilizar una cantidad determinada de potencia de computación (medida por hora) durante un período de uno o tres años. Esta opción ofrece precios flexibles para el uso de Amazon EC2, AWS Fargate, AWS Lambda y Amazon SageMaker AI, independientemente del tipo de instancia o la región de AWS. Las opciones de pago incluyen pago total anticipado, pago parcial anticipado o sin pago anticipado.
+
+    **Ideal para**: cargas de trabajo predecibles
+  </Tab>
+  <Tab label="Reservas de capacidad">
+    Con las **reservas de capacidad** de Amazon EC2, puede reservar la capacidad de computación en una zona de disponibilidad específica para las cargas de trabajo críticas. Las reservas se cobran según la tarifa bajo demanda, tanto si se utilizan como si no. Solo paga por las instancias que ejecuta. Esto es ideal para requisitos estrictos de capacidad destinados a cargas de trabajo críticas para la empresa, ya sean actuales o futuras.
+
+    **Ideal para**: cargas de trabajo críticas con requisitos de capacidad estrictos
+  </Tab>
+  <Tab label="Flexibilidad de instancias reservadas">
+    Las RI ofrecen hasta un 75 por ciento de ahorro en comparación con los precios bajo demanda al aplicar descuentos en distintos tamaños de instancia y en varias zonas de disponibilidad dentro de una misma región. Al comprar una instancia reservada (RI), AWS aplica automáticamente el descuento a otros tamaños de instancia dentro de la misma familia, según el tamaño de la instancia. También aplica el descuento en varias zonas de disponibilidad para mejorar la distribución de los recursos y la tolerancia a errores.
+
+    **Ideal para**: cargas de trabajo estables con un uso predecible
+  </Tab>
+</Tabs>
+
+## 9. Almacenamiento de EC2
+
+**`EC2`** se relaciona con dos tipos principales de almacenamiento: **Amazon EBS** (almacenamiento persistente) y **Instance Store** (almacenamiento temporal). Comprender la diferencia es fundamental.
+
+### 9.1 Amazon EBS (Elastic Block Store)
+
+Amazon **Elastic Block Store**(EBS) es un servicio de almacenamiento de bloques que proporciona almacenamiento persistente para instancias EC2. Piensa en EBS como un disco duro externo que conectas a tu servidor virtual: puedes desconectarlo de una instancia y conectarlo a otra, pero los datos se mantienen intactos.
+
+**`EBS`** está diseñado para casos de uso que requieren bajo latencia y alto rendimiento, como bases de datos, sistemas de archivos y aplicaciones empresariales.
+
+![Amazon EBS](/aws/compute/ec2-ebs.png)
+
+#### 9.1.1 Volúmenes
+
+Son volúmenes de almacenamiento que se conectan a instancias de Amazon EC2. Una vez conectado un volumen a una instancia, puede utilizarlo del mismo modo que utilizaría un disco duro local conectado a un ordenador, por ejemplo, para almacenar archivos o instalar aplicaciones.
+
+**Volumen raíz y volúmenes adicionales**
+
+- **Volumen raíz (Root Volume)**: Contiene el sistema operativo. Se crea automáticamente al lanzar la instancia. Puede ser EBS o Instance Store (dependiendo de la AMI).
+- **Volúmenes adicionales**: Puedes adjuntar múltiples volúmenes EBS adicionales para datos, logs, etc.
+
+#### 9.1.2 Snapshots 
+
+Son copias de seguridad incremental de un momento concreto de los volúmenes de Amazon EBS que persisten independientemente del propio volumen. Puede crear instantáneas para realizar copias de seguridad de los datos de sus volúmenes de Amazon EBS. Las instantáneas se almacenan en Amazon S3, en buckets de S3 a los que no puede acceder directamente.
+
+**Para qué sirven**:
+
+- Backup de volúmenes EBS.
+- Crear volúmenes EBS nuevos a partir de un snapshot.
+- Migrar volúmenes entre regiones.
+- Crear AMIs personalizadas.
+
+:::warning Importante
+AWS no hace copias de seguridad automáticas de los datos almacenados en los volúmenes de EBS. Para garantizar la resiliencia de los datos y la recuperación de desastres, es su responsabilidad crear copias instantáneas de EBS de forma regular o configurar la creación automática de instantáneas
+:::
+
+### 9.2 Instance Store
+
+**Instance Store**(Almacenamiento de Instancia) ofrece un almacenamiento por bloques temporal para la instancia de EC2. Este almacenamiento se encuentra en discos que están conectados físicamente al equipo host. El almacén de instancias es ideal para el almacenamiento temporal de información que cambia constantemente, como los búferes, las cachés, los datos de pruebas y otro contenido temporal. También se puede usar para el almacenamiento de datos temporales que se replican en una flota de instancias, como un grupo de servidores web con equilibrio de carga.
+
+**Características:**
+- **Alta velocidad:** Acceso directo al hardware, sin red intermedia.
+- **Temporal:** Los datos se pierden al detener o terminar la instancia.
+- **Incluido:** No tiene costo adicional (viene con la instancia).
+
+### 9.3 EBS vs Instance Store
+
+| Característica               | **Amazon EBS**                                                                | **Instance Store**                                                   |
+| ---------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| **Persistencia**             | Persistente                                                                |  Temporal                                                           |
+| **Al detener la instancia**  | Los datos se conservan                                                      |  Los datos se pierden                                               |
+| **Al terminar la instancia** | Depende de la configuración `DeleteOnTermination`                          |  Los datos se pierden                                               |
+| **Ubicación**                | Almacenamiento separado conectado a la instancia                              | Almacenamiento físicamente conectado al host                         |
+| **Rendimiento**              | Alto y configurable según el tipo de volumen                                  | Muy alto, especialmente para I/O temporal                            |
+| **Costo**                    | Se factura por separado                                                       | Incluido en el costo de determinados tipos de instancia              |
+| **Uso recomendado**          | Sistemas operativos, bases de datos, aplicaciones y datos que deben persistir | Caché, archivos temporales, buffers y datos que pueden reconstruirse |
+
+![EBS vs Instance Store](/aws/compute/ec2-diferencias.jpg)
+
+Recuerda:
+
+>- **EBS es persistente; Instance Store es temporal.** Esta es la diferencia más importante.
+>- **Si la pregunta dice "almacenamiento que persiste después de detener la instancia"**, la respuesta es EBS.
+>- **Si la pregunta dice "almacenamiento de alta velocidad temporal"**, la respuesta es Instance Store.
+>- **Snapshots son backups de EBS**, no de Instance Store.
+
+## 10. Redes de EC2
+
+Para entender cómo funciona EC2 en la nube, necesitas comprender los componentes de red fundamentales:
+
+<Tabs>
+  <Tab label="VPC (Virtual Private Cloud)">
+    - Una red privada virtual donde despliegas tus recursos AWS.
+    - Es como tener tu propia sección de la nube, aislada de otras cuentas.
+    - Cada instancia EC2 se ejecuta dentro de una VPC.  
+  </Tab>
+  <Tab label="Subnet">
+    - Una subdivisión dentro de una VPC.
+    - Puede ser pública (con acceso a Internet) o privada (sin acceso directo).
+    - Cada instancia se ejecuta dentro de una subnet específica.
+  </Tab>
+  <Tab label="IP Privada">
+   - Dirección IP asignada automáticamente a cada instancia dentro de la VPC.
+    - Utilizada para comunicación entre instancias dentro de la misma red.
+    - Siempre accesible dentro de la VPC.
+  </Tab>
+  <Tab label="IP Pública">
+   - Dirección IP que permite acceso desde Internet.
+    - Se asigna dinámicamente cuando se inicia la instancia (puede cambiar).
+    - Necesaria para acceder a la instancia desde fuera de la VPC.
+  </Tab>
+  <Tab label="Elastic IP">
+   - Dirección IP pública **estática** que no cambia.
+    - Útil para servicios que requieren una IP fija (DNS, APIs).
+    - Se cobra un costo adicional cuando no está asociada a una instancia en uso.   
+  </Tab>
+  <Tab label="Internet Gateway">
+   - Componente que permite la comunicación entre la VPC e Internet.
+    - Es como la "puerta de entrada" de tu red privada hacia Internet.
+  </Tab>
+</Tabs>
+
+**Cómo una instancia EC2 se conecta a Internet**
+
+![C2 se conecta a Internet](/aws/compute/ec2-red.jpg)
+
+Una instancia en una **subnet pública** con una **IP pública** puede comunicarse con Internet a través del **Internet Gateway**. Sin estos componentes, la instancia solo podría comunicarse dentro de la VPC.
+
+## 11. IAM Roles para EC2
+
+Un **IAM Role** es una entidad que define permisos para acceder a servicios AWS. Cuando asignas un IAM Role a una instancia EC2, esa instancia puede acceder a otros servicios AWS (como S3, DynamoDB, etc.) **sin necesidad de almacenar credenciales de acceso en la instancia**.
+
+**Cómo funciona**
+
+![iam roles](/aws/compute/ec2-iam-roles.jpg)
+
+> **Nunca** almacenes Access Keys directamente en instancias EC2 o en código. Siempre usa **IAM Roles** para dar permisos a servicios AWS desde EC2.
+
+:::info Por qué IAM Role es mejor que Access Keys
+**El problema con Access Keys:**
+Si almacenas Access Keys directamente en tu código o en la instancia:
+- Si la instancia es comprometida, las credenciales también.
+- Rotar las credenciales requiere actualizar cada instancia.
+- Riesgo de que las credenciales se filtren en repositorios de código.
+
+**La solución con IAM Roles:**
+- Las credenciales se generan automáticamente y se rotan.
+- No se almacenan en la instancia ni en el código.
+- AWS gestiona la autenticación de forma segura.
+- Puedes cambiar permisos sin tocar la instancia.
+
+**Ejemplo práctico**
+
+Una instancia EC2 que ejecuta una aplicación web necesita:
+- Leer archivos de un bucket S3.
+- Escribir registros en CloudWatch Logs.
+- Consultar una tabla DynamoDB.
+
+En lugar de almacenar Access Keys en la aplicación, asignas un IAM Role a la instancia con una política que permite esas tres acciones específicas.
+:::
+
+## 12. Ciclo de vida de una instancia
+
+Una instancia EC2 pasa por varios estados durante su ciclo de vida:
+
+![ciclo de vida instancia](/aws/compute/ec2-ciclo-vida-instancia.jpg)
+
+> "Detener una instancia elimina los datos almacenados en EBS."
+> **Falso.** Detener una instancia conserva los datos en volúmenes EBS. Solo al terminar la instancia se eliminan los volúmenes EBS raíz (si no se configura lo contrario). Los volúmenes adicionales pueden configurarse para conservarse al terminar.
+
+## 13. Infografia de EC2
+
+![infografia ec2](/aws/compute/ec2-infografia.png)
+
+
+---
+
+**Referencias recomendadas:**
+
+- [Documentación de Amazon EC2](https://docs.aws.amazon.com/es_es/ec2/)
+- [EC2 Pricing](https://aws.amazon.com/ec2/pricing/)
+- [Documentación Key Pairs](https://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+- [Documentación Grupos de seguridad](https://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-security-groups.html)
+- [Amazon EBS](https://docs.aws.amazon.com/es_es/ebs/latest/userguide/what-is-ebs.html)
+- [Tipos de instancias de Amazon EC2](https://aws.amazon.com/es/ec2/instance-types/)
+- [¿Qué son los Savings Plans?](https://docs.aws.amazon.com/es_es/savingsplans/latest/userguide/what-is-savings-plans.html)
+- [Cómo reservar capacidad de computación con las reservas de capacidad bajo demanda de EC2.](https://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html)
+- [Cómo se aplican los descuentos de la instancia reservada](https://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/apply_ri.html)
+- [Servicios de computación de AWS](https://docs.aws.amazon.com/es_es/whitepapers/latest/aws-overview/compute-services.html)
+- [Computación en AWS](https://aws.amazon.com/es/products/compute/)
+- [Tutoriales prácticos: computación](https://aws.amazon.com/es/getting-started/hands-on/?awsf.getting-started-category=category%23compute&awsf.getting-started-content-type=content-type%23hands-on)

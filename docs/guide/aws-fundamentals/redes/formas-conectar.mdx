@@ -1,0 +1,129 @@
+# Formas de conectarse a la nube de AWS
+
+Existen diferentes formas de **conectarse y acceder a los recursos de AWS**, dependiendo de las necesidades de la organización, el tipo de conexión y el nivel de seguridad requerido. Una empresa puede necesitar, por ejemplo, conectar a sus empleados con aplicaciones en AWS, conectar su centro de datos local con una VPC o permitir que una aplicación se comunique con servicios de AWS.
+
+AWS ofrece diferentes mecanismos de conectividad que pueden utilizarse **a través de Internet, mediante conexiones privadas o mediante herramientas de administración**. Entre las opciones más importantes se encuentran las **VPN, AWS Direct Connect, Internet Gateway, VPC Peering y AWS Transit Gateway**.
+
+Una de las alternativas más comunes es **AWS Site-to-Site VPN**, que permite conectar una red local (*on-premises*) con una VPC utilizando Internet mediante un **túnel cifrado**. Cuando se requiere una conexión de red más consistente y dedicada, AWS ofrece **AWS Direct Connect**, que establece una conexión privada entre la infraestructura de una organización y AWS.
+
+También es posible conectar diferentes redes dentro de AWS. Por ejemplo, **VPC Peering** permite establecer conectividad directa entre dos VPC, mientras que **AWS Transit Gateway** permite centralizar la conexión de múltiples VPC y redes locales mediante un único punto de interconexión.
+
+
+### 1. Conexión a la nube de AWS
+
+Puesto que cuentan con tantos tipos diferentes de redes, centros de datos en las instalaciones y trabajadores remotos, las empresas necesitan una amplia variedad de formas para conectarse a la nube de AWS. Cuatro formas de conectarse a la nube de AWS:
+
+- AWS Client VPN
+- AWS Site-to-Site VPN
+- AWS PrivateLink
+- AWS Direct Connect
+
+![Conexión a la nube de AWS](/aws/redes/redes-formas-conectar-conexion-nube.png)
+
+## 2. Conecte trabajadores remotos a AWS de forma segura
+
+Imagine una empresa con una adquisición reciente que necesita conectar su fuerza laboral remota a los recursos en la nube de AWS de forma segura. Incluso las empresas más grandes que cuentan con trabajadores remotos en todo el mundo pueden escalar verticalmente de manera rápida y conectarse a la nube de AWS. Ahí es donde **AWS Client VPN** puede ayudar.
+
+### 2.1 AWS Client VPN
+
+![AWS Client VPN](/icons/aws-client-vpn.svg)
+
+**AWS Client VPN** es un servicio de redes que puede utilizar para conectar las redes en las instalaciones y los trabajadores remotos a la nube. Es un servicio de VPN elástico y completamente administrado que se escala o reduce verticalmente de forma automática según la demanda de los usuarios. Dado que se trata de una solución de VPN en la nube, no es necesario instalar ni administrar el hardware, ni calcular cuántos usuarios remotos se deberá admitir al mismo tiempo.
+
+**Beneficios**. AWS Client VPN proporciona autenticación avanzada y acceso remoto. Es elástico y completamente administrado.
+
+**Caso de uso**. Se puede utilizar para escalar de forma rápida el acceso de los trabajadores remotos.
+
+![AWS Client VPN](/aws/redes/redes-formas-conectar-aws-vpn-client.png)
+
+**Client VPN**, un servicio de VPN administrado, brinda acceso seguro a los recursos de AWS y a las redes en las instalaciones desde cualquier lugar. Emplea un cliente basado en OpenVPN y funciona con regiones globales mediante la red global de AWS.
+
+## 3. Conecte sitios de forma segura
+
+Es posible que algunas empresas deseen establecer conexiones seguras y cifradas entre sus redes en las instalaciones, como centros de datos o sucursales, y sus recursos en la Amazon VPC. Ahí es donde **Site-to-Site VPN** puede ayudar.
+
+### 3.1 AWS Site-to-Site VPN
+
+![AWS Site-to-Site VPN](/icons/aws-site-to-site.svg)
+
+**Site-to-Site VPN (de sitio a sitio)** crea una conexión segura entre el centro de datos o las sucursales y los recursos en la nube de AWS.
+
+**Beneficios**: Site-to-Site VPN proporciona alta disponibilidad y sesiones seguras y privadas, además de acelerar las aplicaciones.
+
+**Casos de uso**: se puede utilizar en la migración de aplicaciones y para lograr una comunicación segura entre las ubicaciones remotas.
+
+![AWS Site-to-Site VPN](/aws/redes/redes-formas-conectar-aws-site-to-site.png)
+
+## 4. Conecte recursos de forma segura, incluso en otras VPC
+
+En ocasiones, otras empresas necesitan la flexibilidad de conectarse de forma privada a los recursos de otros proveedores de la nube, como si estuvieran en su propia VPC. Necesitan una forma de comunicarse con estos recursos y no desean experimentar las molestias que conlleva configurar puertas de enlace o Site-to-Site VPN. Ahí es donde **AWS PrivateLink** puede ayudar.
+
+### 4.1 AWS PrivateLink
+
+![AWS PrivateLink](/icons/aws-private-link.svg)
+
+**AWS PrivateLink** es una tecnología escalable y de alta disponibilidad con la que puede conectar de forma privada su VPC a los servicios y recursos como si estuvieran en su VPC. No necesita usar una puerta de enlace de internet, un dispositivo NAT, una dirección IP pública, una conexión Direct Connect o una conexión AWS Site-to-Site VPN para permitir la comunicación con los servicios o recursos de AWS desde sus subredes privadas. En cambio, usted controla los puntos de conexión de la API, los sitios, los servicios y los recursos específicos a los que se puede acceder desde su VPC.
+
+**Beneficios**: AWS PrivateLink le ayuda a proteger el tráfico y a conectarse con reglas de administración simplificadas.
+
+**Caso de uso**: se utiliza para conectar los clientes de su VPC a recursos, otras VPC y puntos de conexión.
+
+>Si bien las conexiones anteriores son escalables y tienen una alta disponibilidad, experimentar atascos de tráfico es posible, ya que se utiliza la misma conexión que otros clientes. Por ello, en algunos casos de uso, es posible que necesite una conexión privada dedicada con mucho ancho de banda.
+
+## 5. Conexiones privadas dedicadas para aumentar el ancho de banda
+
+### 5.1 AWS Direct Connect
+
+![AWS Direct Connect](/icons/aws-direct-conect.svg)
+
+**Direct Connect** es un servicio que le permite establecer una conexión privada dedicada entre su red y la VPC en la nube de AWS.
+
+>Es una conexión de AWS dedicada y privada a su centro de datos u oficina.
+
+**Beneficios**: AWS Direct Connect reduce los costos de red y aumenta la cantidad de ancho de banda.
+
+![AWS Direct Connect](/aws/redes/redes-formas-conectar-aws-direct-conect.png)
+
+Más información sobre Direct Connect:
+
+- **Aplicaciones sensibles a la latencia**. Direct Connect elude el internet y proporciona una experiencia de red consistente y de baja latencia. Esto lo hace ideal para aplicaciones como la transmisión de video y otras aplicaciones en tiempo real que requieren un alto rendimiento.
+
+- **Migración o transferencia de datos a gran escala**. Direct Connect ayuda a garantizar transferencias de datos fluidas y fiables a escala masiva para el análisis en tiempo real, la copia de seguridad ágil de los datos o el procesamiento de medios de transmisión.
+
+- **Arquitecturas de nube híbrida**. Puede utilizar Direct Connect para vincular sus redes en las instalaciones y de AWS y crear aplicaciones que abarquen entornos sin afectar el rendimiento.
+
+## 6. Servicios adicionales de puerta de enlace
+
+Hay varios tipos diferentes de puertas de enlace que puede utilizar para conectar sus recursos de AWS. Según lo que necesite, podría interesarle obtener más información sobre para qué se utilizan y dónde aprender más al respecto. Tipos adicionales de puerta de enlace:
+
+### 6.1 AWS Transit Gateway
+
+![AWS Transit Gateway](/icons/aws-transit-gateway.svg)
+
+**AWS Transit Gateway (Puerta de enlace de tránsito)** se utiliza para conectar sus Amazon VPC y redes en las instalaciones a través de un punto central. A medida que su infraestructura de nube se expande de forma global, la interconexión entre regiones conecta las puertas de enlace de tránsito entre sí mediante la infraestructura global de AWS.
+
+### 6.2 Puerta de enlace de traducción de direcciones de red (NAT)
+
+![Puerta de enlace de traducción de direcciones de red (NAT)](/icons/aws-gateway-nat.png)
+
+Una **puerta de enlace de NAT** es un servicio NAT. Puede utilizar una puerta de enlace de NAT para que las instancias en una subred privada puedan conectarse a servicios fuera de su VPC, pero los servicios externos no puedan iniciar una conexión con esas instancias.
+
+### 6.3 Amazon API Gateway
+
+![Amazon API Gateway](/icons/aws-api-gateway.svg)
+
+**Amazon API Gateway** es un servicio completamente administrado que facilita a los desarrolladores la creación, publicación, mantenimiento, supervisión y protección de las API a cualquier escala. Las API actúan como la "puerta de entrada" para que las aplicaciones accedan a los datos, la lógica empresarial o la funcionalidad de sus servicios de backend. Con API Gateway, puede crear API RESTful y API WebSocket que permiten aplicaciones de comunicación bidireccional en tiempo real. API Gateway admite cargas de trabajo en contenedores y sin servidor, así como aplicaciones web. API Gateway ofrece Portales, que le permite crear portales de desarrolladores nativos de AWS completamente administrados para sus API. Con Portales de API Gateway, puede descubrir, documentar y controlar de forma centralizada sus API de REST en toda la infraestructura de AWS. 
+
+>Una API Gateway actúa como un punto de entrada entre los clientes y los servicios que están detrás de la API. API Gateway recibe la petición y la dirige al servicio correspondiente, como una función Lambda, una aplicación en EC2 o un servicio de contenedores.
+
+---
+
+**Referencias recomendadas:**
+
+- [AWS Transit Gateway](https://aws.amazon.com/es/transit-gateway/)
+- [Gateways NAT](https://docs.aws.amazon.com/es_es/vpc/latest/userguide/vpc-nat-gateway.html)
+- [Amazon API Gateway](https://aws.amazon.com/es/api-gateway/)
+- [AWS Client VPN](https://aws.amazon.com/vpn/client-vpn/)
+- [AWS Site-to-Site VPN](https://aws.amazon.com/vpn/site-to-site-vpn/)
+- [AWS PrivateLink](https://aws.amazon.com/privatelink/)
+- [AWS Direct Connect](https://aws.amazon.com/directconnect/)

@@ -1,0 +1,67 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Bases de Datos No Relacionales en AWS
+
+Las **bases de datos NoSQL** utilizan esquemas de datos flexibles para almacenar y recuperar muchos tipos diferentes de información, como datos estructurados, semiestructurados y no estructurados. Las bases de datos NoSQL son ideales para aplicaciones que requieren un alto rendimiento, escalabilidad y disponibilidad, como aplicaciones web, móviles y de IoT.
+
+## 1. Bases de datos NoSQL
+
+Las **bases de datos NoSQL** a veces se denominan bases de datos no relacionales porque sus estructuras son diferentes a las de las bases de datos relacionales, como Amazon RDS. En lugar de relaciones de fila y columna, las bases de datos NoSQL crean una estructura para los datos que contienen utilizando pares de **clave-valor**. Con los pares de **clave-valor**, los datos se organizan en elementos identificados mediante claves únicas.
+
+Cada clave tiene uno o más **atributos**, o valores, asociados que representan varias características de los datos. Puede pensar en una clave como la entrada de una palabra en un diccionario y en el valor como su definición asociada. No todos los elementos de la tabla tienen que tener los mismos atributos, y puede agregar o eliminar atributos en cualquier momento.
+
+La siguiente tabla muestra un ejemplo de cómo se almacenan los datos emparejados de **clave-valor** en las bases de datos NoSQL.
+
+|Clave|Valor|
+|--|---------|
+|1|**nombre**: John Doe<br/>**Dirección**: 123 Main St<br/>**Bebida favorita**: Café con leche mediano|
+|2|**nombre**: Jane Smith<br/>**Dirección**: 456 Elm St<br/>**Fecha de nacimiento**: 5 de julio 1994|
+
+En una base de **datos clave-valor** puedes agregar o eliminar atributos de los elementos de la tabla en
+cualquier momento. Además, no todos los elementos de la tabla tienen que poseer los mismos atributos.
+
+## 2. Amazon DynamoDB
+
+![Amazon DynamoDB](/icons/amazon-dynamodb.svg)
+
+**DynamoDB** es un servicio de base de datos NoSQL completamente administrado que proporciona un rendimiento rápido y predecible para las estructuras de datos de clave-valor y de documentos. Es una opción de base de datos potente e increíblemente rápida para casos de uso que requieren un esquema flexible, y es ideal para aplicaciones que requieren un alto rendimiento y un escalado sin complicaciones.
+
+>DynamoDB es sin servidor, lo que significa que no tienes que aprovisionar, aplicar parches ni administrar servidores. Tampoco tienes que instalar, mantener ni operar software
+
+**DynamoDB** se escala sin complicaciones junto con sus datos sin afectar al rendimiento, lo que significa que usted solo paga por los recursos que utiliza. También incluye características de seguridad integradas para mejorar la protección y distribuye automáticamente los datos en varios servidores para gestionar la carga de trabajo.
+
+**Características principales**
+
+- **Rendimiento**. Latencia de un solo dígito de milisegundos
+- **Escalabilidad**. Escala automáticamente a cualquier tamaño
+- **Disponibilidad**. 99.999% de disponibilidad
+- **Durabilidad**. Los datos se almacenan en múltiples AZs
+- **Gestión completa**. Sin infraestructura que administrar
+- **Event-driven**. DynamoDB Streams para procesamiento de eventos
+- **Global**. Global Tables para replicación multi-región
+
+### 2.1 Casos de uso
+
+Algunos ejemplos de casos de uso prácticos de DynamoDB son las plataformas de juegos, las aplicaciones de servicios financieros y las aplicaciones móviles con bases de usuarios globales.
+
+### 2.2 Beneficios
+
+- **Escalabilidad con capacidad aprovisionada**. DynamoDB reduce o escala verticalmente el rendimiento de forma automática en función del uso real, lo que garantiza un rendimiento uniforme sin intervención manual. Puede especificar los niveles objetivo de utilización, y DynamoDB aprovisiona automáticamente la capacidad para mantener esos objetivos. Sin límites prácticos en cuanto al tamaño de las tablas ni a la cantidad de datos almacenados, DynamoDB puede adaptarse sin complicaciones a las aplicaciones en crecimiento.
+
+- **Alto rendimiento uniforme**. DynamoDB ofrece tiempos de respuesta en milisegundos de un solo dígito a cualquier escala, lo que lo hace ideal para aplicaciones de alto rendimiento. Mantiene un rendimiento uniforme mediante la distribución automática de los datos entre varios servidores y SSD.
+
+- **Alta disponibilidad y durabilidad**. DynamoDB ofrece una disponibilidad del 99,999 % al replicar los datos en tres instalaciones distintas dentro de cada región de AWS. También mantiene varias copias en distintas regiones de AWS para ofrecer tolerancia a errores y durabilidad de los datos integradas. Esto garantiza el funcionamiento y la protección continuos contra la pérdida de datos, incluso si las instalaciones individuales fallan.
+
+- **Cifrado de datos**. DynamoDB ofrece capacidades de cifrado integrales para proteger la información tanto en reposo como en tránsito. Todos los datos se cifran automáticamente en segundo plano antes de escribirse en la capa de almacenamiento. DynamoDB incluye la flexibilidad de elegir entre diferentes tipos de claves de cifrado para un control de seguridad personalizado.
+
+## 3. Infografía de Estudio
+
+![Bases de Datos No Relacionales en AWS](/aws/data-base/bases-de-datos-no-relacionales.png)
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon DynamoDB Documentation](https://docs.aws.amazon.com/dynamodb/)
+- [Amazon DynamoDB](https://aws.amazon.com/es/dynamodb/)
+- [¿Qué es una base de datos NoSQL?](https://aws.amazon.com/es/nosql/)

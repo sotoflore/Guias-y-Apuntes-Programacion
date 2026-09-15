@@ -1,0 +1,27 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "base-de-datos-relacionales",
+        "label": "Bases de Datos Relacionales"
+    },
+    {
+        "type": "file",
+        "name": "base-de-datos-nosql",
+        "label": "Bases de Datos No Relacionales"
+    },
+    {
+        "type":"file",
+        "name":"base-de-datos-en-cache",
+        "label": "Bases de Datos en Caché"
+    },
+    {
+        "type":"file",
+        "name":"base-de-datos-adicionales",
+        "label":"Base de Datos adicionales"
+    }
+]

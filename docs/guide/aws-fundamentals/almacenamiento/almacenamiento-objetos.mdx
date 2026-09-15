@@ -1,0 +1,199 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Amazon Simple Storage Service
+
+**Amazon S3** es un servicio de almacenamiento de objetos que puede almacenar cantidades ilimitadas de datos en la nube de AWS. El almacenamiento de objetos es adecuado, en especial, para administrar grandes cantidades de datos no estructurados, como documentos, imágenes y videos.
+
+## 1. Simple Storage Service (S3)
+
+![simple storage service](/icons/amazon-simple-storage.svg)
+
+**Amazon S3** es un servicio de **almacenamiento de objetos** de **alta disponibilidad** y completamente administrado para almacenar y recuperar cualquier cantidad de datos como objetos. Ofrece una durabilidad del **99,999999999 %**, lo que significa que sus datos cuentan con una alta protección contra pérdidas, y ofrece características para optimizar los costos, como el control de versiones, la administración del ciclo de vida y varias clases de almacenamiento.
+
+**Amazon S3** almacena los archivos como objetos en contenedores, conocidos como **buckets**, y el tamaño de cada objeto puede oscilar entre unos pocos bytes y varios terabytes. Se integra a la perfección con otros servicios de AWS y admite una amplia variedad de casos de uso, desde copias de seguridad básicas hasta data lakes (lagos de datos) complejos.
+
+**Características principales**
+
+- **Escalabilidad**: Almacena desde unos pocos bytes hasta varios petabytes
+- **Durabilidad**: 99.999999999% (11 nueves) de durabilidad
+- **Disponibilidad**: Desde 99.9% hasta 99.99% según la clase de almacenamiento
+- **Seguridad**: Encriptación, políticas de acceso, VPC endpoints
+- **Versatilidad**: Hosting web, backups, data lakes, aplicación móvil
+
+### 1.1 Beneficios de Amazon S3
+
+- **Almacenamiento casi ilimitado**. Amazon S3 no tiene un límite de almacenamiento fijo y se escala de forma automática para adaptarse a cualquier cantidad de datos que necesite almacenar. Dado que solo paga por el almacenamiento que usa, esta es una solución rentable para cubrir las necesidades de datos en crecimiento.
+
+- **Administración del ciclo de vida de los objetos**. Las políticas del ciclo de vida de Amazon S3 trasladan de forma automática los objetos entre las clases de almacenamiento según las reglas definidas, lo que optimiza los costos a lo largo del tiempo. Puede configurar transiciones y vencimientos automáticos para administrar los datos durante todo su ciclo de vida.
+
+- **Amplia variedad de casos de uso**. Amazon S3 admite una amplia variedad de casos de uso, tanto para aplicaciones basadas en la nube como para cargas de trabajo tradicionales en las instalaciones. En general, Amazon S3 se utiliza para distribuir contenido, alojar sitios web estáticos y entregar archivos multimedia. También es una opción popular para aspectos como el almacenamiento de datos de aplicaciones, el archivado, los lagos de datos y la retención de datos basada en el cumplimiento.
+
+## 2. Elementos de Amazon S3
+
+### 2.1 Objetos de S3
+
+Un **objeto** en Amazon S3 es la **unidad fundamental de almacenamiento de datos**. Cuando carga un archivo a Amazon S3, este se convierte en un objeto y se almacena de forma duradera en varias instalaciones dentro de la región que usted elige.
+
+Los objetos pueden ser de cualquier tipo de archivo —**imágenes**, **videos**, **documentos** o **datos de aplicaciones**— y su tamaño puede oscilar entre unos pocos bytes y hasta 5 TB. Cada objeto se identifica de forma exclusiva dentro de un bucket mediante su **clave (key)**, que funciona como su identificador o ruta dentro del bucket.
+
+Además del identificador, cada objeto está compuesto por los siguientes elementos:
+
+- **Clave (Key)**: la ruta completa del objeto dentro del bucket, incluido cualquier prefijo.
+- **Valor (Value)**: los datos propiamente dichos del objeto (hasta 5 TB).
+- **Metadatos**: información asociada al objeto, como la fecha de creación, el tamaño o metadatos definidos por el usuario.
+- **ID de versión (Version ID)**: identificador único que se genera cuando el versionado está habilitado en el bucket.
+
+![estructura de un objeto en S3](/aws/almacenamiento/almacenamiento-objetos-amazon-s3-objetos_v1.jpg)
+
+![estructura de un objeto en S3](/aws/almacenamiento/almacenamiento-objetos-amazon-s3-objetos.jpg)
+
+### 2.2 Buckets de S3
+
+Un **bucket** de S3 es un **contenedor** que se usa para almacenar objetos en Amazon S3. Los **buckets** tienen un nombre único a nivel global en todo AWS, lo que ayuda a identificar y organizar los datos almacenados. Los **buckets** sirven como unidad básica para controlar el acceso y pueden contener una cantidad casi ilimitada de objetos. Desempeñan un rol vital en la administración de datos, ya que permiten agrupar objetos relacionados y aplicar políticas a nivel del bucket.
+
+Cuando crea un bucket, debe especificar el nombre y la región en la que residirá. Los buckets se pueden configurar con varios ajustes, incluidos el control de versiones, el registro y los permisos de acceso.
+
+![buckets de S3](/aws/almacenamiento/almacenamiento-objetos-amazon-s3-buckets.jpg)
+
+## 3. Administración de seguridad y privacidad
+
+Todo lo que se almacena en Amazon S3 es **privado de forma predeterminada**. Debe conceder permisos de forma explícita para acceder a estos recursos. Si desea que sus datos de Amazon S3 estén disponibles para todo el mundo en internet, puede optar por hacer públicos sus buckets y objetos. Para definir de forma más granular quién puede realizar ciertas acciones con sus recursos de Amazon S3, el servicio brinda varias características de administración de la seguridad.
+
+Las características de administración de la seguridad de Amazon S3:
+
+<Tabs>
+  <Tab label="Políticas de Buckets">
+    Las **políticas de buckets** de Amazon S3 son políticas basadas en recursos que solo se pueden conectar a los buckets de S3. Una política de bucket de S3 especifica qué acciones se permiten o no en el bucket, además de cada objeto de ese bucket.
+    
+    ![políticas de buckets](/aws/almacenamiento/almacenamiento-objetos-amazon-s3-politicas-buckets.jpg)
+  </Tab>
+  <Tab label="Políticas Basadas en Identidad (IAM)">
+    Los permisos que regulan las acciones que los usuarios, los grupos o los roles pueden realizar en los recursos de S3 se configuran con **políticas basadas en identidad**. Estas políticas se vinculan de forma directa a las identidades (usuarios, grupos o roles) en lugar de a los propios recursos de S3. Con estas políticas, puede especificar a qué buckets y objetos de S3 pueden acceder los usuarios y qué acciones pueden realizar.
+
+    ![políticas de IAM](/aws/almacenamiento/almacenamiento-objetos-amazon-s3-politicas-iam.jpg)
+  </Tab>
+  <Tab label="Cifrado de datos">
+    Amazon S3 ofrece **capacidades de cifrado para proteger los datos en reposo y en tránsito**. Estas características de cifrado ayudan a mantener la confidencialidad de los datos y a cumplir con varios estándares y regulaciones de seguridad. Estas capacidades son las siguientes:
+
+    - El **cifrado en reposo** protege los datos almacenados en buckets de S3, lo que evita el acceso no autorizado a los objetos almacenados.
+
+    - El **cifrado en tránsito** protege los datos que se trasladan hacia y desde Amazon S3 y mantiene una comunicación segura entre los clientes y el servicio.
+
+    ![cifrado de datos](/aws/almacenamiento/almacenamiento-objetos-amazon-s3-politica-cifrado-datos.jpg)
+  </Tab>
+</Tabs>
+
+## 4. Clases de almacenamiento
+
+**Amazon S3** ofrece varias clases de almacenamiento para adaptarse a diversas cargas de trabajo con requisitos específicos de rendimiento, acceso, resiliencia y costo. También están pensadas para cumplir con los requisitos de residencia de datos, los patrones de acceso impredecibles y las necesidades de almacenamiento de archivos, y ofrecen las opciones más rentables para los diferentes patrones de acceso.
+
+Con **Amazon S3**, solo paga por lo que usa. Puede elegir entre una variedad de clases de almacenamiento para seleccionar la que mejor se adapte a las necesidades de su negocio y de costos. Al seleccionar una clase de almacenamiento, tenga en cuenta estos dos factores:
+
+- Con qué frecuencia planea recuperar sus datos
+- Qué nivel de disponibilidad necesita para sus datos
+
+Las clases de almacenamiento de Amazon S3 están diseñadas para diferentes patrones de acceso, requisitos de rendimiento y necesidades de costo. Las principales clases son:
+
+<Tabs>
+  <Tab label="Acceso Frecuente">
+    Las clases de almacenamiento de **acceso frecuente** están diseñadas para datos a los que se accede con regularidad y que requieren un acceso rápido y de baja latencia. Estas clases son ideales para aplicaciones que necesitan un rendimiento constante y una disponibilidad alta.
+
+    - **S3 Standard**
+    ![S3 Standard](/icons/s3-standard.png)
+
+    Se considera un almacenamiento de uso general para aplicaciones en la nube, sitios web dinámicos, distribución de contenido, aplicaciones móviles y de videojuegos, y análisis de macrodatos. Cuando carga un objeto a Amazon S3 sin especificar una clase de almacenamiento, el objeto se agrega a S3 Standard de forma predeterminada.
+
+    - **S3 Express One Zone**
+    ![S3 Express One Zone](/icons/s3-express-one-zone.png)
+
+    Almacena los datos en una única zona de disponibilidad. Se diseñó con el fin de brindar acceso constante en milisegundos de un solo dígito para los datos de acceso frecuente y las aplicaciones sensibles a la latencia. S3 Express One Zone proporciona una velocidad de acceso a los datos hasta 10 veces más rápida y costos de solicitud hasta un 80 % más bajos que los de S3 Standard.
+  </Tab>
+  <Tab label="Acceso Poco Frecuente">
+    Las clases de almacenamiento de **acceso poco frecuente** están diseñadas para datos que se acceden con poca frecuencia pero que requieren un acceso rápido cuando se necesitan. Estas clases son ideales para aplicaciones que necesitan un almacenamiento de bajo costo con acceso limitado.
+
+    - **Standard - Acceso poco frecuente (Standard-IA)**
+    ![S3 Standard-IA](/icons/s3-standard-ia.png)
+
+    Se utiliza para los datos a los que se accede con menor frecuencia, pero que requieren un acceso rápido cuando es necesario. S3 Standard-IA ofrece la alta durabilidad, el alto rendimiento y la baja latencia de S3 Standard, con precios económicos de almacenamiento y recuperación por GB. Este nivel de almacenamiento es ideal si desea almacenar copias de seguridad a largo plazo, archivos de recuperación de desastres, etc.
+
+    - **S3 One Zone - Acceso poco frecuente (One Zone-IA)**
+    ![S3 One Zone-IA](/icons/s3-one-zone-ia.png)
+
+    Almacena los datos en una única zona de disponibilidad, lo que reduce los costos en comparación con S3 Standard-IA, que utiliza tres zonas. Esta clase de almacenamiento es adecuada para los clientes que buscan un almacenamiento asequible para los datos de acceso poco frecuente sin necesidades de alta disponibilidad. Es perfecto para almacenar copias de seguridad secundarias o datos que se pueden recrear con facilidad.
+  </Tab>
+  <Tab label="Archivado (muy poco frecuente)">
+    Las clases de almacenamiento de **archivado y acceso muy poco frecuente** están diseñadas para datos que se conservan durante largos períodos y se consultan con poca frecuencia. Estas clases son ideales para aplicaciones que necesitan un almacenamiento de bajo costo para datos que rara vez se acceden.
+
+    - **S3 Glacier Instant Retrieval**
+    ![S3 Glacier Instant Retrieval](/icons/s3-glacier-instant-retrieval.png)
+
+    Utilice **S3 Glacier Instant Retrieval** para archivar datos de acceso muy poco frecuente y que requieren una recuperación en milisegundos. Los datos que se almacenan en esta clase de almacenamiento implican un ahorro de costos de hasta un **68%** en comparación con la clase de almacenamiento S3 Standard-IA, con la misma latencia y rendimiento.
+
+    - **S3 Glacier Flexible Retrieval**
+    ![S3 Glacier Flexible Retrieval](/icons/s3-glacier-flexible-retrieval.png)
+
+    Brinda almacenamiento de bajo costo para los datos archivados a los que se accede una o dos veces al año. Con S3 Glacier Flexible Retrieval, se puede acceder a sus datos en tan solo 1 a 5 minutos mediante una recuperación acelerada. También puede solicitar recuperaciones masivas en un máximo de 5 a 12 horas sin costo adicional. Es una solución ideal para las copias de seguridad, la recuperación de desastres, las necesidades de almacenamiento de datos fuera de las instalaciones y para casos en los que algunos datos deben recuperarse en minutos.
+
+    - **S3 Glacier Deep Archive**
+    ![S3 Glacier Deep Archive](/icons/s3-glacier-deep-archive.png)
+
+    Almacenamiento de menor costo de Amazon S3. Admite la retención a largo plazo y la preservación digital de datos a los que se accede tal vez una o dos veces al año. Los datos que se almacenan en la clase de almacenamiento S3 Glacier Deep Archive tienen un tiempo de recuperación predeterminado de 12 horas. Está diseñado para clientes que retienen conjuntos de datos por un período de 7 a 10 años o más, a fin de cumplir con los requisitos de conformidad normativa. Los ejemplos incluyen aquellos en industrias con alta regulación, como los servicios financieros, la sanidad y los sectores públicos.
+  </Tab>
+  <Tab label="S3 Intelligent-Tiering">
+    La clase de almacenamiento **S3 Intelligent-Tiering** está diseñada para datos con patrones de acceso desconocidos o cambiantes.
+
+    ![S3 Intelligent-Tiering](/icons/s3-intelligent-tiering.png)
+
+    **S3 Intelligent-Tiering** almacena los objetos en tres niveles: un nivel de acceso frecuente, un nivel de acceso poco frecuente y un nivel de acceso instantáneo al archivo. Amazon S3 supervisa los patrones de acceso de sus datos y los traslada de forma automática al nivel de almacenamiento más rentable en función de la frecuencia de acceso.
+  </Tab>
+  <Tab label="S3 Outposts">
+    La clase de almacenamiento **S3 Outposts** está diseñada para datos que necesitan ser almacenados en entornos locales, pero que también requieren integración con la nube.
+
+    ![S3 Outposts](/icons/s3-outposts.png)
+
+    Amazon **S3 Outposts** ofrece almacenamiento de objetos a su entorno en las instalaciones de AWS Outposts mediante las características y la API de Amazon S3, y está pensado para cargas de trabajo con requisitos de residencia local de datos. También ayuda a mantener un rendimiento óptimo cuando los datos deben permanecer cerca de las aplicaciones en las instalaciones.
+  </Tab>
+</Tabs>
+
+## 5. Ciclo de vida de S3
+
+Para no tener que administrar de forma manual las configuraciones de los niveles de almacenamiento de objetos, puede usar las configuraciones del ciclo de vida de S3 y así automatizar el proceso. Cuando define una configuración de ciclo de vida para un objeto o grupo de objetos, puede optar por automatizar entre dos tipos de acciones de estas maneras:
+
+- **Acciones de transición**: definen el momento en que los objetos deben pasar a otra clase de almacenamiento.
+
+- **Acciones de vencimiento**: definen el momento en que los objetos vencen y deben eliminarse de forma permanente.
+
+**Por ejemplo**, puede hacer la transición de objetos a la clase de almacenamiento **S3 Standard-IA** 30 días después de crearlos. O bien, puede archivar objetos en la clase de almacenamiento **S3 Glacier Deep Archive** un año después de crearlos.
+
+En un ciclo de vida de datos típico de S3, los datos que se utilizan con poca frecuencia pasan por una serie de clases de almacenamiento y, por último, se eliminan si no se utilizan después de 365 días.
+
+![flujo de ciclo de vida de S3](/aws/almacenamiento/almacenamiento-objetos-amazon-s3-ciclo-de-vida.jpg)
+
+1. **Después de 30 días** sin acceder al objeto, este pasa de la clase de almacenamiento S3 Standard a S3 Standard-IA.
+
+2. **Después de 60 días** sin acceder al objeto mientras estuvo en la clase de almacenamiento S3 Standard-IA, este pasa a Amazon S3 Glacier Instant Retrieval.
+  
+3. Por último, **después de 365 días** sin acceder al objeto mientras estuvo en la clase de almacenamiento Amazon S3 Glacier Instant Retrieval, este se elimina.
+
+### 5.1 Casos de uso
+
+Puede utilizar las reglas de configuración del ciclo de vida de S3 en las siguientes situaciones:
+
+- **Registros periódicos**: si carga registros periódicos en un bucket, la aplicación podría necesitarlos durante una semana o un mes. Después de eso, podría eliminarlos.
+
+- **Datos que cambian en la frecuencia de acceso**: a algunos documentos solo se suele acceder durante un período limitado. Luego, se accede a ellos con poca frecuencia. Es posible que, en algún momento, no necesite acceder a ellos en tiempo real. Sin embargo, su organización o sus reglamentos podrían exigir que los archive durante un período determinado. Transcurrido dicho período, podrá eliminarlos.
+
+## 6. Infografía de Estudio
+
+![Infografía de almacenamiento en objetos](/aws/almacenamiento/almacenamiento-objetos-intro.png)
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon S3](https://docs.aws.amazon.com/s3/)
+- [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/es/s3/)
+- [Preguntas frecuentes sobre Amazon S3](https://aws.amazon.com/es/s3/faqs/)
+- [Clases de almacenamiento de Amazon S3](https://aws.amazon.com/es/s3/storage-classes/)
+- [Control de versiones de Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html)
+- [Buckets de Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html)

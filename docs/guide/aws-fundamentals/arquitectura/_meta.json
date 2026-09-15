@@ -1,0 +1,22 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "servicios-especializados",
+        "label": "Servicios especializados de AWS"
+    },
+    {
+        "type": "file",
+        "name": "marco-aws-well",
+        "label": "Marco de AWS Well-Architected"
+    },
+    {
+        "type": "file",
+        "name": "casos-uso",
+        "label": "Arquitectura de Casos de Uso"
+    }
+]

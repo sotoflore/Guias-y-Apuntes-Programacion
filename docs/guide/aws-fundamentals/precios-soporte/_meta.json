@@ -1,0 +1,22 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introduccion"
+    },
+    {
+        "type": "file",
+        "name": "precio-aws",
+        "label": "Precios AWS"
+    },
+    {
+        "type": "file",
+        "name": "soporte-aws",
+        "label":"AWS Support"
+    },
+    {
+        "type": "file",
+        "name": "optmizacion-costos",
+        "label":"Optimización Costos"
+    }
+]

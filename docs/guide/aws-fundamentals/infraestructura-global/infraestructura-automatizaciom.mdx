@@ -1,0 +1,64 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Infraestructura y automatización en AWS
+
+La **infraestructura y automatización en AWS** se refiere al conjunto de servicios, herramientas y prácticas que permiten **crear, configurar, administrar y escalar recursos de infraestructura de manera rápida, repetible y controlada**. En lugar de configurar manualmente servidores, redes, bases de datos y permisos desde la consola de AWS, es posible definir y gestionar gran parte de esta infraestructura mediante **código y procesos automatizados**.
+
+En AWS, la automatización permite pasar de un modelo tradicional, donde un administrador configura cada recurso individualmente, a un modelo de **Infrastructure as Code (IaC)**. Con IaC, la infraestructura se describe mediante archivos de configuración que pueden almacenarse en sistemas de control de versiones, revisarse, reutilizarse y desplegarse de forma consistente en diferentes entornos.
+
+Entre las herramientas más importantes se encuentra **AWS CloudFormation**, que permite definir recursos de AWS mediante plantillas y crear conjuntos completos de infraestructura automáticamente. También existen herramientas como **AWS Systems Manager**, que facilita la administración y operación de recursos, y **AWS Elastic Beanstalk**, que simplifica el despliegue y administración de aplicaciones.
+
+La automatización también está estrechamente relacionada con conceptos como **escalabilidad, alta disponibilidad, despliegues automatizados, recuperación ante fallos y DevOps**. Por ejemplo, una empresa puede definir una arquitectura completa —red, servidores, balanceadores y bases de datos— y posteriormente reproducirla de manera consistente en diferentes entornos como desarrollo, pruebas y producción.
+
+En pocas palabras:
+
+> **Infraestructura en AWS** = los recursos que componen nuestro entorno cloud.
+> **Automatización en AWS** = utilizar herramientas y código para crear, configurar y administrar esos recursos de forma automática.
+
+## 1. CloudFormation
+
+![CloudFormation](/icons/aws-cloudFormation.svg)
+
+**CloudFormation** es un servicio que le permite modelar y configurar los recursos de AWS para que pueda invertir menos tiempo administrando dichos recursos y más tiempo centrándose en las aplicaciones que se ejecutan en AWS. Con CloudFormation, puede definir su infraestructura como código. Crea una plantilla que describe todos los recursos de AWS que desea (como las instancias de Amazon Elastic Compute Cloud [Amazon EC2]) y CloudFormation se encarga de aprovisionar y configurar esos recursos por usted.
+
+## 2. Interacción con los recursos de AWS
+
+Hay varias maneras de operar en la nube de AWS. Para interactuar con los recursos de AWS, debe invocar las API de AWS. Para interactuar con estas API, puede usar los **AWS SDK**, la **Interfaz de la línea de comandos** de AWS (AWS CLI), la **Consola de administración** de AWS o herramientas de IaC, como CloudFormation. 
+
+<Tabs>
+  <Tab label="Acceso programatico">
+    El **acceso mediante programación** incluye opciones como **AWS CLI** y los **AWS SDK**. Estas opciones son las más adecuadas para desarrolladores y personas familiarizadas con los lenguajes de codificación.
+
+    Con **AWS CLI**, puede administrar varios servicios de AWS directamente desde la línea de comandos. Puede automatizar las tareas mediante scripts.
+
+    Los **AWS SDK** pueden ayudar a integrar los servicios de AWS en sus aplicaciones al proporcionar API para varios lenguajes de programación. AWS proporciona documentación y código de muestra para ayudarle a empezar a usar los SDK.
+
+    Los casos de uso de las acciones de AWS CLI y los SDK incluyen los siguientes:
+
+    - **AWS CLI**: automatice las tareas rutinarias. Por ejemplo, puede escribir un script para proporcionar copias de seguridad rutinarias para un servicio como Amazon Elastic Block Store (Amazon EBS).
+
+    - **SDK**: invoque las API para una parte del proceso de una aplicación. Por ejemplo, puede usar un SDK para almacenar datos de usuario en un servicio de almacenamiento de AWS como Amazon Simple Storage Service (Amazon S3).
+  </Tab>
+  <Tab label="Consola de administración">
+    La **Consola de administración** de AWS es una interfaz web que se utiliza para administrar los servicios de AWS y ofrece acceso rápido a los servicios, funcionalidad de búsqueda y flujos de trabajo simplificados. La consola es una excelente opción para los usuarios nuevos en la nube o con una experiencia de desarrollo mínima o nula.
+
+    Entre los casos de uso de la consola se incluyen los siguientes:
+
+    - Paneles y visualizaciones de facturación y optimización de costos
+    - Servicios centrados en representaciones gráficas, como Amazon QuickSight y Amazon Neptune
+  </Tab>
+  <Tab label="Infraestructura como código">
+    Con las **herramientas de IaC**, como CloudFormation, puede automatizar la administración de recursos en toda su organización con integraciones de servicios de AWS que ofrecen una creación y una administración de recursos eficientes y repetibles.
+
+    Los casos de uso de CloudFormation incluyen los siguientes:
+
+    - Administrar la infraestructura con DevOps, como las canalizaciones de integración y entrega continuas (CI/CD)
+    - Escalar recursos como las instancias de Amazon EC2 a aplicaciones multirregionales de forma consistente y repetible
+  </Tab>
+</Tabs>
+
+---
+
+**Referencias recomendadas:**
+
+- [AWS CloudFormation](https://aws.amazon.com/es/cloudformation/)

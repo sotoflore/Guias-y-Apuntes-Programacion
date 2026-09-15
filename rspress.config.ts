@@ -2,6 +2,7 @@ import * as path from 'node:path';
 import { defineConfig } from '@rspress/core';
 import mermaid from 'rspress-plugin-mermaid';
 import { pluginPWA } from 'rsbuild-plugin-pwa';
+import fileTree from 'rspress-plugin-file-tree';
 
 export default defineConfig({
     root: path.join(__dirname, 'docs'),
@@ -11,6 +12,7 @@ export default defineConfig({
                 theme: 'default',
             },
         }),
+        fileTree()
     ],
     lang: 'es',
     title: 'DevNotes',

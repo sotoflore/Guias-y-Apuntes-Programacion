@@ -1,0 +1,48 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# El modelo de responsabilidad compartida de AWS
+
+El **modelo de responsabilidad compartida** de AWS es un concepto diseñado para ayudar a AWS y a los clientes a trabajar en conjunto para crear un entorno de nube seguro y funcional.
+
+## 1. Componentes del modelo de responsabilidad compartida
+
+Los componentes del modelo de responsabilidad compartida de AWS:
+
+<Tabs>
+  <Tab label="Responsabilidades del cliente">
+    Los **clientes** son responsables de administrar los requisitos de seguridad de sus datos, lo que incluye definir qué datos se almacenan en AWS y quién tiene acceso a ellos. Los clientes también controlan cómo se concede, administra y revoca el acceso a los datos. Además, son responsables del cifrado del cliente.
+  </Tab>
+  <Tab label="Responsabilidades compartidas">
+    Según el servicio utilizado, las responsabilidades pueden cambiar entre el **cliente** y **AWS**. Los componentes como el cifrado del servidor, la protección del tráfico de red, la administración de la plataforma y las aplicaciones, así como la configuración del sistema operativo, la red y el firewall, varían según el servicio en cuanto a quién es responsable de estas tareas.
+  </Tab>
+  <Tab label="Responsabilidades de AWS">
+    **AWS** tiene la responsabilidad de proteger la infraestructura que ejecuta todos los servicios ofrecidos en la nube de AWS. Esta infraestructura está conformada por el hardware, el software, las redes y las instalaciones que ejecutan los servicios de la nube de AWS.
+  </Tab>
+</Tabs>
+
+![Componentes del modelo de responsabilidad compartida de AWS](/aws/cloud-img/cloud-computing-intro-modelo-responsabilidad-compartida.png)
+
+## 2. La nube en la vida real: infraestructura y responsabilidad compartida
+
+Para este caso de uso, la empresa global de comercio electrónico implementó recursos en varias regiones y zonas de disponibilidad de AWS.
+
+![infraestructura y responsabilidad compartida](/aws/cloud-img/cloud-computing-intro-modelo-responsabilidad-compartida-ejemplo.jpg)
+
+Veamos los beneficios que aporta este diseño de infraestructura y cómo AWS y la empresa comparten la responsabilidad:
+
+1. **Expansión de la empresa de comercio electrónico**. Esta empresa de comercio electrónico tiene su sede en Seattle, Washington, en los Estados Unidos. La empresa quiere expandirse a ubicaciones globales. Sin embargo, cuanto más lejos esté la infraestructura de computación de sus clientes, mayor será la latencia. La empresa decide expandirse a las regiones globales de AWS para llegar mejor a sus clientes de todo el mundo.
+
+2. **Primera expansión global: Irlanda**. La empresa implementa recursos en la región eu-west-1 de Irlanda. La implementación en varias regiones aumenta la alta disponibilidad. La empresa aumenta aún más la tolerancia a errores y la alta disponibilidad mediante la implementación en dos zonas de disponibilidad de esta región.
+
+    >La empresa no tiene que preocuparse por proteger el centro de datos en Irlanda porque resguardar la infraestructura física es responsabilidad de AWS. En cambio, la empresa puede centrarse en proteger y cifrar sus datos dentro de sus recursos en la nube.
+
+3. **Segunda expansión global: Singapur**. La empresa también tiene una importante base de clientes en Asia. Por lo tanto, implementan recursos en la región de AWS ap-southwest-1 en Singapur.
+
+    >En lugar de tener que configurar una infraestructura física a escala internacional, lo que puede llevar meses o años, la empresa utilizó AWS para implementar operaciones globales en cuestión de minutos.
+
+
+---
+
+**Referencias recomendadas:**
+
+- [Modelo de responsabilidad compartida de AWS](https://aws.amazon.com/es/compliance/shared-responsibility-model/)

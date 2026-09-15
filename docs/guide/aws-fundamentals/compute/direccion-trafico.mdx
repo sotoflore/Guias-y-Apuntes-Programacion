@@ -1,0 +1,146 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Dirección de tráfico con Elastic Load Balancing
+
+La **distribución de las cargas de trabajo** mejora el rendimiento de sus aplicaciones, ya que evita que un único recurso tenga que manejar la carga de trabajo completa por sí solo. En esta lección, aprenderá cómo **ELB** simplifica la distribución y la administración del tráfico para las aplicaciones de AWS.
+
+## 1. Elastic Load Balancing
+
+![icono de ELB](/icons/elastic-load-balancing.svg)
+
+**Elastic Load Balancing (ELB - Equilibrio de carga elástico)** es un servicio que distribuye automáticamente el tráfico de aplicaciones entrantes en varios recursos, como las **instancias de EC2**, para optimizar el rendimiento y la fiabilidad. Un **equilibrador de carga** actúa como un único punto de contacto para todo el tráfico web que entra en un grupo de escalado automático. A medida que la cantidad de instancias de EC2 fluctúa en respuesta a las demandas de tráfico, las solicitudes entrantes se dirigen primero al equilibrador de carga. A partir de ahí, el tráfico se distribuye de manera uniforme entre las instancias disponibles.
+
+![ELB](/aws/compute/ec2-elb-intro.jpg)
+
+> **ELB** recibe las solicitudes y las distribuye entre las instancias EC2 registradas. Si una instancia falla, ELB deja de enviarle tráfico automáticamente.
+
+:::info Elastic Load Balancing vs Auto Scaling
+Si bien **ELB** y **Amazon EC2 Auto Scaling** son servicios distintos, funcionan en conjunto para mejorar el rendimiento de las aplicaciones y garantizar una alta disponibilidad. Juntos, permiten que las aplicaciones que se ejecutan en Amazon EC2 escalen de manera eficaz y, al mismo tiempo, mantengan un rendimiento uniforme.
+
+> **Load Balancing distribuye tráfico; Auto Scaling ajusta la cantidad de instancias.**
+>
+> - Si tienes 3 instancias y mucho tráfico, Load Balancer distribuye el tráfico entre las 3.
+> - Si aun así no alcanza, Auto Scaling agrega más instancias.
+> - Si el tráfico baja, Auto Scaling elimina instancias innecesarias.
+
+:::
+
+### 1.1 Beneficios de ELB
+
+Repasemos los principales beneficios de Elastic Load Balancing y cómo mejora el rendimiento, la escalabilidad y la administración de su entorno de AWS.
+
+- **Distribución eficiente del tráfico**: ELB distribuye el tráfico de manera uniforme entre las instancias de EC2, lo que evita la sobrecarga en una sola instancia y optimiza la utilización de los recursos.
+- **Escalado automático**: ELB escala con el tráfico y se ajusta automáticamente a los cambios en la demanda para lograr un funcionamiento perfecto a medida que se agregan o eliminan instancias de backend.
+- **Administración simplificada**: ELB desacopla los niveles de frontend y backend y reduce la sincronización manual. También gestiona el mantenimiento, las actualizaciones y la conmutación por error para aliviar la sobrecarga operativa.
+- **Seguridad**: Proteja sus aplicaciones con la terminación SSL/TLS, la administración integrada de certificados y la autenticación de certificados de cliente.
+- **Monitorización en tiempo real**: Monitoree el estado y el rendimiento de sus aplicaciones en tiempo real, descubra los atascos y mantenga el cumplimiento de los acuerdos de nivel de servicio.
+
+### 1.2 Métodos de enrutamiento
+
+Para optimizar la distribución del tráfico, ELB utiliza varios métodos de enrutamiento: **Round Robin**, **Least Connections**, **IP Hash** y **Least Response Time**. Estas estrategias de enrutamiento funcionan en conjunto para una administración eficiente del tráfico y un rendimiento óptimo de las aplicaciones.
+
+<Tabs>
+  <Tab label="Round Robin">
+    Distribuye el tráfico de manera uniforme entre todos los servidores disponibles de forma cíclica. 
+
+    ![Round Robin](/aws/compute/ec2-elb-enrutamiento_v1.jpg)  
+  </Tab>
+  <Tab label="Least Connections">
+    Dirige el tráfico al servidor con el menor número de conexiones activas, lo que mantiene una carga equilibrada. 
+
+    ![Least Connections](/aws/compute/ec2-elb-enrutamiento_v2.jpg)
+  </Tab>
+  <Tab label="IP Hash">
+    Usa la dirección IP del cliente para dirigir el tráfico de manera uniforme al mismo servidor. 
+
+    ![IP Hash](/aws/compute/ec2-elb-enrutamiento_v3.jpg)
+  </Tab>
+  <Tab label="Least Response Time">
+    Dirige el tráfico al servidor con el tiempo de respuesta más rápido, lo que minimiza la latencia. 
+
+    ![RLeast Response Time](/aws/compute/ec2-elb-enrutamiento_v4.jpg)
+  </Tab>
+</Tabs>
+
+### 1.3 Tipo de equilibrador de carga
+
+<Tabs>
+  <Tab label="Application Load Balancer (ALB)">
+    Elige un **equilibrador de carga de aplicaciones** cuando necesites un conjunto de funciones flexible para tus aplicaciones con tráfico HTTP y HTTPS. Los equilibradores de carga de aplicaciones, que operan a nivel de solicitud, ofrecen funciones avanzadas de enrutamiento y visibilidad diseñadas para arquitecturas de aplicaciones, incluidos los microservicios y los contenedores.
+
+    **Cómo funcionan**:
+
+    1. Los clientes envían solicitudes a tu aplicación.
+
+    2. Los oyentes de tu equilibrador de carga reciben las solicitudes que coinciden con el protocolo y el puerto que hayas configurado.
+
+    3. El listener receptor evalúa la solicitud entrante según las reglas que especifiques y, si procede, la enruta al grupo de destinos adecuado. Puedes utilizar un listener HTTPS para delegar la tarea de cifrado y descifrado TLS a tu equilibrador de carga.
+
+    4. Los destinos operativos de uno o varios grupos de destinos reciben el tráfico según el algoritmo de equilibrio de carga y las reglas de enrutamiento que especifiques en el listener.
+
+    ![Application Load Balancer](/aws/compute/ec2-elb-tipos-equilibrador-carga_v1.jpg)  
+  </Tab>
+  <Tab label="Network Load Balancer (NLB)">
+    Elige un **equilibrador de carga de red** cuando necesites un rendimiento ultraalto, descarga de TLS a gran escala, implementación centralizada de certificados, compatibilidad con UDP y direcciones IP estáticas para tus aplicaciones. Al funcionar a nivel de conexión, los equilibradores de carga de red son capaces de gestionar de forma segura millones de solicitudes por segundo, manteniendo al mismo tiempo latencias ultrabajas.
+
+    **Cómo funcionan**:
+   
+    1. Los clientes envían solicitudes a tu aplicación.
+
+    2. El equilibrador de carga recibe la solicitud, ya sea directamente o a través de un punto de conexión para conectividad privada (mediante AWS PrivateLink).
+
+    3. Los oyentes de su equilibrador de carga reciben las solicitudes que coinciden con el protocolo y el puerto especificados, y las enrutan según la acción predeterminada que usted indique. Puede utilizar un oyente TLS para descargar la tarea de cifrado y descifrado en su equilibrador de carga.
+
+    4. Los destinos operativos de uno o más grupos de destinos reciben el tráfico según el algoritmo de hash de flujo. 
+
+    ![Network Load Balancer](/aws/compute/ec2-elb-tipos-equilibrador-carga_v2.jpg)  
+  </Tab>
+  <Tab label="Gateway Load Balancer (GWLB)">
+    Elige un **Gateway Load Balancer** cuando necesites implementar y gestionar un conjunto de dispositivos virtuales de terceros compatibles con GENEVE. Estos dispositivos te permiten mejorar la seguridad, el cumplimiento normativo y los controles de políticas.
+
+    **Cómo funcionan**:
+  
+    1. Los clientes envían solicitudes a su aplicación.
+
+    2. El equilibrador de carga recibe la solicitud según las configuraciones de la tabla de rutas establecidas en su VPC, puerta de enlace de Internet o puerta de enlace de tránsito.
+
+    3. El equilibrador de carga enruta las solicitudes a un grupo de destino formado por un conjunto escalable de dispositivos (por ejemplo, cortafuegos, sistemas de inspección profunda de paquetes, sistemas de filtrado de URL, etc.) para procesar los flujos de tráfico.
+
+    4. El dispositivo virtual procesa el tráfico y lo reenvía al equilibrador de carga, o bien lo descarta según su configuración. Este tipo de equilibrador de carga actúa como un «bump-in-the-wire» entre el origen y el destino.
+
+    5. El equilibrador de carga reenvía el tráfico a su destino. 
+
+    ![Gateway Load Balancer](/aws/compute/ec2-elb-tipos-equilibrador-carga_v3.jpg)  
+  </Tab>
+</Tabs>
+
+##  2. Ejemplo: Elastic Load Balancing
+
+Veamos un ejemplo para entender mejor cómo funciona Elastic Load Balancing en la computación en la nube. En la industria de la sanidad, en especial en los hospitales y centros médicos que ofrecen sistemas para reservar citas en línea o portales para pacientes, el tráfico del sitio web puede variar mucho a lo largo del día.
+
+<Tabs>
+  <Tab label="Configuración Inicial">
+    **Período de baja demanda**: al principio del día, solo unos pocos pacientes acceden al sistema para reservar citas o ver los registros médicos. Los servidores web existentes son suficientes para gestionar el bajo tráfico. Esto se ajusta a la demanda, sin necesidad de contar con recursos adicionales en este momento.
+
+    ![Configuración Inicial](/aws/compute/compute-direccion-trafico-elb-ejemplo.png)
+  </Tab>
+  <Tab label="Aumento Vertical">
+    **Período de alta demanda**: a medida que avanza el día, en especial durante las horas de uso máximo, como temprano por la mañana o justo antes del fin de semana, más pacientes acceden al portal para reservar citas, ver los resultados de las pruebas o ponerse en contacto con profesionales médicos. Para hacer frente a este aumento de la demanda, el sistema sanitario escala verticalmente la cantidad de servidores de forma automática para garantizar que el sistema siga respondiendo y esté disponible para todos los usuarios.
+
+    ![Aumento Vertical](/aws/compute/compute-direccion-trafico-elb-ejemplo_v1.png)
+  </Tab>
+  <Tab label="Equilibrio de carga (ELB)">
+    Un **equilibrador de carga** dirige el tráfico entrante a diferentes servidores web según su carga actual. Por ejemplo, si un servidor comienza a recibir demasiadas solicitudes, el equilibrador de carga dirigirá las nuevas solicitudes a un servidor menos ocupado. Esto garantiza que ningún servidor se sobrecargue. El tráfico se distribuye de manera uniforme entre las instancias de EC2 disponibles.
+
+    ![Equilibrio de carga (ELB)](/aws/compute/compute-direccion-trafico-elb-ejemplo_v2.png)
+  </Tab>
+</Tabs>
+
+Al usar **Elastic Load Balancing** y **Auto Scaling**, el sector sanitario puede administrar de manera eficiente los diferentes niveles de tráfico de pacientes a los servicios en línea. Esto proporciona un acceso fiable a los portales médicos incluso durante los períodos de alta demanda.
+
+--- 
+
+**Referencias recomendadas:**
+
+- [Documentación Elastic Load Balancing](https://docs.aws.amazon.com/es_es/elasticloadbalancing/latest/userguide/what-is-load-balancing.html)
+- [Elastic Load Balancing](https://aws.amazon.com/es/elasticloadbalancing/)

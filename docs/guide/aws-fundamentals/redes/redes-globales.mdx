@@ -1,0 +1,163 @@
+# Redes globales en AWS
+
+Las **redes globales en AWS** permiten conectar aplicaciones, usuarios y recursos distribuidos en diferentes regiones y ubicaciones del mundo, proporcionando una infraestructura diseñada para ofrecer **baja latencia, alta disponibilidad, seguridad y rendimiento**.
+
+AWS cuenta con una infraestructura global formada por **Regiones (Regions), Zonas de Disponibilidad (Availability Zones), puntos de presencia (Points of Presence) y una red global de AWS**. Estos componentes permiten que las aplicaciones puedan ejecutarse cerca de sus usuarios y que el tráfico pueda recorrer la infraestructura de AWS de manera eficiente.
+
+Un elemento importante es **Amazon CloudFront**, una red de entrega de contenido (CDN) que utiliza ubicaciones distribuidas globalmente para entregar contenido a los usuarios desde puntos cercanos a ellos. Por otro lado, **AWS Global Accelerator** utiliza la red global de AWS para mejorar el rendimiento y la disponibilidad de aplicaciones mediante el uso de direcciones IP estáticas y el enrutamiento del tráfico hacia endpoints saludables.
+
+También existen servicios como **Amazon Route 53**, que proporciona DNS y permite dirigir a los usuarios hacia diferentes recursos dependiendo de factores como la disponibilidad o la ubicación geográfica.
+
+Puedes imaginar la infraestructura global de AWS así:
+
+![infraestructura global](/aws/redes/redes-globales-infraestructura.jpg)
+
+La idea fundamental es que **AWS distribuye su infraestructura geográficamente para acercar los recursos a los usuarios, reducir la latencia y mejorar la disponibilidad**.
+
+## 1. Servicios de redes periféricas
+
+**Redes rápidas y seguras para datos de aplicaciones orientadas al usuario**
+
+Las **redes periféricas** son el proceso de acercar las capacidades de computación y de almacenamiento de información a los dispositivos que producen esa información y a los usuarios que la consumen. La computación periférica es importante porque las organizaciones suelen necesitar un acceso de menor latencia a sus datos y contenido. Cuando realizan tareas o almacenan datos en caché de forma local o más cerca de los usuarios, las organizaciones pueden ofrecer experiencias más rápidas y con mayor capacidad de respuesta mientras mantienen un mejor control sobre su infraestructura. También existen muchos servicios diferentes que se alojan en la periferia, como el servicio de DNS: **Amazon Route 53**.
+
+**Traducción de nombres de dominio a direcciones IP con DNS**
+
+Imagínese que EmpresaX tiene un sitio web alojado en la nube de AWS. Los clientes escriben la dirección web en su navegador y pueden acceder al sitio web. Esto ocurre debido a la resolución de DNS. La resolución de DNS implica un solucionador de DNS del cliente que se comunica con un servidor DNS de la empresa.
+
+Se puede pensar en DNS como la guía telefónica de internet. La resolución de DNS es el proceso de traducir un nombre de dominio a una dirección IP.
+
+Más información sobre cómo funciona el DNS:
+
+![Servicios de redes periféricas](/aws/redes/redes-globales-servicios-redes-perifericas.png)
+
+1. **Cliente y portátil**. Cuando escribe el nombre de dominio en el navegador, esta solicitud se envía a un solucionador de DNS del cliente.
+
+2. **Solucionador de DNS del cliente**. El solucionador de DNS del cliente pide al servidor DNS de la empresa la dirección IP que corresponde al sitio web de EmpresaX.
+
+3. **Servidor DNS de EmpresaX**. El servidor DNS de EmpresaX responde y proporciona la dirección IP del sitio web de EmpresaX: 192.0.2.0.
+
+### 1.1 Amazon Route 53
+
+![Amazon Route 53](/icons/amazon-route-53.svg)
+
+Es el **servicio de DNS (Domain Name System) administrado de AWS**. Su función principal es **traducir nombres de dominio fáciles de recordar**, como `www.miempresa.com`, a direcciones IP o recursos de AWS donde se encuentra una aplicación.
+
+En términos sencillos:
+
+> **Route 53 funciona como la "agenda telefónica" de Internet.**
+
+En lugar de que un usuario tenga que recordar una dirección IP como: `18.215.123.45`, puede utilizar: `www.miempresa.com`. Route 53 ayuda a encontrar dónde debe dirigirse esa solicitud.
+
+**Route 53** dirige a los usuarios finales a sus recursos con servidores DNS dispersos por todo el mundo y escalado automático. Proporciona a los desarrolladores y los negocios una manera fiable de dirigir a los usuarios finales a las aplicaciones de internet alojadas en AWS. Conecta las solicitudes de los usuarios a la infraestructura que se ejecuta en AWS, como los equilibradores de carga y las instancias de Amazon EC2. También dirige a los usuarios a infraestructuras fuera a AWS.
+
+Otra característica de Route 53 es la capacidad de administrar los registros de DNS de los nombres de dominio. Puede registrar nuevos nombres de dominio directamente en Route 53. También puede transferir los registros de DNS de nombres de dominio existentes que otros registradores de dominio administran. Esto le permite administrar todos sus nombres de dominio en una única ubicación.
+
+Route 53 también funciona con el siguiente servicio de redes periféricas de AWS: **Amazon CloudFront**.
+
+### 1.2 Amazon CloudFront
+
+![Amazon CloudFront](/icons/amazon-cloudfront.svg)
+
+**CloudFront** es un servicio de red de entrega de contenido (Content Delivery Network - CDN)** de AWS.
+
+Su función principal es **entregar contenido a los usuarios desde ubicaciones geográficas cercanas a ellos**, reduciendo la latencia con tiempos de carga más rápidos, ahorros de costes y mejorando el rendimiento de las aplicaciones y sitios web.
+
+En palabras sencillas:
+
+> **CloudFront coloca una copia temporal del contenido cerca de los usuarios para que puedan recibirlo más rápido.**
+
+**CloudFront** es como una red global de camiones de reparto que llevan con presteza el contenido web a los usuarios de todo el mundo. En lugar de que todas las solicitudes regresen a un almacén central (su servidor de origen), CloudFront almacena copias de su contenido en ubicaciones más cercanas a los usuarios. Esto significa que los sitios web, los videos, las imágenes y las aplicaciones se cargan mucho más rápido, sin importar dónde se encuentren los clientes.
+
+**¿Qué contenido puede entregar?**
+
+**CloudFront** puede distribuir diferentes tipos de contenido, por ejemplo: Páginas web, Imágenes, Videos, Archivos, APIs, Contenido de aplicaciones web y móviles.
+
+Puede utilizar diferentes servicios como **orígenes (origins)**, por ejemplo:
+
+* **Amazon S3**
+* **Elastic Load Balancing**
+* **Amazon EC2**
+* Un servidor web externo
+* Una API
+
+**¿Cómo funciona CloudFront?**
+
+La arquitectura básica es:
+
+![arquitectura básica](/aws/redes/redes-globales-como-funciona-cloudfront.jpg)
+
+- **Cuando el contenido está en caché**. CloudFront lo entrega directamente desde la **Edge Location**.
+
+- **Cuando no está en caché**. CloudFront solicita el contenido al **origin**, lo obtiene y puede almacenarlo temporalmente en caché para futuras solicitudes.
+
+Ahora que sabe un poco más sobre CloudFront, este es un **ejemplo** de cómo puede funcionar en el caso de las solicitudes de clientes. En el siguiente ejemplo, se describe cómo Route 53 y CloudFront funcionan en conjunto para entregar contenido a los clientes.
+
+![cómo Route 53 y CloudFront funcionan](/aws/redes/redes-globales-como-funciona-cloudfront-route-53.png)
+
+1. **Solicitud del cliente**. Un cliente solicita datos de la aplicación y, para ello, se dirige al sitio web de EmpresaX.
+
+2. **Amazon Route 53**. Amazon Route 53 utiliza la resolución de DNS para identificar la dirección IP correspondiente de `EmpresaX.com`: `192.0.2.0`. Esta información se devuelve al cliente.
+
+3. **CloudFront**. La solicitud del cliente se envía a la ubicación periférica más cercana a través de CloudFront. 
+
+4. **Equilibrador de carga de aplicación (Application Load Balancer)**. Amazon CloudFront se conecta con el equilibrador de carga de aplicación, que envía el paquete entrante a una instancia de Amazon EC2.
+
+### 1.3 AWS Global Accelerator
+
+![AWS Global Accelerator](/icons/aws-global-acelerator.svg)
+
+**Global Accelerator** es un servicio que utiliza la red global de AWS para mejorar la disponibilidad, el rendimiento y la seguridad de las aplicaciones. Utiliza un enrutamiento de tráfico inteligente y una conmutación por error rápida en caso de que haya problemas en una de las ubicaciones de las aplicaciones.
+
+Global Accelerator es un servicio de redes que ayuda a que las aplicaciones se ejecuten de manera más rápida y fiable en todo el mundo. Piense en ello como si creara carriles rápidos, en específico, para el tráfico de su aplicación en la autopista de internet. En lugar de que las solicitudes de los usuarios usen las rutas de internet habituales, que a veces están congestionadas, Global Accelerator dirige el tráfico por la red global privada de AWS para que los usuarios accedan a su aplicación de forma más rápida y fiable.
+
+Dos ejemplos de casos de uso:
+
+- **Empresa global de videojuegos**. Una empresa de videojuegos utiliza Global Accelerator para reducir el retraso y ofrecer una jugabilidad más fluida a los usuarios de todo el mundo. Todos los jugadores de Tokio, Nueva York y Londres experimentan una jugabilidad similar y con capacidad de respuesta, ya que sus conexiones están optimizadas.
+
+- **Aplicación de servicios financieros**. Una aplicación bancaria utiliza Global Accelerator para garantizar que sus clientes siempre tengan un acceso rápido y fiable a sus cuentas. Incluso durante las horas de mayor uso o cuando las condiciones de la red en una zona son deficientes, los clientes pueden revisar los saldos y realizar transacciones sin padecer demoras frustrantes.
+
+## 2. La nube en la vida real: explorar los ejemplos
+
+- **Conmutación por error de Direct Connect cuando necesita un ancho de banda mucho mayor con líneas dedicadas**
+
+Este es el ejemplo de una empresa con clientes y servidores que exigen conexiones con gran ancho de banda para realizar transferencias grandes de datos y garantizar el rendimiento de aplicaciones críticas. Eligieron acceder a sus recursos de AWS de forma segura con varias conexiones de Direct Connect para la conmutación por error.
+
+Más información sobre cómo usar Direct Connect para la conmutación por error y para agregar ancho de banda:
+
+![La nube en la vida real: explorar los ejemplos](/aws/redes/redes-globales-nube-vida-real.png)
+
+1. **Red del cliente**. Los clientes y servidores de la red del cliente necesitan una conexión segura y de gran ancho de banda para realizar transferencias grandes de datos y garantizar el rendimiento de aplicaciones críticas.
+
+2. **Enrutador o firewall de contenido**. El cliente posee un enrutador o firewall de contenido que conecta su red a Direct Connect.
+
+3. **Varias conexiones de Direct Connect**. Además de la tolerancia a errores, el cliente quería un ancho de banda mayor. Incluso puede combinar varias conexiones para lograr un ancho de banda mayor y agregado.
+
+4. **Puerta de enlace privada virtual**. Mediante una puerta de enlace privada virtual, los clientes pueden acceder de forma segura a los recursos privados de la Amazon VPC.
+
+- **Entrega de contenido a varias regiones diferentes a nivel global**
+
+Este es un ejemplo de cómo una empresa que cuenta con oficinas en todo el mundo puede ofrecer contenido con baja latencia para garantizar una experiencia fluida en varias regiones.
+
+Más información sobre cómo llega el tráfico a las regiones a través de CloudFront y Route 53:
+
+![Entrega de contenido a varias regiones](/aws/redes/redes-globales-entrega-contenido.png)
+
+1. **Usuarios**. Los usuarios acceden al sitio web de la empresa mediante un dominio personalizado. La solicitud se envía primero a un registro DNS de Route 53.
+
+2. **Política de enrutamiento**. Route 53 utiliza una política de enrutamiento para determinar qué región está más cerca del usuario. Route 53 dirige al usuario a la ubicación periférica de CloudFront adecuada.
+
+3. **Directo a ubicaciones periféricas**. Route 53 dirige al usuario a la ubicación periférica de CloudFront de la región correspondiente.
+
+4. **Contenido en varias zonas de disponibilidad**. El contenido se obtiene del servidor de origen designado en la región elegida. Tenga en cuenta también que el sitio web se creó con recursos en varias zonas de disponibilidad para lograr una alta disponibilidad.
+
+---
+
+**Referencias recomendadas**:
+
+- [Sistema de nombres de dominio (DNS)](https://aws.amazon.com/es/route53/what-is-dns/)
+- [Amazon Route 53](https://aws.amazon.com/route53/)
+- [Amazon CloudFront](https://aws.amazon.com/cloudfront/)
+- [AWS Global Accelerator](https://aws.amazon.com/global-accelerator/)
+
+
+

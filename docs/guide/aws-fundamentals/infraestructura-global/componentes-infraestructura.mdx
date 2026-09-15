@@ -1,0 +1,439 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Componentes de la Infraestructura Global de AWS
+
+La **Infraestructura Global de AWS** es la red mundial de centros de datos, regiones y ubicaciones de red que Amazon Web Services utiliza para proporcionar servicios en la nube de forma **segura, rápida, escalable y altamente disponible**.
+
+Esta infraestructura está diseñada para que las aplicaciones puedan ejecutarse cerca de sus usuarios y, al mismo tiempo, mantener una alta tolerancia frente a fallos. Para ello, AWS organiza sus recursos en diferentes niveles geográficos, cada uno con una función específica.
+
+Puedes imaginar la infraestructura global de AWS como una **red mundial de ciudades conectadas**:
+
+>**Mundo → Región → Zona de disponibilidad → Centro(s) de datos**
+
+Esta infraestructura global es uno de los fundamentos que permite a AWS ofrecer aplicaciones **globales, de baja latencia, altamente disponibles y escalables**.
+
+![Componentes de la Infraestructura Global](/aws/global-componentes-clave.jpg)
+
+## 1. Regiones
+
+Las **regiones** de AWS son áreas geográficas repartidas por todo el mundo que se componen de varios centros de datos. Estos centros de datos proporcionan una infraestructura escalable y redundante para alojar servicios en la nube. Cada región se compone de varias ubicaciones aisladas conocidas como zonas de disponibilidad. Cada región tiene tres o más zonas de disponibilidad.
+
+Por ejemplo:
+
+- **`us-east-1`** → Norte de Virginia
+- **`us-west-2`** → Oregon
+- **`sa-east-1`** → São Paulo
+
+![region](/aws/global-region.png)
+
+### 1.1 ¿Por qué existen múltiples Regiones?
+
+AWS despliega varias Regiones a lo largo del mundo por varios motivos:
+
+- **Reducir latencia**. Colocarse cerca de los usuarios de cada zona geográfica.
+- **Disponibilidad y aislamiento**. Si una Región falla, las demás siguen operando (aislamiento total).
+- **Residencia de datos y cumplimiento**. Poder guardar datos dentro de un país/área según los requisitos legales.
+- **Recuperación ante desastres**. Usar una Región secundaria como respaldo de la principal.
+- **Disponibilidad de servicios**. Algunos servicios solo están en ciertas Regiones.
+
+:::info ¿Qué significa que una Región sea "independiente"?
+Cada Región es **completamente independiente de las demás**. Esto significa que:
+
+- Los recursos de una Región **no se comparten automáticamente** con otra Región.
+- No existe replicación automática entre Regiones.
+- Una falla a gran escala en una Región **no arrastra** a las otras Regiones.
+- Los datos **no salen de la Región** a menos que tú lo configures explícitamente.
+
+> las Regiones están **aisladas entre sí**. Tus recursos en `us-east-1` no son visibles ni compartidos con `eu-west-1` por defecto.
+
+:::
+
+### 1.2 Consideraciones a la hora de elegir regiones
+
+![Cómo elegir una Región](/aws/global-region-eleccion.png)
+
+Cada región está diseñada para ofrecer servicios en la nube de manera segura y confiable dentro de un área geográfica determinada. Elegir la región de AWS adecuada es una decisión estratégica que depende de factores principales:
+
+![Consideraciones a la hora de elegir regiones](/aws/global-region-eleccion_v2.png)
+
+<Tabs>
+ <Tab label="Cumplimiento">
+    El **cumplimiento** es una consideración importante a la hora de seleccionar regiones para implementar los recursos empresariales. Las diferentes ubicaciones geográficas tienen diversos requisitos reglamentarios y leyes de protección de datos que las organizaciones deben cumplir. Por ejemplo, el Reglamento General de Protección de Datos (RGPD) está diseñado para proteger los datos personales y la privacidad de las personas dentro de la Unión Europea (UE). Una empresa minorista en línea que opera en la UE tendría que cumplir con el RGPD para proteger los datos de los clientes. El cumplimiento del RGPD incluye obtener el consentimiento adecuado para la recopilación de datos y proporcionar mecanismos para el acceso y la eliminación de los datos.
+  </Tab>
+  <Tab label="Proximidad">
+    Al seleccionar una región, también debe tener en cuenta **cómo lograr una latencia baja** para sus usuarios. Las regiones más cercanas a su base de usuarios minimizan el tiempo de viaje de los datos, lo que reduce la latencia y mejora la capacidad de respuesta de las aplicaciones. La elección de una región o un conjunto de regiones más alejadas de los clientes podría provocar demoras, lo que podría afectar la satisfacción de los usuarios y la eficiencia general del sistema.
+  </Tab>
+  <Tab label="Disponibilidad de características">
+    También debe considerar **qué características y servicios** específicos están disponibles en cada región. AWS amplía constantemente las características y los servicios a varias ubicaciones, pero no todas las regiones contienen todas las ofertas de AWS. Por ejemplo, las regiones de AWS GovCloud están diseñadas específicamente para satisfacer los requisitos de cumplimiento y seguridad de las agencias gubernamentales de EE. UU. y sus contratistas. Estas regiones cuentan con estrictos controles de seguridad física, operativa y de personal. Estos controles solo están disponibles en regiones específicas para cumplir con ciertos requisitos reglamentarios gubernamentales.
+  </Tab>
+  <Tab label="Precios">
+    Al seleccionar una región, el **precio** también es un factor que puede influir en su decisión. Algunas regiones tienen costos operativos más bajos que otras. Estos costos operativos pueden afectar a los gastos generales de alojamiento de aplicaciones y servicios. Las leyes y reglamentos tributarios también pueden influir en el costo. Algunas regiones pueden ofrecer incentivos fiscales o tener tasas impositivas más bajas, lo que puede afectar los precios para los clientes. Además, las leyes de soberanía de datos de ciertas regiones pueden requerir que los datos se almacenen localmente, lo que afecta tanto al cumplimiento como al costo.
+  </Tab>
+</Tabs>
+
+## 2. Zonas de Disponibilidad
+
+Las **zonas de disponibilidad** son ubicaciones distintas (aislada de las demás) dentro de una región, cada una diseñada como una zona independiente con su propia alimentación, red y conectividad. Las zonas de disponibilidad mantienen una alta disponibilidad y tolerancia a errores para las aplicaciones. Cada zona de disponibilidad consta de **uno o más centros de datos (Data Centers)**.
+
+![zona de disponibilidad](/aws/global-zona-disponibilidad.jpg)
+
+:::info Data Centers
+Un **Data Center** es una **instalación física** que contiene el hardware, la energía, la refrigeración y la seguridad necesarios para ejecutar los servidores y almacenar los datos.
+
+Recursos físicos que contiene
+
+- **Hardware (servidores)**. Ejecutan el cómputo (CPU, memoria, almacenamiento).
+- **Energía**. Suministro eléctrico redundante y generadores de respaldo.
+- **Refrigeración**. Mantener la temperatura adecuada de los equipos.
+- **Redes**. Conectividad interna de alta velocidad y conexión a internet/redundancia.
+- **Seguridad física**. Control de accesos, vigilancia, biometría, barreras.
+
+**Relación entre Data Center y Availability Zone**
+
+- Una **Availability Zone puede estar compuesta por uno o más Data Centers.**
+- Por tanto, **Región ≠ Availability Zone ≠ Data Center**.
+- Un Data Center es la unidad física; una AZ es una agrupación lógica de uno o más Data Centers con infraestructura independiente; una Región es la agrupación de varias AZ.
+
+**Seguridad física**
+
+La **seguridad física** de los Data Centers es responsabilidad de **AWS** (cero acceso del cliente). Incluye control de accesos de múltiples capas, vigilancia 24/7, detección de intrusos y aislamiento geográfico.
+
+> El cliente **no posee ni accede físicamente** a los Data Centers de AWS. AWS garantiza la seguridad física de la infraestructura; el cliente es responsable de la seguridad de lo que ejecuta **encima** (el modelo de responsabilidad compartida).
+
+:::
+
+### 2.1 Cómo funcionan
+
+Las **Zonas de Disponibilidad** son la base de la tolerancia a fallos y redundancia en AWS. Su funcionamiento se puede resumir en los siguientes puntos clave:
+
+- **Aislamiento físico**: Cada zona de disponibilidad consiste en uno o más centros de datos aislados. Cada uno cuenta con su propia infraestructura independiente de energía, refrigeración y red.
+- **Alta disponibilidad**: Dentro de una región, AWS despliega recursos en múltiples AZs. Si ocurre una calamidad natural o un fallo técnico que afecte a una zona, el tráfico se redirige automáticamente a las otras zonas, evitando así interrupciones en el servicio.
+- **Interconexión rápida**: Las AZs están conectadas mediante enlaces de alta velocidad y baja latencia, lo que permite que los datos se repliquen entre ellas de manera casi instantánea, garantizando consistencia y fiabilidad.
+
+>En resumen, este diseño permite construir aplicaciones altamente resilientes; AWS recomienda distribuir los componentes de tu arquitectura en varias zonas para asegurar que tu aplicación siga funcionando aunque una de ellas experimente problemas.
+
+### 2.2 ¿Qué pasa si una Zona de Disponibilidad falla?
+
+Si una Zona de Disponibilidad (AZ) falla, por ejemplo, debido a una calamidad natural o problemas de energía, tu aplicación no sufrirá interrupciones si has seguido las recomendaciones de AWS.
+
+Aquí te explico lo que ocurre:
+
+- **Redirección automática**: El tráfico que iba dirigido a la zona afectada se redirige de manera automática a las otras zonas de disponibilidad que siguen operativas dentro de la misma región.
+- **Continuidad del servicio**: Debido a que los datos se replican entre las distintas zonas mediante enlaces de alta velocidad y baja latencia, tus recursos siguen funcionando sin que los usuarios finales perciban el fallo.
+- **Resiliencia**: Este diseño de tolerancia a fallos permite que tu infraestructura sea altamente resistente, asegurando que tus servicios se mantengan en línea incluso ante desastres que afecten a un centro de datos específico.
+
+### 2.3 Relación entre Región y AZ
+
+- Una **Región** contiene **múltiples Availability Zones** (normalmente, al menos 3).
+- Las AZ de una Región están conectadas entre sí mediante **fibra óptica privada de alta velocidad y baja latencia**.
+- Cada AZ pertenece a una **única Región** (una AZ no puede estar en dos Regiones).
+
+<Tabs>
+  <Tab label="¿Por qué una Región contiene varias AZ?">
+    La existencia de múltiples AZ dentro de una Región permite diseñar aplicaciones **altamente disponibles** y **tolerantes a fallos**, distribuyendo la carga entre zonas independientes. Si una AZ falla, las demás continúan operando, por lo que la aplicación sigue disponible.
+  </Tab>
+  <Tab label="Región vs Zona de Disponibilidad">
+    La diferencia principal está en su escala y función dentro de la infraestructura global de AWS.
+
+    | Característica     | Región                                     | Zona de Disponibilidad                    |
+    | ------------------ | ------------------------------------------ | ----------------------------------------- |
+    | ¿Qué es?           | Ubicación geográfica dentro de la infraestructura global de AWS                      | Ubicación aislada dentro de una Región y tolerancia a fallos dentro de una Región   |
+    | Alcance            | Grande                                     | Más pequeño                               |
+    | Contiene           | Varias AZs                                 | Uno o más centros de datos                |
+    | Objetivo principal | Ubicación, latencia, cumplimiento y costos | Alta disponibilidad y tolerancia a fallos |
+    | Ejemplo            | Norte de Virginia                          | Una AZ dentro de `us-east-1`              |
+    | Relación           | Contiene AZs                               | Pertenece a una Región                    |
+
+    :::info Una forma fácil de recordarlo
+    Piensa en una **Región** como una ciudad y en las **`AZs`** como edificios independientes dentro de esa ciudad.
+
+    **Región = ciudad** | **AZ = edificio** | **Centro de datos = instalaciones dentro del edificio**
+
+    Recuerda:
+
+    >**Región** = ¿Dónde quiero ejecutar mi aplicación?
+    >
+    >**AZ** = ¿Cómo evito que una falla de infraestructura deje mi aplicación fuera de servicio?
+
+    >**¿Qué proporciona principalmente una Availability Zone?** La respuesta que debes buscar es algo relacionado con aislamiento de fallos, alta disponibilidad y redundancia dentro de una Región.
+
+    :::
+  </Tab>
+</Tabs> 
+
+### 2.4 ¿Cómo distribuyo mi aplicación en varias zonas?
+
+Para distribuir tu aplicación a través de varias Zonas de Disponibilidad (AZ) y asegurar alta disponibilidad y resiliencia, debes seguir estas prácticas recomendadas:
+
+- **Diseño multi-AZ**: Al configurar tus servicios (como instancias de EC2 o bases de datos RDS), debes seleccionar activamente múltiples zonas dentro de la región elegida.
+- **Balanceo de carga**: Utiliza un Elastic Load Balancer (ELB) para distribuir el tráfico de entrada de manera equitativa entre las instancias o recursos desplegados en las diferentes zonas de disponibilidad. Esto permite que, si una zona falla, el tráfico se redirija automáticamente a las que están en funcionamiento.
+- **Replicación de datos**: Aprovecha los enlaces de baja latencia entre zonas para configurar la replicación de datos en tiempo real. Esto garantiza que tu información sea consistente en todas las ubicaciones.
+
+Al realizar este despliegue, proteges tu aplicación ante desastres localizados, ya que cada zona opera de forma independiente en términos de energía, refrigeración y red.
+
+:::info ¿Por qué Multi-AZ es más resiliente que una sola AZ?
+- **Una sola AZ**: Si la AZ falla, la aplicación completa queda caída (punto único de fallo).
+- **Varias AZ**: Si una AZ falla, las demás continúan atendiendo a los usuarios. La aplicación sigue disponible.
+
+>Desplegar todo dentro de **una sola AZ** NO proporciona alta disponibilidad. Para lograr alta disponibilidad, la aplicación debe ejecutarse en **al menos dos AZ**.
+
+:::
+
+### 2.5 Cómo identificar AZ físicamente (AZ IDs)
+
+AWS **aleatoriza los nombres** de las AZ por cuenta: tu **`us-east-1a`** puede ser físicamente distinta de la **`us-east-1a`** de otra cuenta. Para coordinar el **mismo sitio físico** entre cuentas, existen los **AZ IDs** (por ejemplo, **`use1-az1`**), que son consistentes y no cambian.
+
+## 3. Edge Locations
+
+Las **Ubicaciones de Borde** (Edge Locations) son sitios ubicados estratégicamente en todo el mundo que almacenan contenido en caché para entregar datos, videos y aplicaciones con una latencia más baja y velocidades de transferencia más altas. Estas ubicaciones se consideran una parte vital de la red de entrega de contenido (CDN) de AWS y utilizan servicios como CloudFront (para entrega de contenido) y Route 53 (DNS) para distribuir los datos de manera eficiente a los usuarios finales.
+
+>Su **función principal** es mejorar la velocidad y capacidad de respuesta al entregar contenido más cerca del usuario final. 
+
+![Ubicaciones de Borde](/aws/global-ubicaciones-borde.jpg)
+
+**Por ejemplo**:  Un usuario en Colombia obtiene el contenido desde una Edge Location cercana en su región, **sin** tener que viajar miles de kilómetros hasta la Región donde vive el servidor de origen reduciendo enormemente el tiempo de respuesta ayudando a reducir la latencia.
+
+![¿Cómo ayuda a reducir la latencia?](/aws/global-ubicaciones-borde-ejemplo.jpg)
+
+- **Entrega de contenido (CDN)**: Se utilizan junto a servicios como Amazon CloudFront para caché de contenido. Esto significa que los archivos, imágenes o videos se guardan en la ubicación más cercana al usuario, permitiendo que carguen casi instantáneamente en lugar de tener que viajar desde la región central de origen.
+- **Reducción de latencia**: Al estar geográficamente más cerca de los usuarios, minimizan el tiempo que tarda la información en viajar a través de internet, eliminando retrasos que afectarían la experiencia del usuario, como en plataformas de streaming o aplicaciones web.
+- **Resolución DNS**: Funcionan junto a Amazon Route 53, el servicio DNS de AWS, para redirigir rápidamente las solicitudes de los usuarios hacia el recurso más cercano o más óptimo, mejorando la disponibilidad y el rendimiento del acceso a los servicios.
+- **Distribuir contenido globalmente** sin necesidad de replicarlo en cada Región.
+
+En resumen, mientras que las Regiones y Zonas de Disponibilidad proporcionan el núcleo de cómputo y la alta disponibilidad, las Ubicaciones de Borde se encargan de la performance y la experiencia de usuario global.
+
+### 3.1 Relación con Amazon CloudFront
+
+**Amazon CloudFront** es el servicio **CDN (Content Delivery Network)** de AWS. Utiliza la red global de **Edge Locations** para entregar contenido a los usuarios desde la ubicación más cercana a ellos.
+
+![Relación con Amazon CloudFront](/aws/global-ubicaciones-borde-cloudfront.jpg)
+
+Cuando un usuario solicita un archivo:
+
+1. CloudFront enruta la solicitud a la **Edge Location más cercana**.
+2. Si el archivo está **en caché** ahí, se entrega de inmediato (**cache hit**).
+3. Si no está (**cache miss**), la Edge Location lo solicita al **origen** (que suele estar en una Región, por ejemplo un bucket S3 o un servidor EC2).
+4. Una vez obtenido, se guarda en caché para las siguientes solicitudes durante el **TTL (tiempo de vida)** configurado.
+
+### 3.2 Availability Zones vs Ubicación de Borde
+
+La diferencia principal radica en el propósito y la ubicación dentro de la infraestructura global de AWS.
+
+> **Availability Zone** = disponibilidad y tolerancia a fallos.
+>
+> **Edge Location** = proximidad, velocidad y baja latencia.
+
+| Característica            | Availability Zone                              | Edge Location                                        |
+| ------------------------- | ---------------------------------------------- | ---------------------------------------------------- |
+| Ubicación                 | Dentro de una Región                           | Distribuidas globalmente cerca de usuarios           |
+| Propósito principal       | Alta disponibilidad                            | Baja latencia                                        |
+| Objetivo                  | Tolerancia a fallos                            | Velocidad y rendimiento                              |
+| Forma parte de una Región | Sí                                             | No es una AZ dentro de una Región                    |
+| Infraestructura           | Centros de datos con infraestructura completa  | Puntos de presencia orientados a servicios de borde  |
+| Uso principal             | Ejecutar y distribuir recursos de aplicaciones | Entregar contenido y servicios desde puntos cercanos |
+| Ejemplo                   | Ejecutar instancias EC2 en diferentes AZs      | CloudFront entregando contenido en caché             |
+| Problema que resuelve     | Fallos de infraestructura                      | Distancia entre usuario y origen                     |
+| Concepto clave            | **Resiliencia**                                | **Proximidad**                                       |
+
+> **Las Availability Zones** están diseñadas para mantener tus aplicaciones disponibles ante fallos, mientras que las **Edge Locations** están diseñadas para acercar contenido y determinados servicios al usuario y reducir la latencia.
+
+:::info Para recordar
+Si en una pregunta aparecen palabras como **"tolerancia a fallos", "redundancia", "alta disponibilidad" o "fallo de un centro de datos"**, piensa en **Availability Zones**.
+
+>**"¿Cómo hago que mi aplicación sea más resistente a fallos?"** → **Availability Zones**
+
+Si aparecen palabras como **"baja latencia", "usuarios finales", "contenido en caché", "CDN" o "CloudFront"**, piensa en **Edge Locations**.
+
+>**"¿Cómo hago que el contenido llegue más rápido al usuario?"** → **Edge Locations**
+
+:::
+
+**¿Cómo trabajan juntas?**
+
+Regiones, Zonas de disponibilidad y Edge Locations **no compiten entre sí; trabajan juntas**. Un escenario típico sería:
+
+![¿Cómo trabajan juntas?](/aws/global-ubicaciones-borde-trabajan-juntas.jpg)
+
+Para recordar
+>**Región** = Infraestructura
+>
+>**AZ** = Disponibilidad y aislamiento
+>
+>**Edge Location** = Velocidad y proximidad
+
+:::info Regional Edge Caches
+Las **Regional Edge Caches** son ubicaciones intermedias entre Edge Locations y los orígenes. Tienen más capacidad de caché que las Edge Locations normales.
+
+![Regional Edge Caches](/aws/global-ubicaciones-borde-regional-cache.jpg)
+:::
+
+## 4. Local Zones
+
+Una **Local Zone** es una **extensión de una Región de AWS** que acerca determinados recursos de **cómputo, almacenamiento y base de datos y otros servicios selectos** a una **gran zona urbana o ciudad** que no tiene una Región propia. Permite ejecutar **ciertos servicios** muy cerca de los usuarios finales de esa ciudad.
+
+```text
+Región principal  ──extiende──▶  Local Zone en la ciudad
+```
+
+**Características principales**:
+
+- **Propósito**. Baja latencia (< 10ms) para aplicaciones que requieren respuesta en tiempo real.
+- **Conectividad**. Conectadas a la región padre mediante red privada de alta velocidad.
+- **Servicios disponibles**. EC2, EBS, VPC, ELB, ECS (selección de servicios).
+- **Diferencia con AZ**. Las Local Zones son parte de una región pero más cercanas a usuarios específicos.
+
+**Cuándo puede ser útil**
+
+- Aplicaciones que necesitan **latencia de un solo dígito de milisegundos**.
+- **Juegos online, media/streaming, AR/VR**.
+- Computación en el borde para **obras, empresas de medios**, etc.
+- Requisitos de **residencia de datos** en una ciudad/área específica.
+
+:::info ¿Cómo acerca cómputo y almacenamiento a los usuarios?
+Al desplegar recursos (por ejemplo, instancias EC2 y volúmenes EBS) en la Local Zone de la ciudad, las aplicaciones corren **físicamente más cerca** del usuario, reduciendo la latencia frente a una Región distante.
+:::
+
+<Tabs>
+  <Tab label="¿Qué problema resuelve?">
+    Algunas aplicaciones (juegos, realidad aumentada/virtual, streaming, automatización industrial) requieren **latencia de muy pocos milisegundos**. Una Región puede quedar demasiado lejos del usuario. Las Local Zones acercan la infraestructura a esas ciudades para lograr baja latencia sin necesidad de una Región completa.
+  </Tab>
+  <Tab label="Relación con una Región">
+    - Una **Local Zone se asocia a una Región principal** y reutiliza sus servicios y redes.
+    - Está conectada a su Región raíz mediante la red de AWS.
+    - Ofrece un **subset (subconjunto)** de servicios AWS, no todos.
+  </Tab>
+  <Tab label="Local Zones vs Zona de Disponibilidad">
+    | Aspecto | Local Zone | AZ |
+    |---------|------------|-----|
+    | **Propósito** | Baja latencia para usuarios específicos | Alta disponibilidad y tolerancia a fallos |
+    | **Servicios** | Subconjunto de servicios. Seleccionados (EC2, EBS, VPC) | Servicios completos de la Región|
+    | **Conexión a región** | Red dedicada de baja latencia | Red regional de alta velocidad |
+    | **Uso típico** | Apps de baja latencia, edge computing | Apps de producción multi-AZ |
+    | **Disponibilidad** | Regiones específicas | Todas las regiones |
+
+    :::info ¿Cuándo debo usar Local Zones vs AZs?
+    Usa **AZs** para alta disponibilidad (Multi-AZ). Usa **Local Zones** cuando necesites latencia < 10ms para usuarios específicos que están lejos de la región padre (ej. usuarios en LA que necesitan latencia baja y la región más cercana es Oregon).
+    :::
+  </Tab>
+</Tabs>
+
+:::tip Ejemplo práctico
+Una empresa de **streaming de eventos deportivos en vivo** quiere que los aficionados de una gran ciudad vean los vídeos con mínima demora. En lugar de atender desde una Región lejana, despliega la infraestructura de procesamiento en la **Local Zone de esa ciudad**: los usuarios reciben la transmisión desde un recurso cercano, con latencia mucho menor.
+:::
+
+> Reconocer que la **Local Zone** acerca servicios a una **ciudad** para **baja latencia**. No es una AZ ni una Región.
+
+
+## 5. AWS Outposts
+
+![AWS Outposts](/icons/aws-outposts.svg)
+
+**AWS Outposts** es un servicio que lleva **infraestructura física de AWS** (servidores, conmutadores, almacenamiento) hasta las **instalaciones del cliente** (on-premises). AWS instala, opera, monitorea y actualiza ese hardware por ti, pero **físicamente reside en tu propio centro de datos o localidad**.
+
+**AWS Outposts** es un servicio completamente gestionado que extiende la infraestructura y los servicios de AWS a ubicaciones en las instalaciones para un procesamiento de datos local de baja latencia.
+
+![AWS Outposts](/aws/global-aws-outposts.jpg)
+
+:::info ¿Por qué permite usar infraestructura de AWS en las instalaciones del cliente?
+Algunas organizaciones necesitan procesar datos **localmente** por requisitos de **latencia**, **residencia de datos** o **conectividad limitada**, pero quieren mantener las herramientas y la experiencia de AWS. Outposts ofrece **el mismo hardware y software de AWS, pero en tu edificio**.
+:::
+
+![AWS Outposts](/aws/global-aws-outposts-instalaciones-cliente.jpg)
+
+**Características principales**
+
+- **Propósito**. Ejecutar servicios de AWS en tu propio data center (on-premise).
+- **Hardware**. Servidores físicos de AWS instalados en tu instalación.
+- **Conectividad**. Requiere conexión continua a una región AWS.
+- **Gestión**. AWS gestiona, monitorea y actualiza el hardware.
+- **Servicios locales**. EC2, EBS, ECS, EKS, RDS, ElastiCache, EMR.
+- **Formatos**. Outposts Rack (42U) o Outposts Server (1U/2U).
+
+**Outposts** permite ejecutar cómputo directamente en las instalaciones, manteniendo **herramientas uniformes** de AWS (misma consola, mismas APIs, misma experiencia) aunque el hardware sea del cliente.
+
+<Tabs>
+  <Tab label="Cuándo usar Outposts">
+    - **Latencia ultra-baja**: < 1ms para aplicaciones en tiempo real.
+    - **Procesamiento local de datos**: Datos que no pueden salir de la instalación.
+    - **Residencia de datos**: Regulaciones que requieren datos on-premise.
+    - **Integración con legacy**: Conectar con sistemas existentes sin migrar.
+    - **Edge computing**: Procesamiento en fábricas, hospitales, tiendas.
+
+
+    :::info ¿AWS Outposts es lo mismo que tener un data center propio?
+    Casi. Outposts es un rack o servidor de AWS instalado en TU data center. AWS gestiona el hardware y el software, pero está en tu instalación. Es ideal cuando necesitas los servicios de AWS pero con restricciones de residencia de datos o latencia ultra-baja.
+    :::
+  </Tab>
+  <Tab label="Casos de uso">
+   - Aplicaciones que exigen **latencia ultrabaja** (no pueden esperar un viaje de red a la nube).
+    - **Procesamiento local** de datos sensibles que no deben salir de las instalaciones.
+    - Cargas de trabajo con **datos que deben permanecer en el sitio** por normativa.
+    - Sistemas con **conectividad intermitente** o limitada con la nube.
+  </Tab>
+  <Tab label="Diferencia entre infraestructura en AWS y AWS Outposts">
+    | Aspecto | Nube AWS (Región) | AWS Outposts |
+    |---|---|---|
+    | **Ubicación del hardware** | En los Data Centers de AWS | En las instalaciones del cliente |
+    | **Quién opera** | AWS (operación remota) | AWS instala y opera, pero está en tu sitio |
+    | **Latencia** | Depende de la distancia a la Región | Muy baja (local) |
+    | **Residencia de datos** | Según la Región elegida | Los datos permanecen localmente |
+    | **Herramientas** | Consola/APIs AWS | Mismos servicios y herramientas AWS |
+  </Tab>
+</Tabs>
+
+> **Importancia para el examen:** saber que **Outposts = infraestructura de AWS dentro de las instalaciones del cliente** para **alta latencia baja y procesamiento local** de datos que no pueden salir de la organización. Es un concepto distinto a "la nube" y a "Local Zones".
+
+
+## 6. AWS Points of Presence (PoPs)
+
+Los **Puntos de presencia (Points of Presence)** de AWS son los **sitios de borde** distribuidos globalmente donde AWS coloca **Edge Locations** y **Regional Edge Caches**. Representan el punto de entrada de AWS a nivel de red global.
+
+```text
+Points of Presence (PoPs)
+├── Edge Locations (caché para CloudFront)
+└── Regional Edge Caches (caché intermedia antes del origen)
+```
+
+:::info Infraestructura de borde
+La infraestructura de borde permite responder a las solicitudes con mínima latencia y sirve también para **DNS** (Route 53) y otros servicios globales.
+:::
+
+> **Para el examen:** basta con saber que los **PoPs** son la red de **borde** de AWS que incluye las **Edge Locations** y las **Regional Edge Caches**, usadas para **CloudFront** (entrega de contenido).
+
+
+## 7. Comparación de componentes
+
+| Componente | Qué es | Ubicación | Propósito principal | Concepto clave |
+|---|---|---|---|---|
+| **Región** | Área geográfica que agrupa AZ | En todo el mundo, cada país/área | Residencia de datos, baja latencia, aislamiento | Colección independiente de AZ |
+| **Availability Zone** | Conjunto de uno o más Data Centers con infraestructura independiente | Dentro de una Región | Alta disponibilidad y tolerancia a fallos | Aislamiento entre zonas |
+| **Data Center** | Instalación física con hardware, energía, refrigeración y red | Dentro de una AZ | Ejecutar cómputo y almacenamiento | Infraestructura física |
+| **Edge Location** | Sitio de borde para caché de contenido | Ciudades en todo el mundo (más que AZ) | Reducir latencia (CDN, DNS) | CloudFront / Route 53 |
+| **Local Zone** | Extensión de una Región a una ciudad | Grandes ciudades | Baja latencia en una ciudad | Acerca recursos a usuarios urbanos |
+| **Wavelength Zone** | Cómputo AWS dentro de redes 5G | Redes de operadores 5G | Latencia ultrabaja para móviles | 5G / dispositivos móviles |
+| **Outposts** | Infraestructura AWS en las instalaciones del cliente | En el centro de datos del cliente | Procesamiento local, baja latencia, residencia | AWS físico en tus instalaciones |
+
+:::info si la pregunta habla de...
+- Ubicación geográfica completa = **Region**
+- Alta disponibilidad = **Availability Zones**
+- Infraestructura física (energía/red/cooling/seguridad) = **Data Center**
+- Contenido cerca del usuario = **Edge Location / CloudFront** 
+- Baja latencia para usuarios en una ciudad = **Local Zone**
+- Red 5G / dispositivos móviles con latencia ultrabaja = **Wavelength**
+- Infraestructura AWS en las instalaciones del cliente = **Outposts**
+- Recuperación ante desastre geográfico = **Multi-Region** |
+
+:::
+
+---
+
+**Referencias recomendadas:**
+
+- [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/)
+- [AWS Regions and Availability Zones](https://docs.aws.amazon.com/global-infrastructure/latest/regions/aws-regions-availability-zones.html)
+- [Amazon CloudFront](https://aws.amazon.com/cloudfront/)
+- [AWS Local Zones](https://aws.amazon.com/about-aws/global-infrastructure/localzones/)
+- [AWS Wavelength](https://aws.amazon.com/wavelength/)
+- [AWS Outposts](https://aws.amazon.com/outposts/)
+- [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
+- [AWS para la periferia](https://aws.amazon.com/es/edge/?nc2=type_a)

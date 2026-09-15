@@ -1,0 +1,165 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Almacenamiento de archivos
+
+En el **almacenamiento de archivos**, varios clientes (como usuarios, aplicaciones, servidores, entre otros) pueden **acceder a datos almacenados en carpetas de archivos compartidas**. En este enfoque, un servidor de almacenamiento utiliza almacenamiento en bloque con un sistema de archivos local para organizar los archivos. Los clientes acceden a los datos a través de rutas de archivo.
+
+Es extremadamente común que las empresas cuenten con sistemas de archivos compartidos entre sus aplicaciones. Por ejemplo, puede tener varios servidores ejecutando análisis sobre grandes cantidades de datos almacenados en un sistema de archivos compartido.
+
+En comparación con el **almacenamiento en bloque** y el **almacenamiento de objetos**, el **almacenamiento de archivos es ideal para casos de uso en los que una gran cantidad de servicios y recursos necesitan acceder a los mismos datos al mismo tiempo**.
+
+## 1. Amazon Elastic File System
+
+![Amazon EFS](/icons/amazon-efs.svg)
+
+Amazon **Elastic File System** (EFS) es un servicio de almacenamiento de archivos escalable y completamente administrado que se utiliza con los servicios de la nube de AWS y los recursos en las instalaciones. Funciona mediante el **protocolo del sistema de archivos de red** (NFS - Network File System) en Linux y se escala de forma automática a petabytes a medida que se agregan o eliminan archivos sin interrumpir las aplicaciones. **EFS** está diseñado para admitir una amplia variedad de cargas de trabajo y varias instancias de EC2 pueden acceder a él al mismo tiempo.
+
+**Características principales**:
+
+- **Elástico**. Crece y se contrae automáticamente según la demanda
+- **Escalable**. Soporta hasta petabytes de datos
+- **Compartido**. Múltiples instancias pueden acceder simultáneamente
+- **Persistente**. Los datos sobreviven al apagado de las instancias
+- **Completamente gestionado**. No necesitas administrar infraestructura
+- **Compatible con POSIX**. Sistema de archivos estándar para Linux
+
+### 1.1  Beneficios de Amazon EFS
+
+- **Redundancia Multi-AZ**. Amazon EFS replica de forma automática los datos en varias zonas de disponibilidad de una región para lograr una alta disponibilidad. Esta redundancia integrada brinda protección contra los errores de AZ y proporciona acceso continuo a sus sistemas de archivos.
+
+- **Acceso compartido**. Amazon EFS admite miles de conexiones NFS simultáneas, por lo que varias instancias de EC2 pueden acceder al mismo sistema de archivos de forma simultánea. Este modelo de acceso compartido hace que EFS sea ideal para cargas de trabajo colaborativas y aplicaciones distribuidas.
+
+- **Almacenamiento elástico**. Amazon EFS aumenta y se reduce de forma automática a medida que agrega y elimina archivos, sin necesidad de aprovisionar o administrar la capacidad de almacenamiento. Y dado que solo paga por el almacenamiento que usa, resulta rentable para cubrir las diferentes demandas de cargas de trabajo.
+
+## 2. Clases de Almacenamiento
+
+Con **Amazon EFS**, puede crear y configurar sistemas de archivos de inmediato sin ningún costo de configuración mínimo. Solo paga por el almacenamiento que usa y puede elegir entre una variedad de clases de almacenamiento diseñadas para ajustarse a su caso de uso.
+
+Las clases de almacenamiento de Amazon EFS están diseñadas para diferentes patrones de acceso, requisitos de rendimiento y necesidades de costo. Las principales clases son:
+
+<Tabs>
+  <Tab label="Almacenamiento estándar">
+    Las clases de almacenamiento **EFS Standard** y **EFS Standard - Acceso poco frecuente (Standard-IA)** ofrecen resiliencia Multi-AZ y los niveles más altos de durabilidad y disponibilidad. Tienen un costo más alto debido a su mayor disponibilidad y durabilidad.
+  </Tab>
+  <Tab label="Almacenamiento One Zone">
+    Las clases **EFS One Zone** y **EFS One Zone - Acceso poco frecuente (EFS One Zone-IA)** proporcionan ahorros adicionales, ya que guardan los datos en una única zona de disponibilidad. Si utiliza solo una zona de disponibilidad, puede reducir los costos de almacenamiento en comparación con las clases de almacenamiento EFS Standard.
+  </Tab>
+  <Tab label="Almacenamiento de archivos">
+    La clase de **almacenamiento EFS Archive** permite reducir los costos para los datos a los que se accede solo unas pocas veces al año o menos y que no requieren las latencias inferiores a milisegundos de EFS Standard. EFS Archive ofrece un precio de almacenamiento hasta un 50 % más bajo en comparación con EFS - Acceso poco frecuente, lo que brinda una experiencia más rentable para datos inactivos a los que se accede con poca frecuencia.
+  </Tab>
+</Tabs>
+
+## 3. Ciclo de vida de los datos
+
+Para optimizar aún más los costos de almacenamiento de **Amazon EFS,** puede mover de forma automática los datos entre las clases de almacenamiento según los patrones de uso. Puede crear políticas de ciclo de vida que determinen cuándo y cómo los archivos pasan de un nivel de almacenamiento a otro. Estas políticas automatizadas ayudan a garantizar que sus datos residan en la clase de almacenamiento más rentable sin intervención manual.
+
+### 3.1 Traslado al acceso poco frecuente
+Esta política indica a la administración del ciclo de vida cuándo mover los archivos al almacenamiento de acceso poco frecuente, lo que permite reducir los costos para los datos a los que se accede solo unas pocas veces cada trimestre. De forma predeterminada, los archivos a los que no se accede en el almacenamiento Standard durante 30 días se trasladan al acceso poco frecuente.
+
+### 3.2 Traslado a Archive
+Esta política indica a la administración del ciclo de vida cuándo mover los archivos a la clase de almacenamiento Archive (almacenamiento de archivos), que permite reducir los costos para los datos a los que se accede solo unas pocas veces al año o menos. De forma predeterminada, los archivos a los que no se accede en el almacenamiento Standard durante 90 días se trasladan a Archive.
+
+### 3.3 Traslado a Standard
+Esta política indica a la administración del ciclo de vida si se deben trasladar los archivos desde acceso poco frecuente o Archive y regresarlos al almacenamiento Standard cuando se accede a los archivos en los dos tipos de almacenamientos mencionados inicialmente. De forma predeterminada, los archivos no se regresan al almacenamiento Standard y permanecen en la clase de almacenamiento de acceso poco frecuente o Archive cuando se accede a ellos.
+
+:::info Comparación entre Amazon EBS y Amazon EFS
+
+Los volúmenes de **Amazon EBS** se conectan a instancias EC2 y son un recurso a nivel de Zona de Disponibilidad, es decir, un volumen de **Amazon EBS almacena datos en una sola Zona de Disponibilidad**. Para conectar una instancia de Amazon EC2 a un volumen de EBS, tanto la instancia de Amazon EC2 como el **volumen de EBS deben residir dentro de la misma Zona de Disponibilidad**. Puede guardar archivos en él. También puede ejecutar una base de datos sobre él. O almacenar aplicaciones en él. Es como un disco duro. Si aprovisiona un volumen de EBS de dos terabytes y lo llena por completo, este no escala automáticamente para darle más almacenamiento. Eso es EBS.
+
+**Amazon EFS** es un **servicio regional**. Almacena datos en y a través de **múltiples Zonas de Disponibilidad**. El almacenamiento duplicado le permite acceder a los datos de forma simultánea desde todas las Zonas de Disponibilidad en la Región donde se encuentra ubicado un sistema de archivos, lo que significa que **Amazon EFS** puede tener múltiples instancias leyendo y escribiendo en él al mismo tiempo. Además, los servidores locales (on-premises) pueden acceder a Amazon EFS mediante AWS Direct Connect.
+:::
+
+## 4. Amazon FSx
+
+![Amazon FSx](/icons/amazon-fsx.svg)
+
+**Amazon FSx** hace que lanzar, ejecutar y escalar sistemas de archivos de alto rendimiento y con gran cantidad de características en la nube sea conveniente y rentable. Admite una amplia gama de cargas de trabajo con fiabilidad, seguridad, escalabilidad y un gran conjunto de funciones. En comparación con **Amazon EFS**, que se centra en la compatibilidad del sistema de archivos de red (NFS), **Amazon FSx** admite varios protocolos de sistemas de archivos, incluidos Windows File Server, Lustre, OpenZFS y NetApp ONTAP.
+
+**Amazon FSx** se crea a partir de la última tecnología de computación, redes y discos de AWS para proporcionar un alto rendimiento y un menor costo total de propiedad (TCO). Como servicio completamente administrado, se encarga del aprovisionamiento de hardware, la aplicación de parches y las copias de seguridad.
+
+### 4.1 Beneficios de Amazon FSx
+
+- **Integración de sistemas de archivos**. Amazon FSx admite los protocolos de sistemas de archivos estándar del sector, lo que permite una integración práctica con sus aplicaciones, flujos de trabajo y herramientas de desarrollo existentes.
+
+- **Infraestructura administrada**. Amazon FSx reduce la complejidad al momento de administrar la infraestructura y, al mismo tiempo, ofrece las características y capacidades de los sistemas de archivos tradicionales.
+
+- **Almacenamiento escalable**. Amazon FSx ajusta los recursos de forma dinámica, por lo que la planificación compleja de las capacidades y la administración manual de la infraestructura no son necesarias.
+
+- **Rentabilidad**. Amazon FSx cuenta con un modelo de precios y opciones automatizadas de organización por niveles que optimizan los costos, ya que se cobra solo por el almacenamiento que se utiliza y transfieren los datos de acceso poco frecuente a niveles de menor costo.
+
+## 5. Sistemas de archivos
+
+El servicio **Amazon FSx** ofrece cuatro sistemas de archivos diferentes, cada uno con características y capacidades únicas. Puede elegir el sistema de archivos que mejor se adapte a sus necesidades según el caso de uso, los requisitos de rendimiento y las preferencias de administración.
+
+### 5.1 Amazon FSx para Windows File Server
+
+![Amazon FSx para Windows File Server](/icons/amazon-fsx-window-file-server.svg)
+
+**Amazon FSx para Windows File Server** brinda almacenamiento compartido completamente administrado creado a partir de Windows Server. Ofrece una amplia gama de capacidades para el acceso a datos, la administración de datos y las tareas administrativas.
+
+Los casos de uso son los siguientes:
+
+- Migrar los servidores de archivos de Windows a AWS.
+- Acelerar las cargas de trabajo híbridas.
+- Reducir el costo de implementación de SQL Server.
+- Optimizar los escritorios virtuales y el streaming.
+
+
+### 5.2 Amazon FSx para NetApp ONTAP
+
+![Amazon FSx para NetApp ONTAP](/icons/amazon-fsx-netapp-ontap.svg)
+
+**Amazon FSx para NetApp ONTAP** proporciona almacenamiento compartido completamente administrado en la nube de AWS con las populares capacidades de acceso y administración de datos de ONTAP.
+
+Los casos de uso son los siguientes:
+
+- Migrar las cargas de trabajo a AWS sin problemas.
+- Crear aplicaciones modernas.
+- Modernizar la administración de datos.
+- Optimizar la continuidad de actividades.
+
+
+### 5.3 Amazon FSx para OpenZFS
+
+![Amazon FSx para OpenZFS](/icons/amazon-fsx-openzfs.svg)
+
+**Amazon FSx para OpenZFS** proporciona almacenamiento compartido completamente administrado, que está creado a partir del sistema de archivos OpenZFS y al que se accede a través del protocolo NFS (v3, v4, v4.1 y v4.2).
+
+Los casos de uso son los siguientes:
+
+- Migrar las cargas de trabajo a AWS sin problemas.
+- Brindar información con mayor velocidad para las cargas de trabajo de análisis de datos.
+- Acelerar la administración de contenido.
+- Aumentar la velocidad de desarrollo/pruebas.
+
+
+### 5.4 Amazon FSx para Lustre
+
+![Amazon FSx para Lustre](/icons/amazon-fsx-lustre.svg)
+
+**Amazon FSx para Lustre** proporciona almacenamiento compartido completamente administrado con la escalabilidad y el rendimiento del popular sistema de archivos Lustre.
+
+Los casos de uso son los siguientes:
+
+- Acelerar el machine learning (ML).
+- Habilitar la computación de alto rendimiento (HPC).
+- Acceder al análisis de macrodatos.
+- Aumentar la agilidad de las cargas de trabajo multimedia.
+
+## 6. Infografía de Estudio
+
+![Infografía de Estudio](/aws/almacenamiento/almacenamiento-archivos-intro.png)
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon EFS](https://docs.aws.amazon.com/efs/)
+- [Amazon Elastic File System](https://aws.amazon.com/es/efs/)
+- [Amazon FSx](https://aws.amazon.com/es/fsx/)
+- [Amazon FSx Documentation](https://docs.aws.amazon.com/fsx/)
+- [Amazon FSx for Windows File Server](https://aws.amazon.com/es/fsx/windows/)
+- [Amazon FSx for NetApp ONTAP](https://aws.amazon.com/es/fsx/netapp-ontap/)
+- [Amazon FSx for OpenZFS](https://aws.amazon.com/es/fsx/openzfs/)
+- [Amazon FSx for Lustre](https://aws.amazon.com/es/fsx/openzfs/)
+- [Preguntas frecuentes sobre Amazon EFS](https://aws.amazon.com/es/efs/faq/)

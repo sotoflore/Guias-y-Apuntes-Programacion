@@ -1,0 +1,180 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# IA/ML en AWS
+
+La **IA** y el **ML** ayudan a resolver muchos casos de uso empresarial comunes. En AWS, las soluciones para estos y otros casos de uso se ofrecen a través de la pila de IA/ML de AWS.
+
+## 1. Casos de uso empresariales comunes del ML
+
+Los **modelos de ML** impulsan el motor de recomendaciones de comercio electrónico de `Amazon.com`. Sin embargo, el ML puede resolver muchos otros casos de uso empresariales, entre los que se encuentran los siguientes:
+
+- **Predecir tendencias**, como los precios futuros de las acciones.
+- **Tomar decisiones**, como dirigir a las personas que llaman al departamento correcto.
+- **Detectar anomalías**, como los fraudes bancarios.
+
+![Casos de uso empresariales comunes del ML](/aws/ia-ml/casos-uso-ml.png)
+
+## 2. Soluciones de IA/ML de AWS
+
+La **pila de IA/ML** de AWS se compone de los siguientes tres niveles de soluciones:
+
+- **Servicios de IA**: modelos prediseñados y ya entrenados para realizar funciones específicas
+
+- **Servicios de ML**: un enfoque más personalizado con la IA de **Amazon SageMaker** en el que puede crear, entrenar e implementar sus propios modelos de ML con una infraestructura completamente administrada
+
+- **Infraestructura y marcos de trabajo de ML**: un enfoque completamente personalizado para crear modelos con chips diseñados para un objetivo específico que se integran con los marcos de trabajo de ML más populares
+
+![Soluciones de IA/ML de AWS](/aws/ia-ml/soluciones-ia-ml.png)
+
+Analicemos los tres niveles de la pila de IA/ML de AWS con más detalle. Puede pensar en estos niveles como una progresión desde las soluciones administradas, prediseñadas y fáciles de implementar hasta las soluciones altamente personalizadas que requieren más habilidad para su implementación.
+
+### 2.1 Nivel 1: servicios de IA prediseñados de AWS
+
+El nivel de servicios de IA de AWS se compone de modelos prediseñados que ya están entrenados para realizar funciones específicas. Estos servicios administrados y listos para usar pueden ayudar a resolver rápidamente una variedad de casos de uso empresariales.
+
+#### 2.1.1 Servicios lingüísticos
+
+Los **servicios lingüísticos** de la IA de AWS son ideales para cuando necesita interpretar texto o voz y transformarlo en algo significativo.
+
+![servicios lingüísticos](/aws/ia-ml/servicios-linguisticos.png)
+
+<Tabs>
+  <Tab label="Amazon Comprehend">
+    ![Amazon Comprehend](/icons/amazon-comprehend.svg)
+    **Amazon Comprehend** emplea el procesamiento de lenguaje natural para extraer información clave de los documentos. Desarrolla esta información mediante el reconocimiento de frases clave, el idioma, los sentimientos y otros elementos comunes de un documento.
+
+    **Casos de uso**: clasificación de contenido, análisis del sentimiento de los clientes y supervisión del cumplimiento.
+  </Tab>
+  <Tab label="Amazon Polly">
+    ![Amazon Polly](/icons/amazon-polly.svg)
+    **Amazon Polly**: transforma el texto en un discurso realista. Es compatible con diferentes idiomas, géneros y acentos.
+
+    >Es un servicio de AWS que convierte texto escrito en voz (audio) realista.
+
+    **Casos de uso**: asistentes virtuales, aplicaciones de aprendizaje electrónico y mejoras de accesibilidad para usuarios con discapacidad visual.
+  </Tab>
+  <Tab label="Amazon Transcribe">
+    ![Amazon Transcribe](/icons/amazon-transcribe.svg)
+    **Amazon Transcribe** convierte audios en texto. Es compatible con varios idiomas y ofrece características como la identificación del hablante, el vocabulario personalizado y la transcripción en tiempo real.
+
+    **Casos de uso**: transcripción de llamadas de clientes, subtitulado automático y generación de metadatos para contenido multimedia
+  </Tab>
+  <Tab label="Amazon Translate">
+    ![Amazon Translate](/icons/amazon-translate.svg)
+    **Amazon Translate** es un servicio de traducción de textos. Resulta ideal para la comunicación global, ya que admite la traducción de texto en tiempo real y por lotes en varios idiomas.
+
+    **Casos de uso**: traducción de documentos e integración de aplicaciones en varios idiomas
+  </Tab>
+</Tabs>
+
+:::info Recuerda
+- **Amazon Polly** = Texto → Voz                      
+- **Amazon Transcribe** = Voz → Texto                        
+- **Amazon Translate** = Traducción entre idiomas 
+- **Amazon Comprehend** = analiza y entiende texto
+
+:::
+
+#### 2.1.2 Servicios de visión artificial y búsqueda
+
+Estos servicios son ideales para responder preguntas y recopilar información de varios tipos de fuentes de contenido, tales como documentos, imágenes, videos y más.
+
+![Servicios de visión artificial y búsqueda](/aws/ia-ml/servicios-vision-artificial.png)
+
+<Tabs>
+  <Tab label="Amazon Kendra">
+    ![Amazon Kendra](/icons/amazon-kendra.svg)
+    **Amazon Kendra** utiliza el procesamiento de lenguaje natural para buscar respuestas en grandes cantidades de contenido empresarial. Dado que comprende el contexto de una consulta, puede devolver respuestas más precisas y relevantes que solo una lista de documentos que contengan ciertas palabras clave.
+
+    **Casos de uso**: búsqueda inteligente, chatbots e integración de búsqueda de aplicaciones
+  </Tab>
+  <Tab label="Amazon Rekognition">
+    ![Amazon Rekognitio](/icons/amazon-rekognition.svg)
+    **Amazon Rekognition** es un servicio de análisis de video. Puede identificar objetos, personas, texto, escenas y actividades dentro de imágenes y videos que se almacenan en Amazon Simple Storage Service (Amazon S3).
+
+    **Casos de uso**: moderación de contenido, verificación de identidad, análisis de contenido multimedia y experiencias de automatización del hogar
+  </Tab>
+  <Tab label="Amazon Textract">
+    ![Amazon Textract](/icons/amazon-textract.svg)
+    **Amazon Textract** detecta y extrae el texto mecanografiado y escrito a mano de documentos, formularios e, incluso, tablas dentro de documentos.
+
+    **Casos de uso**: extracción de texto de formularios financieros, de sanidad y gubernamentales para un procesamiento rápido
+  </Tab>
+</Tabs>
+
+:::info Recuerda
+- **Amazon Kendra** = Búsqueda inteligente de respuestas en contenido empresarial
+- **Amazon Rekognition** = Análisis de imágenes y videos                              
+- **Amazon Textract** = Extracción de texto, formularios y tablas de documentos
+
+:::
+
+#### 2.1.3 Servicios de personalización e IA conversacional
+
+Con estos servicios, los usuarios pueden interactuar con sus aplicaciones por medio de conversaciones de texto y voz. También puede ofrecer a sus clientes recomendaciones de productos personalizadas específicamente para ellos. Analicemos estos servicios.
+
+![Servicios de personalización e IA conversacional](/aws/ia-ml/servicios-personalizacion.png)
+
+<Tabs>
+  <Tab label="Amazon Lex">
+    ![Amazon Lex](/icons/amazon-lex.svg)
+    Con **Amazon Lex**, puede agregar interfaces conversacionales de voz y texto a sus aplicaciones. Este servicio utiliza la comprensión del lenguaje natural (natural language understanding, NLU) y el reconocimiento automático de voz (automatic speech recognition, ASR) para crear conversaciones realistas.
+
+    **Casos de uso**: asistentes virtuales, búsquedas de preguntas frecuentes en lenguaje natural y bots de aplicaciones automatizados
+  </Tab>
+  <Tab label="Amazon Personalize">
+    ![Amazon Personalize](/icons/amazon-personalize.svg)
+    Con **Amazon Personalize**, puede utilizar datos históricos para crear aplicaciones inteligentes con recomendaciones personalizadas para sus clientes.
+
+    **Casos de uso**: recomendaciones personalizadas de streaming, productos y tendencias
+  </Tab>
+</Tabs>
+
+:::info Recuerda                                                          
+- **Amazon Lex** = Chatbots e interfaces conversacionales de voz y texto
+- **Amazon Personalize** = Recomendaciones personalizadas basadas en datos históricos
+
+:::
+
+### 2.2 Nivel 2: servicios de ML
+
+El **nivel de servicios de ML** proporciona un enfoque más personalizado para los clientes que desean tener un poco más de control sobre sus soluciones de ML sin tener que administrar la infraestructura. La IA de **SageMaker** es una oferta clave en este nivel.
+
+#### 2.2.1 IA de Amazon SageMaker
+
+![Amazon SageMaker](/icons/amazon-sageMaker.svg)
+
+Con este servicio completamente administrado, puede crear, entrenar e implementar sus propios modelos de ML sin preocuparse por la infraestructura. El entorno de desarrollo integrado (integrated development environment, IDE) de la IA de SageMaker proporciona transparencia y control de acceso simplificados sobre sus proyectos de ML. Puede realizar un seguimiento de los experimentos de entrenamiento de modelos, visualizar datos y depurar y supervisar sus flujos de trabajo, todo en un único entorno. La IA de SageMaker incluso ofrece acceso a cientos de modelos previamente entrenados que puede implementar en tan solo unos pocos pasos rápidos.
+
+##### Beneficios principales de la IA de SageMaker
+
+- **Selección de herramientas de ML**. Aumente la innovación con diferentes opciones de herramientas. Los científicos de datos pueden utilizar el IDE y los analistas de negocios pueden utilizar la interfaz sin código.
+
+- **Infraestructura completamente administrada**. Concéntrese en el desarrollo de modelos de ML mientras que la IA de SageMaker le proporciona una infraestructura rentable y de alto rendimiento.
+
+- **Flujos de trabajo de ML repetibles**. Automatice y estandarice las prácticas y la gobernanza de MLOps en toda la empresa a fin de respaldar la transparencia y la auditabilidad.
+
+### 2.3 Nivel 3: infraestructura y marcos de trabajo de ML
+
+Algunas organizaciones tienen necesidades altamente especializadas que requieren un control total sobre el proceso de entrenamiento de ML. Pueden utilizar la experiencia interna, los marcos de trabajo de ML y la infraestructura de AWS para desarrollar sus propias soluciones de ML.
+
+#### 2.3.1 Componentes principales
+
+- **Marcos de trabajo de ML**. Un **marco de trabajo de ML (Framework ML)** es una biblioteca o herramienta de software que proporciona a los profesionales con experiencia en ML componentes optimizados y prediseñados para crear modelos de machine learning. AWS admite marcos de trabajo de ML como PyTorch, Apache M-X Net y TensorFlow.
+
+- **Infraestructura de ML en AWS**. La **infraestructura de ML** de AWS, como las instancias de Amazon Elastic Compute Cloud (Amazon EC2) optimizadas con ML, Amazon EMR y Amazon Elastic Container Service (Amazon ECS), admiten estas soluciones personalizadas. Estos servicios proporcionan alto rendimiento y flexibilidad para cargas de trabajo de ML avanzadas.
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon Comprehend](https://aws.amazon.com/comprehend/)
+- [Amazon Polly](https://aws.amazon.com/polly/)
+- [Amazon Transcribe](https://aws.amazon.com/transcribe/)
+- [Amazon Translate](https://aws.amazon.com/translate/)
+- [Amazon Kendra](https://aws.amazon.com/kendra/)
+- [Amazon Rekognition](https://aws.amazon.com/rekognition/)
+- [Amazon Textract](https://aws.amazon.com/textract/)
+- [Amazon Lex](https://aws.amazon.com/lex/)
+- [Amazon Personalize](https://aws.amazon.com/personalize/)
+- [Amazon SageMaker](https://aws.amazon.com/sagemaker/)

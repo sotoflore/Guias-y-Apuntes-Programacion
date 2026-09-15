@@ -1,0 +1,199 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Servicios y herramientas de migración
+
+Los **servicios y herramientas de migración** de AWS permiten a las organizaciones evaluar, planificar, trasladar, modernizar y supervisar sus aplicaciones, servidores y datos durante el proceso de migración hacia la nube.
+
+Una **migración** puede involucrar grandes cantidades de datos, servidores físicos o virtuales, bases de datos y aplicaciones con diferentes dependencias. Por esta razón, AWS proporciona herramientas especializadas para cada etapa del proceso, desde el análisis del entorno existente hasta la transferencia de cargas de trabajo y la validación de la migración.
+
+## 1. Servicios y Herramientas
+
+Entre los servicios más importantes se encuentran **AWS Application Migration Service**, para migrar servidores; **AWS Database Migration Service** (AWS DMS), para migrar bases de datos; **AWS DataSync**, para transferir datos entre almacenamiento local y AWS; y AWS Snow Family, para transferencias de grandes cantidades de datos cuando utilizar una conexión de red no resulta práctico.
+
+También existen herramientas para evaluar y planificar una migración, como **Migration Evaluator** y **AWS Migration Hub**, que ayudan a analizar el entorno y realizar un seguimiento centralizado de las migraciones.
+
+<Tabs>
+  <Tab label="Fase de evaluación">
+    ![Fase de evaluación](/aws/migracion/migracion-servicios-herramientas-fase-evaluacion.png)
+
+    En la **fase de evaluación**, es importante contar con las herramientas adecuadas con el fin de crear el caso empresarial para la migración. Ahí es donde **Migration Evaluator** puede ayudar.
+
+    - **Migration Evaluator**
+
+    ![Migration Evaluator](/icons/aws-migration-evaluator.svg)
+
+    Es un servicio de evaluación de la migración que le ayuda a crear un caso empresarial para la planificación y la migración a la nube de AWS. Lo hace con un enfoque basado en datos: analiza su estado actual y su estado objetivo y, luego, desarrolla un plan de preparación para la migración con los costos proyectados de la nube.
+
+    **Beneficios**. Estos incluyen eliminar las conjeturas a la hora de migrar. Proporciona visibilidad de múltiples escenarios rentables de migración a la nube. También proporciona información sobre la reutilización de las licencias de software existentes, lo que puede reducir aún más los costos.
+
+    **Casos de uso**. Puede usar Migration Evaluator a fin de realizar un descubrimiento amplio, tomar una instantánea de su huella local en las instalaciones para ajustar las licencias, ver las dependencias de los servidores y obtener visibilidad en varios escenarios de migración. También puede usarlo para estimar y reducir los costos de la nube.
+  </Tab>
+  <Tab label="Fase de movilización">
+    ![Fase de movilización](/aws/migracion/migracion-servicios-herramientas-fase-movilizacion.png)
+
+    Veamos dos servicios que puede usar en la fase de movilización para el descubrimiento y la planificación.
+
+    - **Application Discovery Service**
+
+    ![Application Discovery Service](/icons/aws-application-discovery-service.svg)
+
+    Descubre el inventario y las conexiones de los servidores en las instalaciones. Reúne los detalles de configuración, rendimiento y conexión de los servidores y las bases de datos para crear un plan de migración detallado.
+
+    **Beneficios**. Obtiene una instantánea completa de su inventario en las instalaciones. También puede integrar los datos de descubrimiento con otros servicios, como Migration Hub, y proteger los datos que recopila Application Discovery Service.
+
+    **Casos de uso**. Puede usar AWS Application Discovery Service para realizar el descubrimiento y el inventario, mapear las conexiones y las dependencias, y generar un plan de migración.
+
+    ![ejemplo Application Discovery Service](/aws/migracion/migracion-servicios-herramientas-fase-movilizacion-ejemplo.png)
+    
+    - **Migration Hub**
+
+    ![Migration Hub](/icons/aws-migration-hub.svg)
+
+    Es un centro unificado que le ofrece una guía durante las fases de descubrimiento, evaluación, planificación y ejecución de la migración. Proporciona herramientas, orientación y recomendaciones automatizadas para colaborar con su equipo y realizar un seguimiento de la migración.
+
+    **Beneficios**: Tiene un solo lugar al que acudir para realizar la migración con orientación de expertos en forma de plantillas prescriptivas del recorrido. Otro beneficio es el ahorro de costos, ya que Migration Hub es gratuito.
+
+    **Casos de uso**: puede usar Migration Hub para evaluar y planificar la migración, completarla y colaborar con los equipos. También puede usarlo para iniciativas de modernización, como la refactorización rápida de aplicaciones.
+
+    ![ejemplo Migration Hub](/aws/migracion/migracion-servicios-herramientas-fase-movilizacion-ejemplo_V1.png)
+  </Tab>
+  <Tab label="Fase de migración y modernización">
+    ![Fase de migración y modernización](/aws/migracion/migracion-servicios-herramientas-fase-migracion-modernizacion.png)
+
+    A medida que empiece a mover recursos a la nube, puede seguir usando Migration Hub para hacer un seguimiento de su progreso. También puede usar este servicio durante la migración para modernizar sus aplicaciones.
+
+    - **Application Migration Service**
+
+    ![Application Migration Service](/icons/aws-application-migration-service.svg)
+
+    Es una herramienta que sirve para mover y mejorar sus aplicaciones en las instalaciones y basadas en la nube. Ayuda a los clientes a optimizar y acelerar la migración y modernización de las aplicaciones, además de reducir sus costos.
+
+    **Beneficios**: los beneficios incluyen el soporte para migrar desde cualquier infraestructura de origen que ejecute un sistema operativo (SO) compatible. Permite modernizar sus aplicaciones durante la migración. Puede mantener las operaciones comerciales normales durante el proceso de replicación de las aplicaciones y también reducir los costos mediante el uso de una sola herramienta para una amplia gama de aplicaciones.
+
+    **Casos de uso**: puede usar Application Migration Service para aplicaciones en las instalaciones que se ejecutan en servidores o infraestructuras físicas, aplicaciones basadas en la nube o con el fin de moverse entre regiones de AWS. También puede usarlo para modernizar las aplicaciones.
+  </Tab>
+</Tabs>
+
+## 2. Servicios Migraciones de bases de datos
+
+La **migración de la base de datos** a la nube puede brindar la oportunidad de rediseñar y mejorar la arquitectura de la base de datos. Dado que los requisitos y los sistemas heredados cambian con el tiempo, también puede considerar la posibilidad de migrar a un servicio de base de datos administrada por AWS o a una base de datos de código abierto para reducir los costos de licencias. Es bastante sencillo migrar datos de un servidor a otro cuando ambos utilizan el mismo motor de base de datos, lo que se conoce como migración homogénea. Pasar a un motor diferente, o realizar una migración heterogénea, es más complejo y puede requerir cambios en la aplicación. La buena noticia es que, independientemente de que su migración sea homogénea (entre bases de datos del mismo tipo) o heterogénea (entre bases de datos de distintos tipos), existen servicios de AWS que le ayudarán.
+
+>Servicios para planificar, migrar y, si es necesario, convertir.
+
+### 2.1 AWS Database Migration Service
+
+![AWS Database Migration Service](/icons/aws-dms.svg)
+
+**AWS Database Migration Service** (AWS DMS) permite migrar bases de datos de forma rápida y segura y realizar tareas continuas de replicación de datos para bases de datos y almacenes de datos activos. Proporciona una forma de planificar, evaluar, convertir y migrar bases de datos, incluso con almacenes de datos, en una herramienta central.
+
+**Beneficios**
+
+AWS DMS ofrece beneficios para la migración de bases de datos, como mantener un alto nivel de disponibilidad y un tiempo de inactividad bajo durante el proceso de migración. Admite migraciones homogéneas y heterogéneas. También permite migrar bases de datos con dimensiones en terabytes a un bajo costo.
+
+**Casos de uso**
+
+Puede usar AWS DMS para migrar a bases de datos administradas, eliminar los costos de licencias, replicar los cambios continuos en su base de datos y mejorar la integración con los lagos de datos.
+
+Si desea cambiar de una base de datos comercial a una de código abierto durante la migración, hay algunos aspectos logísticos importantes. Cuando las bases de datos que está migrando tienen diferentes motores de origen y destino, debe considerar cómo recrear los recursos existentes, como el esquema de la base de datos, en el destino. Un esquema define la estructura y la organización de los datos dentro de la base de datos y actúa como un modelo para aspectos como las estructuras de tablas, los tipos de campos y las relaciones entre los elementos. Recrear todo de forma manual puede llevar mucho tiempo. Ahí es donde la Herramienta de conversión de esquemas de AWS (AWS SCT) puede ayudar.
+
+![AWS Database Migration Service](/aws/migracion/migracion-servicios-base-datos.png)
+
+### 2.2 AWS SCT
+
+![AWS SCT](/icons/aws-sct.png)
+
+**AWS SCT** permite convertir esquemas de bases de datos y objetos de código (como procedimientos, vistas y funciones almacenados) de un motor de base de datos a otro. AWS SCT puede incluso proporcionarle estimaciones del esfuerzo que supone una conversión, lo que ayuda a planificar.
+
+**Beneficios**
+
+AWS SCT ofrece beneficios para simplificar las migraciones de bases de datos mediante la automatización del análisis de esquemas, las recomendaciones y la conversión a escala. Es compatible con bases de datos y servicios de análisis populares como motores de origen y destino. Puede ahorrar semanas o meses de tiempo y recursos manuales, que normalmente se requieren en las conversiones.
+
+**Casos de uso**
+
+Puede usar AWS SCT para pasar de bases de datos comerciales a bases de datos de código abierto. También puede usarlo con el fin de migrar grandes cargas de trabajo de almacenes de datos y para modernizar o actualizar los esquemas de bases de datos existentes.
+
+## 3. Servicios Migraciones de Datos
+
+### 3.1 Transferencia de datos en línea
+
+Varios servicios de AWS facilitan la transferencia de datos en línea a la nube de AWS (**Transferencia de datos hacia y desde la nube de AWS**). En la última lección, aprendió que AWS Database Migration Service (AWS DMS) transfiere la base de datos y sus datos a la nube de AWS. En esta lección, identificará los servicios que pueden ayudar con las consideraciones de la transferencia en línea de otros tipos de datos y archivos.
+
+Cuando migra datos a la nube de AWS, hay algunas consideraciones que debe tener en cuenta. Debe garantizar la seguridad (si llegarán allí de forma segura), la validación de los datos (si llegarán completos) y la programación (cuándo es el mejor momento). También debe confirmar los requisitos de ancho de banda. Para la mayoría de las cargas de trabajo de migración de datos, AWS DataSync hará el trabajo.
+
+#### 3.1.1 AWS DataSync
+
+![AWS DataSync](/icons/aws-dataSync.svg)
+
+**AWS DataSync** está diseñado específicamente para automatizar y acelerar la transferencia de datos. DataSync simplifica y acelera la transferencia de grandes cantidades de datos entre el almacenamiento en las instalaciones y los servicios de almacenamiento de AWS, como Amazon Simple Storage Service (Amazon S3). Automatiza muchos aspectos del proceso de transferencia, que incluyen las instancias en ejecución, el cifrado y la optimización de la red.
+
+**Beneficios**
+
+Los beneficios incluyen la optimización y la aceleración de las migraciones de datos seguras. DataSync administra las cargas de trabajo de movimiento de datos con limitación del ancho de banda, programación de la migración, filtrado de tareas e informes de tareas. También proporciona una rápida replicación de datos.
+
+**Casos de uso**
+
+Puede usar DataSync para migrar sus datos, archivar sus datos inactivos y administrar los flujos de trabajo de datos híbridos.
+
+El siguiente servicio proporciona soporte completamente administrado para las transferencias de archivos hacia y desde Amazon S3. Es compatible con muchos protocolos de transferencia diferentes. Un protocolo de transferencia es un conjunto de reglas o estándares que rigen la forma en que se mueven los datos de una ubicación a otra.
+
+#### 3.1.2 AWS Transfer Family
+
+![AWS Transfer Family](/icons/aws-transfer-family.svg)
+
+**AWS Transfer Family** permite administrar y compartir datos sin interrupciones mediante transferencias de archivos sencillas, seguras y escalables. Este servicio proporciona soporte completamente administrado para transferencias seguras de archivos a través del FTP, el Protocolo de transferencia segura de archivos (SFTP), el Protocolo seguro de transferencia de archivos (FTPS) y otros protocolos. Le ayuda a transferir archivos directamente hacia y desde los servicios de almacenamiento de AWS, como Amazon S3 y Amazon EFS.
+
+**Beneficios**
+
+Los beneficios incluyen la simplificación del proceso de configuración y administración de las transferencias de archivos y la reducción de la necesidad de administrar una infraestructura compleja. Transfer Family brinda una transferencia de datos segura con cifrado y autenticación, para garantizar la integridad y confidencialidad de los datos. Está diseñado para escalar y optimizar los flujos de trabajo.
+
+**Casos de uso**
+
+Puede usar Transfer Family para modernizar y administrar sus transferencias de archivos, simplificar el intercambio de datos con su fuerza laboral y sus socios, e integrar los datos empresariales transaccionales en un lago de datos unificado.
+
+Es posible que recuerde **Direct Connect** del módulo de redes. Con el ancho de banda de una conexión dedicada, también es una excelente solución para mover sus datos en línea a la nube de AWS durante la migración.
+
+#### 3.1.3 Direct Connect
+
+![Direct Connect](/icons/aws-direct-connect.svg)
+
+**AWS Direct Connect** es un servicio que le permite establecer una conexión privada dedicada entre su red y la nube privada virtual (VPC) en la nube de AWS. Como es su conexión dedicada, es una forma rápida, fiable y segura de transferir sus datos o archivos.
+
+**Beneficios**
+
+Direct Connect ayuda a reducir los costos de red y a aumentar la cantidad de ancho de banda.
+
+### 3.2 Transferencia de datos sin conexión
+
+Muchos clientes prefieren las migraciones en línea, pero hay algunos que necesitan transferir datos sin conexión. Un **ejemplo** sería si el ancho de banda es limitado o en los casos donde las ubicaciones remotas no tienen internet y **Direct Connect** no es una opción. O, en casos de grandes volúmenes de datos, enviar petabytes de datos a través de internet llevaría más tiempo que simplemente enviar un dispositivo físico.
+
+![Transferencia de datos sin conexión](/aws/migracion/migracion-transferencia-datos-sin-conexion.png)
+
+#### 3.2.1 Dispositivos de Snowball Edge Storage Optimized
+
+![Dispositivos de Snowball Edge Storage Optimized](/icons/aws-snowball-edge.svg)
+
+Los **dispositivos de AWS Snowball Edge Storage Optimized** son una excelente solución para la migración de datos sin conexión cuando la conexión a internet puede no ser una opción. Estos dispositivos ofrecen almacenamiento NVMe de alto rendimiento, lo que permite simplificar las migraciones de datos de varios petabytes desde ubicaciones en las instalaciones a AWS.
+
+**Beneficios**
+
+Los beneficios incluyen ofrecer un mejor rendimiento informático y una mayor capacidad de almacenamiento con gigabytes de datos por segundo para las cargas de trabajo de migración de datos con requisitos sin conexión.
+
+**Casos de uso**
+
+Puede usar dispositivos de Snowball Edge para la migración de datos cuando sea necesaria la migración sin conexión. También se pueden usar para computación periférica cuando se necesita un dispositivo seguro y robusto.
+
+---
+
+**Referencias recomendadas:**
+
+- [Las tres fases de la migración](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-migration/overview.html)
+- [Migration Evaluator](https://aws.amazon.com/es/migration-evaluator/)
+- [AWS Application Discovery Service](https://aws.amazon.com/es/transform/)
+- [AWS Application Migration Service](https://aws.amazon.com/es/application-migration-service/)
+- [AWS Migration Hub](#)
+- [AWS Database Migration Service (AWS DMS)](https://aws.amazon.com/es/dms/?nc=sn&loc=1)
+- [AWS DataSync](https://aws.amazon.com/es/datasync/)
+- [AWS Transfer Family](https://aws.amazon.com/es/aws-transfer-family/)
+- [AWS Direct Connect](https://aws.amazon.com/es/directconnect/)
+- [AWS Snow Family](https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html)
+

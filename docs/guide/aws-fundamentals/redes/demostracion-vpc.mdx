@@ -1,0 +1,98 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+## Demostración de Amazon VPC en AWS
+
+Una **demostración de Amazon VPC (Virtual Private Cloud)** permite observar de forma práctica cómo se construye y administra una **red virtual dentro de AWS**. A través de esta demostración podemos pasar de los conceptos teóricos de networking a una arquitectura real, comprendiendo cómo se conectan y relacionan sus diferentes componentes.
+
+Durante una demostración de VPC, normalmente se puede crear una **VPC**, definir su rango de direcciones IP mediante un **CIDR**, crear **subredes públicas y privadas**, configurar **tablas de rutas**, establecer conexiones mediante **Internet Gateway** y, cuando sea necesario, utilizar un **NAT Gateway** para proporcionar acceso a Internet a recursos ubicados en subredes privadas.
+
+También es importante observar cómo AWS permite implementar diferentes **capas de seguridad**. Los **Security Groups** controlan el tráfico asociado a los recursos, mientras que las **Network ACLs** permiten controlar el tráfico a nivel de subred.
+
+
+## 1. Creación de una Amazon VPC en la nube de AWS
+
+Comprender cómo se crean los recursos con la Consola de administración de AWS es algo útil. A continuación, se ofrece información general de alto nivel sobre los recursos y componentes:
+
+<Tabs>
+  <Tab label="Creación de la Amazon VPC">
+    Antes de poder crear recursos en la nube de AWS, el primer paso es crear su propia Amazon VPC. También especificará la región mejor ubicada para sus recursos.
+
+    ![Creación de la Amazon VPC](/aws/redes/redes-demostracion-vpc-creacion-vpc.png)
+  </Tab>
+  <Tab label="Creación de las subredes">
+    Creará dos subredes públicas y 2 privadas en dos zonas de disponibilidad. Esta es una práctica recomendada para lograr una alta disponibilidad.
+
+    ![Creación de las subredes](/aws/redes/redes-demostracion-vpc-creacion-subred.png)
+  </Tab>
+  <Tab label="Creación de una internet gateway y dirección del tráfico">
+    Sin una puerta de enlace de internet, los usuarios no pueden acceder a sus recursos. En primer lugar, debe crear la puerta de enlace de internet. Luego, debe crear tablas de enrutamiento para dirigir el tráfico y permitir la entrada del tráfico de internet y la salida del tráfico local.
+
+    ![reación de una internet gateway y dirección del tráfico](/aws/redes/redes-demostracion-vpc-creacion-gateway-trafico.png)
+  </Tab>
+</Tabs>
+
+## 2. Direccionamiento IP para VPC y subredes
+
+Las **direcciones IP** permiten que los recursos de tu VPC se comuniquen entre sí y con recursos a través de Internet. 
+
+### 2.1 Direcciones IP
+
+Una **dirección IP** es una **etiqueta numérica** que identifica de forma única un dispositivo en una red. Hay dos versiones principales, el formato de estas direcciones es el siguiente:
+
+- **IPv4:** Una dirección IPv4 individual tiene 32 bits, con 4 grupos de hasta 3 dígitos decimales, del 0 al 255. Por ejemplo, `10.0.1.0`.
+
+- **IPv6:** Una dirección IPv6 individual tiene 128 bits, con 8 segmentos de 4 dígitos hexadecimales. Por ejemplo, `2001:0db8:85a3:0000:0000:8a2e:0370:7334`. No es necesario incluir los ceros iniciales en un segmento. Se usa por agotamiento de IPv4.
+
+Las direcciones IPs pueden ser:
+
+- **IP privada:** comunicación interna dentro de la VPC; no es enrutable por Internet.
+- **IP pública:** permite comunicación con Internet. Su uso, Acceso desde/hacia Internet
+- **Elastic IP:** IP pública **estática** que se puedes asociar y reasignar a recursos compatibles, como una instancia EC2. A diferencia de una IP pública dinámica, una Elastic IP permanece asociada a tu cuenta hasta que la liberes.
+
+### 2.2 CIDR (Classless Inter-Domain Routing)
+
+**El CIDR (Enrutamiento entre dominios sin clases)** es un método para **dar formato y agrupar direcciones IP**. Se representa con la dirección seguida de una barra y un número, llamado **prefijo**:
+
+```text
+10.0.0.0/16
+10.0.1.0/24
+10.0.2.0/24
+```
+**¿Qué significa `/16` y `/24`?**
+
+La notación `/XX` indica cuántos **bits de la dirección** están fijos para la red; el resto identifica los hosts.
+- `/16` deja **más espacio** (bloque grande) para direcciones dentro del bloque.
+- `/24` deja **menos espacio** (un bloque más pequeño).
+- `/0` (`0.0.0.0/0`) significa **todas las direcciones** (equivalente a "cualquier destino"), usado en las rutas por defecto.
+
+:::info Bloque CIDR
+Un **bloque CIDR** define el rango de direcciones IP disponibles en tu VPC. Es como definir cuántas "direcciones postales" tienes disponibles.
+- Un **bloque CIDR de IPv4** consta de una dirección IPv4 seguida de una barra y un número del 0 al 32. Por ejemplo, 10.0.0.0/16 representa 65 536 direcciones IPv4, desde 10.0.0.0 hasta 10.0.255.255.
+- Un **bloque CIDR de IPv6** tiene una dirección IPv6 que termina con segmentos compuestos exclusivamente por ceros, en los que los segmentos de ceros se sustituyen por dos puntos dobles, seguidos de una barra y un número del 0 al 128. Por ejemplo, 2001:db8:1234:1a00::/56 representa 2^72 direcciones IPv6 desde 2001:db8: 1234:1a00:0000:0000:0000:0000 hasta 2001:db8:1234:1aff:ffff:ffff:ffff:ffff.
+
+:::
+
+A continuación presentamos bloques de CIDR de VPC y Subred:
+
+<Tabs>
+  <Tab label="Bloques de CIDR de VPC">
+    Una VPC requiere obligatoriamente un **bloque CIDR IPv4** principal (puedes añadir más o usar IPv6 opcionalmente).
+
+    - **Tamaño permitido:** Máscaras de subred desde **`/16`** (`65,536` IPs) hasta **`/28`** (`16` IPs). Una vez creada la VPC, puede asociarle bloques CIDR de IPv4 adicionales.
+    - **Recomendación (RFC 1918):** Usa rangos de IPs privadas (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`).
+    - **Restricciones clave:** 
+        - No uses rangos reservados (`0.0.0.0/8`, `127.0.0.0/8`, `169.254.0.0/16`, `224.0.0.0/4`).
+        - Evita el rango `172.17.0.0/16` para prevenir conflictos con algunos servicios de AWS.
+  </Tab>
+  <Tab label="Bloques de CIDR de Subred">
+    Las subredes dividen la VPC. Su bloque CIDR puede ser igual al de la VPC (si es única) o un subconjunto (si hay varias, **sin solaparse**).
+
+    - **IPv4 en Subredes:**
+        - **Tamaño:** Máscaras de red de **`/16`** a **`/28`**.
+        - **IPs reservadas por AWS:** Las **primeras 4 y la última** dirección de cada subred están reservadas y no se pueden asignar a instancias EC2 (por ejemplo, para la red, el enrutador de la VPC, el servidor DNS, uso futuro y broadcast).
+    - **IPv6 en Subredes:**
+        - Si tu VPC usa IPv6, puedes asignarlo a las subredes con máscaras de **`/44`** a **`/64`** (en incrementos de `/4`).
+        - Al igual que en IPv4, AWS reserva las primeras 4 y la última dirección IPv6 para su infraestructura interna (enrutador, enlaces locales, etc.).
+  </Tab>
+</Tabs>
+

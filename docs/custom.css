@@ -5,6 +5,15 @@
   --rp-c-brand-dark: #be123c;
   --rp-c-brand-darker: #9f1239;
   --rp-c-brand-tint: #e11d4829;
+
+  --rp-c-h1: var(--rp-c-brand);
+  --rp-c-h2: var(--rp-c-brand-dark);
+  --rp-c-h3: var(--rp-c-text-1);
+  --rp-c-h4: var(--rp-c-text-2);
+}
+
+html{
+    scroll-behavior: smooth;
 }
 
 .rp-home-hero__title-brand {
@@ -38,4 +47,17 @@
     radial-gradient(ellipse 50% 40% at 100% 0%, #f43f5e1a 0%, transparent 60%),
     radial-gradient(ellipse 80% 60% at 30% 20%, #e11d4814 0%, transparent 80%),
     #121212;
+
+  /* --rp-c-h2: var(--rp-c-brand-light); */
 }
+
+.medium-zoom-image{
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(225, 29, 72, 0.15);
+}
+
+/* .rp-doc h1 { color: var(--rp-c-h1); }
+.rp-doc h2 { color: var(--rp-c-h2); }
+.rp-doc h3 { color: var(--rp-c-h3); }
+.rp-doc h4 { color: var(--rp-c-h4); }
+ */

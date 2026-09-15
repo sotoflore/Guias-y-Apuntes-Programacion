@@ -1,0 +1,116 @@
+[
+    {
+        "type": "dir",
+        "name": "cloud-computing",
+        "label": "Computación en la Nube",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "file",
+        "name": "01-introduccion",
+        "label": "Introducción a AWS"
+    },
+    
+    {
+        "type": "file",
+        "name": "responsabilidad-compartida",
+        "label": "Responsabilidad Compartida AWS"
+    },
+    {
+        "type": "dir",
+        "name": "infraestructura-global",
+        "label": "Infraestructura Global de AWS",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "compute",
+        "label": "Computación",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "serverless",
+        "label": "Computación sin servidor",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "redes",
+        "label": "Redes",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "almacenamiento",
+        "label": "Almacenamiento",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "data-base",
+        "label": "Bases de Datos",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "ia-ml-y-analisis-datos",
+        "label": "IA/ML y análisis de datos",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "security",
+        "label": "Identidad y Seguridad",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "monitoreo-cumplimiento",
+        "label": "Monitoreo y Gobernanza",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "precios-soporte",
+        "label": "Precios y Soporte",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "migracion-nube",
+        "label": "Migración a la nube de AWS",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "arquitectura",
+        "label": "Well-Architected en AWS",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "dir",
+        "name": "devops",
+        "label": "DevOps",
+        "collapsible": true,
+        "collapsed": true
+    },
+    {
+        "type": "file",
+        "name": "glossary",
+        "label": "Glosario"
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "type": "file",
+        "name": "cloudformation",
+        "label": "CloudFormation"
+    },
+    {
+        "type": "file",
+        "name": "cdk",
+        "label": "AWS CDK"
+    },
+    {
+        "type": "file",
+        "name": "cicd",
+        "label": "CI/CD Pipeline"
+    }
+]

@@ -95,11 +95,7 @@
         "name": "cloudwatch",
         "label": "CloudWatch"
     },
-    {
-        "type": "dir",
-        "name": "devops",
-        "label": "DevOps"
-    },
+    
     {
         "type": "dir",
         "name": "architecture",

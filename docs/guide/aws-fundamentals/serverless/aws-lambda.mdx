@@ -1,0 +1,1080 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# AWS Lambda
+
+**AWS Lambda**, un servicio de computación sin servidor que ejecuta código sin administrar servidores.
+
+**Lambda** representa el modelo de computación Serverless de AWS: ejecutas tu código, y AWS se encarga de todo lo demás — servidores, escalado, disponibilidad y mantenimiento. No administras máquinas; solo te preocupas por tu lógica de negocio.
+
+## 1. Lambda
+
+![icono de aws lambda](/icons/lambda.svg)
+
+**Lambda** es un servicio de computación sin servidor (serverless) que ejecuta código en respuesta a eventos, sin necesidad de aprovisionar o administrar servidores. 
+
+**Lambda** administra automáticamente la infraestructura subyacente y escala los recursos según el volumen de solicitudes. Solo se le cobra por el tiempo de computación consumido, que se registra hasta el milisegundo. Lambda administra la ejecución, el escalado, la aplicación de parches y la asignación de recursos. Puede optimizar el rendimiento al configurar el tamaño de memoria adecuado para su función.
+
+
+![que es lambda](/aws/compute/lambda-intro.jpg)
+
+**Características principales**:
+
+- **Serverless**: Sin servidores que administrar
+- **Escalado automático**: De 0 a miles de instancias en segundos
+- **Pago por uso**: Solo pagas por los milisegundos de ejecución
+- **Event-driven**: Se ejecuta en respuesta a eventos de otros servicios
+- **Integraciones nativas**: Se conecta con +200 servicios de AWS y SAAS
+- **Múltiples runtimes**: Soporta Node.js, Python, Java, Go, .NET, Ruby
+
+Lambda ofrece dos primitivas de computación, cada una diseñada para diferentes patrones de carga de trabajo:
+
+<Tabs>
+  <Tab label="Funciones de Lambda">
+    Ejecutan código en respuesta a eventos o llamadas a la API sin necesidad de gestionar servidores. El usuario escribe una función de gestión, la conecta a un desencadenador (API Gateway, Amazon S3, Amazon SQS, EventBridge y más de 200 servicios de AWS) y Lambda la ejecuta. 
+    
+    Cada invocación se ejecuta de forma independiente, sin estado compartido, y se escala horizontalmente para adaptarse a la demanda. Lambda gestiona los entornos de ejecución, el escalado, el enrutamiento y la tolerancia a fallos.
+  </Tab>
+  <Tab label="Lambda MicroVMs">
+   Entornos de computación aislados con un arranque casi instantáneo y retención de estado de hasta 8 horas. Diseñados para cargas de trabajo que necesitan un entorno de computación dedicado para cada usuario o trabajo individual. Lambda gestiona el aislamiento, la capacidad y las conexiones de red. 
+   
+   Tu aplicación utiliza las API de Lambda MicroVMs y los puntos finales HTTPS para conectar a cada usuario o trabajo con su entorno de computación.
+  </Tab>
+</Tabs>
+
+### 1.1 ¿Qué problema resuelve?
+
+Con EC2 (servidores virtuales), el desarrollador debía:
+1. Elegir y lanzar una instancia.
+2. Instalar y parchear el sistema operativo.
+3. Configurar el runtime del lenguaje.
+4. Gestionar el escalado manual o con Auto Scaling.
+5. Pagar por la instancia incluso cuando no hacía nada.
+
+![¿Qué problema resuelve?](/aws/compute/lambda-problema-resuelve.jpg)
+
+**Lambda** elimina todo ese trabajo: **si no hay una ejecución activa, no pagas**. El código se ejecuta solo cuando ocurre un evento relevante.
+
+### 1.2 Límites de Lambda
+
+| Recurso | Límite predeterminado | Se puede aumentar |
+|---------|----------------------|-------------------|
+| **Memoria** | 128 MB - 10,240 MB | No (rango fijo) |
+| **CPU** | Proporcional a la memoria | No (configurado automáticamente) |
+| **Timeout** | 900 segundos (15 min) | No (máximo absoluto) |
+| **Package size (zip)** | 50 MB (compressión) / 250 MB (sin comprimir) | No |
+| **Package size (container)** | 10 GB | No |
+| **Variables de entorno** | 4 KB totales | No |
+| **Concurrencia por cuenta** | 1,000 (inicial) | Sí (con AWS Support) |
+| **Invocaciones concurrentes** | 1,000 | Sí (request de aumento) |
+| **Tamaño del payload** | 6 MB (síncrono) / 256 KB (asíncrono) | No |
+| **Syslog / /tmp** | 512 MB a 10 GB (configurable) | No |
+| **Descargas de red** | 1 GB (síncrono) | No |
+| **Ejecuciones simultáneas** | Sin límite (pero con concurrencia) | La concurrencia se gestiona |
+
+:::info ¿Qué ocurre cuando la función supera su timeout?
+- Lambda **detiene** la ejecución de la función.
+- La invocación se marca como **fallida** (se genera un error).
+- Según el modelo de invocación:
+  - **Síncrono:** El cliente recibe un error (por ejemplo, HTTP 502 de API Gateway).
+  - **Asíncrono:** Lambda puede reintentar (si está configurado) o mover el evento a la dead-letter queue.
+
+> Si una función tarda demasiado y Lambda la detiene, es porque **superó el timeout configurado**. La solución es aumentar el timeout o optimizar el código.
+
+:::
+
+
+## 2. Conceptos fundamentales de Lambda
+
+<Tabs>
+  <Tab label="Function Lambda">
+    Es el **bloque de código** que defines para ejecutar cuando ocurre un evento. Es tu unidad de trabajo: recibe un evento, lo procesa y devuelve un resultado.
+
+    **Ejemplo:**
+    ```javascript
+    exports.handler = async (event, context) => {
+        const nombre = event.nombre;
+        return { mensaje: `Hola, ${nombre}!` };
+    };
+    ```
+  </Tab>
+  <Tab label="Handler">
+    Es el **punto de entrada** de tu función Lambda. Es la función específica que Lambda invoca cuando se ejecuta tu código. Lambda le pasa dos parámetros estándar:
+
+    - **event:** contiene los datos del evento que provocó la invocación.
+    - **context:** proporciona información de la ejecución (timeout restante, función, versión, etc.).
+
+    Es como la "puerta principal" de tu función: Lambda entra por ahí.
+  </Tab>
+  <Tab label="Runtime">
+    Es el **entorno de lenguaje + sistema operativo** en el que se ejecuta tu código. AWS soporta varios lenguajes y gestiona el runtime automáticamente (parches, actualizaciones, entorno).
+
+    Lenguajes soportados por Lambda (verificar versión vigente en docs):
+    - Python (3.x)
+    - Node.js
+    - Java
+    - Go
+    - .NET
+    - Ruby
+
+    AWS administra el entorno de ejecución: parches, actualizaciones y configuración del sistema operativo subyacente.
+  </Tab>
+  <Tab label="Trigger (Disparador)">
+    Es el **constructor** que conecta una fuente de eventos con tu función Lambda. Define la condición: "cuando ocurra X evento, ejecuta mi función".
+
+    **Ejemplos:**
+    - "Cuando se suba un archivo al bucket S3, ejecuta la función `procesarImagen`".
+    - "Cuando llegue una solicitud POST a la API, ejecuta la función `crearUsuario`".
+  </Tab>
+  <Tab label="Event">
+    Es un **conjunto de datos** que se envía a tu función cuando se invoca. Contiene información sobre lo que ocurrió. Es la **entrada** de tu función.
+
+    **Ejemplo (evento de S3):**
+    ```json
+    {
+    "Records": [
+        {
+        "s3": {
+            "bucket": { "name": "mi-bucket" },
+            "object": { "key": "foto.jpg" }
+        }
+        }
+    ]
+    }
+    ```
+  </Tab>
+  <Tab label="Execution Environment">
+    Es el **entorno aislado y temporal** donde Lambda ejecuta tu función. Incluye:
+    - El runtime del lenguaje.
+    - La memoria y CPU asignadas.
+    - El almacenamiento efímero.
+    - El sistema operativo gestionado por AWS.
+
+    AWS crea el execution environment cuando es necesario y lo reutiliza si es posible (para ejecuciones cercanas en el tiempo). Cuando ya no se necesita, se elimina.
+   </Tab>
+</Tabs>
+
+**Diferencia entre evento, trigger y función**
+
+| Concepto | Qué es | Rol |
+|---|---|---|
+| **Evento** | Los datos de lo que ocurrió | La entrada que recibe la función |
+| **Trigger** | El conector entre fuente y función | Define cuándo se invoca la función |
+| **Función** | El código que se ejecuta | Lo que procesa el evento |
+
+:::info ¿Por qué Lambda debe considerarse stateless? 
+Porque Lambda **no mantiene estado entre invocaciones**. Cada invocación es independiente:
+- No puedes guardar variables en memoria y esperar que existan en la siguiente ejecución.
+- No hay una sesión persistente.
+- El execution environment puede reutilizarse, pero no debes asumirlo.
+
+**Implicación de arquitectura:** Si necesitas preservar estado (por ejemplo, el contador de visitas, una sesión de usuario), debes guardarlo en un servicio externo: **DynamoDB, S3, ElastiCache, etc.**
+:::
+
+## 3. Cómo funciona Lambda
+
+![como funciona lambda](/aws/compute/lambda-como-funciona.png)
+
+**Lambda** funciona principalmente mediante un modelo **basado en eventos**. Esto significa que una función se ejecuta cuando ocurre un evento determinado, **por ejemplo**, una solicitud HTTP, la carga de un archivo en Amazon S3, un mensaje en una cola de Amazon SQS o una regla programada.
+
+![Cómo funciona Lambda](/aws/compute/compute-sin-servidor-aws-lambda-como-funciona.png)
+
+1. **Cargue el código en Lambda**. En primer lugar, cargue el código a Lambda, que se carga como una función de Lambda.
+
+2. **Configure el código para que se desencadene desde una fuente de eventos**. A continuación, configure el código para que se desencadene mediante eventos, como servicios de AWS, aplicaciones móviles o solicitudes HTTP.
+
+3. **Ejecute el código cuando se desencadene**. El código solo se ejecuta cuando se produce un evento, como la carga de un archivo o una acción del usuario. Lambda se encarga automáticamente de toda la administración, el escalado y la infraestructura de los servidores. El tiempo de ejecución de Lambda ejecuta el código de la función con los datos de eventos que se le proporcionan. De esta manera, el código se ejecuta de manera fiable, segura y eficiente, sin que usted tenga que administrar los servidores o el entorno en el que se ejecuta.
+
+4. **Pague solo por el tiempo de computación utilizado**. Solo se le cobra por el tiempo de computación consumido, que se registra hasta el milisegundo. El precio depende de la cantidad de memoria que asigne a su función.
+
+**Por ejemplo**: Imagina una aplicación que guarda un registro (por ejemplo, "crear un nuevo pedido").
+
+![lambda ejemplo](/aws/compute/lambda-ejemplo.jpg)
+
+**Qué ocurre en cada etapa:**
+
+1. **Usuario:** Toca "Crear pedido" en su aplicación móvil.
+2. **API Gateway:** Recibe la solicitud HTTP (`POST /pedido`), la autentica y la convierte en un **evento** para Lambda.
+3. **Lambda Function (crearPedido):** Recibe el evento con los datos del pedido, valida la información y ejecuta el código de negocio.
+4. **DynamoDB:** Lambda escribe el pedido en la tabla de base de datos.
+5. **Respuesta:** Lambda devuelve un mensaje de éxito a API Gateway, que lo envía de vuelta al usuario.
+
+## 4. Casos de uso de Lambda
+
+**Lambda** es ideal para crear aplicaciones con capacidad de respuesta y basadas en eventos en una amplia diversidad de sectores. Estos son tres ejemplos reales que muestran cómo Lambda ayuda a las empresas a escalar de manera eficiente, reducir la sobrecarga operativa y pagar solo por lo que utilizan.
+
+- **Procesamiento de imágenes en tiempo real para una aplicación de redes sociales**
+
+    Una empresa de redes sociales usa Lambda para procesar las imágenes que suben los usuarios. Cuando se carga una foto, se desencadena Lambda para ajustar el tamaño de la imagen, aplicar filtros y guardarla en un formato optimizado para su almacenamiento. Este enfoque sin servidor y basado en eventos garantiza que la aplicación pueda manejar grandes volúmenes de cargas sin necesidad de administrar la infraestructura.
+
+    >**¿Por qué usar Lambda?** Se escala automáticamente según las cargas y solo cobra por el tiempo dedicado a procesar cada imagen.
+
+- **Entrega de contenido personalizada para un agregador de noticias**
+
+    Un agregador de noticias usa Lambda para buscar y procesar artículos de noticias de varias fuentes y, a continuación, adapta las recomendaciones según las preferencias del usuario. Cuando un usuario abre la aplicación o realiza una búsqueda, se desencadenan las funciones de Lambda para recuperar datos, ejecutar la lógica de personalización y mostrar contenido relevante.
+
+    >**¿Por qué usar Lambda?** Se escala automáticamente según el tráfico de usuarios y reduce los costos al ejecutar código solo cuando los usuarios interactúan.
+
+- **Gestión de eventos en tiempo real para un juego en línea**
+
+    Una empresa de videojuegos usa Lambda para gestionar eventos dentro del juego, como las acciones de los jugadores, los cambios de estado del juego y las actualizaciones en tiempo real de la tabla de clasificación. Cada evento (como conseguir un punto o desbloquear un logro) desencadena una función de Lambda que actualiza los datos del jugador y el estado del juego.
+
+    >**¿Por qué usar Lambda?** Gestiona miles de eventos, en tiempo real, sin necesidad de administrar servidores. Los costos escalan según el uso, lo que es ideal para los picos de actividad en los juegos.
+
+- **Backend Serverless**. Construir APIs y backends completos sin administrar servidores. Ideal para aplicaciones web y móviles. Exponer endpoints REST mediante API Gateway y Lambda como backend.
+
+- **Procesamiento de imágenes y archivos**. Redimensionar imágenes, generar thumbnails, validar documentos, extraer metadatos.
+
+- **Automatización**. Tareas programadas: eliminar recursos obsoletos, generar reportes, enviar recordatorios.
+
+- **Procesamiento de eventos**. Reaccionar a cambios de estado de otros servicios AWS (instancia EC2 detenida, bucket creado, etc.).
+
+- **ETL (Extract, Transform, Load)**. Construir pipelines de transformación de datos.
+
+- **Automatización de infraestructura**. Responder a problemas de infraestructura automáticamente.
+
+- **Notificaciones**. Enviar correos, SMS o mensajes a aplicaciones cuando ocurren eventos.
+
+- **Integración entre servicios**. Actuar como "pegamento" que conecta y procesa datos entre diferentes servicios AWS.
+
+## 5. Arquitectura de AWS Lambda
+
+![Visión arquitectónica](/aws/compute/lambda-arquitectura.jpg)
+
+**Componentes de la arquitectura:**
+
+- **Cliente:** La persona, aplicación o servicio que genera el evento que provoca la invocación.
+
+- **Fuente de eventos:** El servicio o sistema donde ocurre el evento. Puede ser S3, API Gateway, SNS, SQS, DynamoDB Streams, EventBridge, Cron, etc.
+
+- **Trigger:** El conector que vincula la fuente de eventos con tu función Lambda.
+
+- **Lambda Function:** Tu código ejecutable. Define qué pasa cuando recibe un evento.
+
+- **Execution Environment:** El entorno aislado donde Lambda ejecuta tu código. AWS lo crea y gestiona.
+
+- **IAM Role (Execution Role):** El rol que determina qué servicios AWS puede acceder tu función. Sin el rol correcto, Lambda no puede leer de S3 ni escribir en DynamoDB.
+
+- **CloudWatch Logs:** Registro de cada ejecución de tu función para monitoreo y debugging.
+
+- **Otros servicios AWS:**,Los servicios que tu función necesita para cumplir su tarea (lectura de S3, escritura en DynamoDB, envío de SNS, etc.).
+
+## 6. Invocación de Lambda
+
+Lambda puede invocarse de tres formas principales. Las tres formas pueden parecer similares, pero el comportamiento, quién inicia la ejecución y quién espera el resultado son diferentes.
+
+![invocación de Lambda](/aws/compute/lambda-invocacion.jpg)
+
+La clave para entenderlo es dejar de pensar solamente en “**Lambda recibe un evento**” y preguntarse:
+
+>¿Quién invoca a Lambda, quién espera y cómo llega el evento hasta Lambda?
+
+:::info ¿qué significa "invocar Lambda"?
+Invocar una función Lambda simplemente significa: **hacer que una función Lambda se ejecute.**
+:::
+
+**Las tres formas**:
+
+<Tabs>
+  <Tab label="Invocación síncrona">
+    La **invocación síncrona** (Synchronous invocation) es un modelo de ejecución donde el cliente (la aplicación, servicio o usuario que realiza la llamada) espera activamente una respuesta de la función Lambda. La conexión permanece abierta durante todo el tiempo que tarda la función en procesar la solicitud y devolver un resultado.
+
+    En otras palabras:
+
+    >El que invoca a Lambda necesita conocer el resultado de la ejecución. Existe una comunicación de tipo: **`Solicitud → Procesamiento → Respuesta`**
+
+    **¿Cómo funciona?**
+
+    1. El cliente realiza una llamada a la función Lambda (usando Invoke API, AWS SDK, o un servicio integrado como API Gateway).
+
+    2. AWS Lambda recibe la solicitud, la instancia se activa y ejecuta el código.
+
+    3. El cliente se "bloquea". Esto significa que no puede continuar con otras tareas en ese hilo de ejecución hasta que Lambda finaliza.
+
+    4. Lambda devuelve el resultado (valor de retorno, error o excepción) directamente al cliente.
+
+    5. El cliente recibe la respuesta y reanuda su flujo normal.
+
+    **Quién espera la respuesta:** El cliente (la persona o servicio que llamó).
+
+    **Casos de uso:**
+    - APIs REST que necesitan una respuesta inmediata.
+    - Arquitecturas que requieren el resultado para continuar.
+    - Operaciones que validan algo y necesitan confirmación.
+    - Validación de Datos en Tiempo Real
+    - Orquestación de Pasos (AWS Step Functions): Cuando un paso del flujo de trabajo depende obligatoriamente del resultado del paso anterior.
+
+    :::tip Ejemplo con API Gateway
+    ```text
+    Usuario → API Gateway → Lambda (procesa) → Devuelve respuesta → Usuario
+    ```
+    El usuario espera que Lambda termine antes de ver el resultado en su pantalla.
+    :::
+    >**Concepto Clave: Acoplamiento Fuerte**
+    >Existe un acoplamiento fuerte entre el cliente y Lambda. Si Lambda falla, el cliente recibe el error inmediatamente. Si Lambda tarda, el cliente experimenta latencia.
+  </Tab>
+  <Tab label="Invocación asíncrona">
+   La **invocación asíncrona** (Asynchronous invocation) Es un modelo de ejecución donde el cliente NO espera una respuesta. El cliente simplemente entrega el evento a Lambda y continúa su trabajo inmediatamente. Lambda garantiza que procesará el evento, pero el cliente no sabe cuándo termina.
+
+   La idea fundamental es:
+
+    >Te entrego el trabajo; no necesito esperar el resultado.
+
+    **¿Cómo funciona?**
+
+    1. El cliente realiza una llamada de invocación asíncrona (usando el SDK con InvocationType='Event', o mediante servicios integrados como S3, EventBridge, SNS).
+   
+    2. Lambda agrega el evento a una cola y **devuelve de inmediato** una confirmación de que recibió el evento. El cliente está libre.
+
+    3. El cliente **NO espera la respuesta** de la función.
+    4. Lambda procesa el evento en segundo plano. El resultado de la función se descarta (por defecto).
+
+    **El cliente no espera la respuesta:**
+    El cliente sigue trabajando; la función completa su tarea en paralelo.
+
+    **Casos de uso:**
+    - Tareas que no requieren respuesta inmediata.
+    - Procesamiento de imágenes después de subir un archivo.
+    - Notificaciones y Correos Electrónicos: Enviar un correo de bienvenida tras registrarse. No necesitas bloquear al usuario esperando que el servidor SMTP envíe el email.
+    - Ingesta de Datos / ETL: Procesamiento de logs o eventos que se guardan primero en un stream o buffer y se procesan más tarde sin urgencia.
+
+    **Manejo de errores y reintentos:**
+    En invocación asíncrona, si la función falla, Lambda puede reenviar el evento automáticamente (por defecto hasta 2 reintentos), o enviar el fallo a una **dead-letter queue** o a un **destination** configurado.
+
+    :::tip Ejemplo con S3
+    ```txt
+    Usuario sube imagen → S3 → Lambda (redimensiona) [asíncrono]
+    ```
+    El usuario sube la imagen y sigue usando la app; Lambda redimensiona la imagen en segundo plano.
+    :::
+  </Tab>
+  <Tab label="Mapeo de fuente de eventos">
+    El **Mapeo de fuente de eventos** (Event source mapping) es un mecanismo administrado AWS Lambda donde Lambda actúa como un consumidor que sondea (hace polling) activamente un recurso de almacenamiento de flujo (streams) o una cola. Este modelo permite a Lambda leer lotes (batches) de registros de estos servicios (Amazon SQS, Amazon Kinesis, DynamoDB Streams).
+
+    Lambda utiliza el Event Source Mapping para leer registros/mensajes de esas fuentes y entregarlos a la función Lambda.
+
+    **¿Cómo funciona?**
+
+    1. El cliente (productor) escribe datos en una fuente de eventos: Amazon Kinesis Data Streams, Amazon DynamoDB Streams, Amazon SQS (Standard y FIFO).
+
+    2. Lambda gestiona el sondeo: El servicio Lambda ejecuta internamente un proceso de sondeo. Lee los registros disponibles en la fuente de eventos.
+
+    3. Lambda invoca la función pasando el lote de registros (el payload del evento contiene múltiples registros de la fuente).
+
+    4. Si la función procesa el lote con éxito, Lambda elimina los mensajes de la fuente (en el caso de SQS) o avanza el puntero del stream (en Kinesis/DynamoDB).
+
+    **Diferencia respecto a un trigger tradicional:**
+    - Un trigger tradicional: el evento ocurre → inmediatamente se invoca Lambda (S3, API Gateway, SNS).
+    - Event source mapping: Lambda **lee continuamente** de una cola/stream y procesa lo que encuentra (SQS, Kinesis, DynamoDB Streams).
+
+    **Casos de uso:**
+    - Procesamiento de Streams de Alta Velocidad: Leer clics de usuario en tiempo real desde Kinesis para agregarlos en una base de datos.
+
+    - Consumo de Colas SQS: Procesamiento de pedidos desde una tienda en línea donde el volumen de pedidos varía mucho y necesitas escalar el procesamiento independientemente de la tasa de llegada.
+
+    - Replicación de Datos (DynamoDB Streams): Leer cambios en una tabla DynamoDB y replicarlos en otra región o base de datos.
+    </Tab>
+</Tabs>
+
+> **Recuerda:** 
+> - Si el usuario **espera una respuesta inmediata** → invocación **síncrona**.
+> - Si Lambda procesa **en segundo plano** sin que nadie espere → invocación **asíncrona**.
+> - Si Lambda consume mensajes/registros desde una cola o stream → **event source mapping**.
+> - El modelo Asíncrona y la Asignación de origen de eventos desacoplan al cliente del procesamiento.
+
+## 7. Manejo de errores
+
+El manejo de errores en AWS Lambda es el conjunto de mecanismos que permiten detectar, registrar, reintentar, aislar y gestionar fallos durante la ejecución de una función Lambda.
+
+Una función Lambda puede fallar por diferentes motivos:
+
+- Excepciones en el código.
+- Datos de entrada incorrectos.
+- Timeouts.
+- Falta de memoria.
+- Problemas de permisos IAM.
+- Errores al acceder a otros servicios de AWS.
+- Errores de red.
+- Dependencias externas no disponibles.
+- Límites de concurrencia.
+- Configuración incorrecta.
+
+La forma en que AWS Lambda responde a un error depende principalmente de cómo se invoca la función.
+
+:::info ¿Qué ocurre cuando una Lambda falla?
+Supongamos que tenemos una función:
+
+```js
+export const handler = async (event) => {
+    throw new Error("Error procesando el evento");
+};
+```
+La ejecución termina con un error. Pero Lambda no siempre maneja ese error de la misma manera. Debemos preguntarnos: **¿Quién invocó a Lambda y cómo fue realizada la invocación?**
+:::
+
+![Manejo de errores](/aws/compute/lambda-manejo-errores.jpg)
+
+<Tabs>
+  <Tab label="Errores de ejecución">
+    Cuando tu función Lambda lanza una excepción o falla, se genera un **error de ejecución**. Cómo se maneja depende del modelo de invocación.
+
+    **Error en invocación síncrona:**
+    - AWS devuelve el error al cliente (por ejemplo, API Gateway devuelve un error HTTP 500/502).
+    - El cliente decide si reintenta.
+
+    **Error en invocación asíncrona:**
+    - Lambda puede **reintentar** automáticamente el evento (por defecto hasta 2 veces).
+    - Si sigue fallando, el evento se considera fallido; puede enviarse a una **dead-letter queue** o a un **destination** configurado.
+  </Tab>
+  <Tab label="Retries (Reintentos)">
+    - **Síncrono:** Sin reintentos automáticos de Lambda; el cliente controla.
+    - **Asíncrono:** Reintentos automáticos (por defecto ~2). Se puede configurar para límite máximo de edad del evento y reintentos.
+    - **Event source mapping:** Lambda reintenta según configuración de la cola/stream.
+  </Tab>
+  <Tab label="Dead-letter queues">
+    Una **Dead-Letter Queue (DLQ - Colas de mensajes fallidos)** es un mecanismo utilizado para conservar información relacionada con eventos que no pudieron procesarse correctamente.
+
+    - Puede ser una cola **SQS** o un tópico **SNS**.
+    - Permite revisar qué falló y por qué, sin perder los eventos.
+
+    Puede utilizar:
+
+    - Amazon SQS
+    - Amazon SNS
+  </Tab>
+  <Tab label="Destinations">
+    **Destinations** permite definir qué hacer con el resultado de una invocación asíncrona. Es una alternativa más moderna a DLQ.
+    - Permite configurar un **destino de éxito** y un **destino de fallo** para tu función.
+    - En el destino de éxito puedes recibir un evento (por ejemplo, en SNS o SQS) cuando la función termina bien.
+    - En el destino de fallo recibes el evento cuando falla.
+  </Tab>
+</Tabs>
+
+**Recuerda**: 
+
+>- **DLQ**. Es una cola donde se envían los eventos que no pudieron procesarse para su análisis posterior.
+>- **Destination**. Define qué ocurre después de que una invocación termina correctamente o falla.
+
+:::tip Ejemplo sencillo
+Una función que redimensiona imágenes se invoca asíncronamente (S3). Si la imagen está corrupta y la función falla:
+1. Lambda reintenta 2 veces (por defecto).
+2. Si sigue fallando, envía el "evento fallido" a una **DLQ** (cola SQS).
+3. Un proceso (otra Lambda o un humano) revisa la DLQ y ve qué imágenes fallaron.
+
+:::
+
+## 8. Escalabilidad y concurrencia
+
+AWS Lambda está diseñado para ejecutar funciones de manera **automática y altamente escalable**.
+
+Cuando aumenta la cantidad de eventos, Lambda puede crear más **execution environments** para procesar múltiples invocaciones al mismo tiempo.
+
+![](/aws/compute/lambda-escalabilidad.jpg)
+
+Los conceptos más importantes que debes dominar son:
+
+<Tabs>
+  <Tab label="Escalado automático">
+  Una de las mayores ventajas de Lambda es que **escala automáticamente**. Si ocurren 1 evento o 1,000,000 de eventos, Lambda crea la cantidad necesaria de ejecuciones para procesarlos, sin que tengas que configurar nada.
+
+  >Esto no significa que Lambda pueda ejecutar una cantidad infinita de funciones simultáneamente. Existen límites de concurrencia, tanto a nivel de cuenta como de función.
+
+    ```text
+    5 eventos → 5 ejecuciones en paralelo
+    100 eventos → 100 ejecuciones en paralelo
+    1000 eventos → hasta el límite de concurrencia
+    ```
+
+    **Idea clave**
+
+    Lambda escala automáticamente según la demanda, pero la cantidad máxima de ejecuciones simultáneas está limitada por la concurrencia disponible.
+
+    Recuerda:
+
+    >Lambda = **escalabilidad automática + ejecución bajo demanda**.
+  </Tab>
+  <Tab label="Concurrencia">
+    La **concurrencia** (Concurrency) representa el número de ejecuciones de una función Lambda que están siendo procesadas simultáneamente.
+
+    Por ejemplo, imagina que una función recibe 10 eventos al mismo tiempo y cada ejecución tarda aproximadamente 1 segundo, en ese momento, la concurrencia sería aproximadamente de 10 ejecuciones.
+
+    **Concurrencia ≠ número total de invocaciones**
+
+    | Concepto     | Significado                                                  |
+    | ------------ | ------------------------------------------------------------ |
+    | Invocaciones | Cantidad total de veces que se llamó a la función            |
+    | Concurrencia | Cantidad de ejecuciones que están ocurriendo al mismo tiempo |
+
+    **¿Qué determina la concurrencia?**
+
+    La concurrencia depende principalmente de:
+
+    - Cantidad de solicitudes.
+    - Velocidad con la que llegan los eventos.
+    - Duración de cada ejecución.
+    - Límites de concurrencia configurados.
+
+    Una función que tarda mucho tiempo puede consumir más concurrencia durante más tiempo. AWS por defecto establece un límite de concurrencia por cuenta.
+
+    Recuerda:
+
+    >Concurrencia = **número de ejecuciones simultáneas de una función**.
+  </Tab>
+  <Tab label="Concurrencia Reservada">
+    La **Concurrencia reservada** (Reserved Concurrency) permite establecer un límite de concurrencia para una función Lambda específica.
+
+    Su objetivo principal es controlar cuánto puede consumir una función de la concurrencia disponible, garantizando que esa función siempre tenga capacidad disponible.
+
+    **¿Por qué utilizarla?**
+
+    Puede utilizarse para:
+
+    - Proteger otros recursos
+    - Evitar que una función consuma toda la concurrencia
+
+    Recuerda:
+
+    >Concurrencia reservada =  **controla y limita la concurrencia de una función específica**.
+  </Tab>
+  <Tab label="Concurrencia Aprovisionada">
+    La **Concurrencia aprovisionada** (Provisioned Concurrency) mantiene una cantidad determinada de execution environments (entornos de ejecución) inicializados y listos para atender invocaciones.
+
+    Su objetivo principal es reducir la latencia causada por los cold starts.
+
+    **¿Cuándo utilizarla?**
+
+    Es especialmente útil cuando una aplicación necesita:
+
+    - Latencia muy baja.
+    - Tiempos de respuesta predecibles.
+    - APIs sensibles a la latencia.
+    - Aplicaciones interactivas.
+    - Cargas de trabajo donde los cold starts afectan la experiencia del usuario.
+    
+    **Consideración de costos**
+
+    Provisioned Concurrency tiene un costo adicional porque AWS mantiene capacidad de ejecución preinicializada, incluso cuando no está procesando una solicitud en ese instante. Por eso, no siempre es necesario utilizarla.
+
+    Recuerda:
+
+    >Concurrencia aprovisionada  = **mantiene ambientes preparados para reducir la latencia de los cold starts.**
+  </Tab>
+  <Tab label="Cold Start">
+    El **Arranque en frío** (Cold Starts) es el **tiempo adicional** que Lambda tarda en ejecutar una función la primera vez que se invoca en un execution environment **nuevo**.
+
+    **¿Por qué ocurre?** 
+    
+    Cuando Lambda no ha ejecutado tu función recientemente, debe:
+    1. Crear un nuevo execution environment.
+    2. Descargar el runtime.
+    3. Cargar tu código.
+    4. Inicializar variables y conexiones.
+
+    Todo esto consume tiempo antes de que tu función empiece realmente a ejecutarse.
+
+    **¿Por qué puede aumentar la latencia?** 
+    
+    Porque en un cold start, además del tiempo de ejecución del código, se suma el tiempo de inicialización del entorno (que puede ser de cientos de milisegundos o incluso segundos).
+
+    **¿Cómo puede reducirse?**
+    - **Provisioned concurrency:** Pre-inicializa ambientes (elimina cold start).
+    - **Keep-alive / pings periódicos:** Invocaciones constantes mantienen el environment caliente.
+    - **Reducir el tamaño del código y dependencias:** Código más liviano se carga más rápido.
+
+    **Warm execution environment (Entorno de ejecución en caliente):** Cuando Lambda reutiliza un execution environment que ya fue inicializado, la ejecución es más rápida (no hay cold start).
+
+    **¿Cold Start significa que Lambda está apagado?**
+
+    No. Lambda no funciona simplemente como un servidor que se "enciende" y "apaga". El concepto importante es que una nueva ejecución puede requerir la creación e inicialización de un execution environment.
+
+    Recuerda:
+
+    >Cold Start = **latencia adicional asociada a preparar un nuevo execution environment**.
+  </Tab>
+</Tabs>
+
+:::info Cold Start vs Warm
+| Característica             | Cold Start    | Warm               |
+| -------------------------- | ------------- | ------------------ |
+| Environment nuevo          | Sí            | No                 |
+| Inicialización             | Necesaria     | Ya realizada       |
+| Latencia adicional         | Puede existir | Generalmente menor |
+| Runtime debe inicializarse | Sí            | Ya inicializado    |
+| Código debe cargarse       | Sí            | Ya disponible      |
+
+![Cold Start vs Warm](/aws/compute/lambda-cold-start-vs-warm.jpg)
+
+No debes asumir que un environment permanecerá caliente indefinidamente. Lambda puede eliminarlo cuando ya no sea necesario. Por eso, una aplicación no debe depender de que una ejecución anterior haya dejado un environment disponible.
+:::
+
+Recuerda: 
+>Warm = **Lambda reutiliza un execution environment que ya fue inicializado**.
+
+## 9. Seguridad de AWS Lambda
+
+**Lambda** es un servicio administrado por AWS, por lo que AWS se encarga de proteger la infraestructura que ejecuta las funciones. Sin embargo, el cliente sigue siendo responsable de configurar correctamente los permisos, proteger los datos y escribir código seguro.
+
+![Seguridad de AWS Lambda](/aws/compute/lambda-seguridad.jpg)
+
+La seguridad de AWS Lambda se basa principalmente en **IAM, permisos de invocación, principio de mínimo privilegio, cifrado y gestión segura de secretos**.
+
+<Tabs>
+  <Tab label="Execution Role (IAM Role)">
+    Un **Execution Role** es un **IAM Role que Lambda asume durante la ejecución de una función**.
+
+    El role permite que la función Lambda obtenga los permisos necesarios para interactuar con otros servicios de AWS.
+
+    Por ejemplo, una función Lambda podría necesitar:
+
+    * Leer objetos de Amazon S3.
+    * Escribir registros en DynamoDB.
+    * Enviar mensajes a SNS.
+    * Recuperar secretos de Secrets Manager.
+    * Escribir logs en CloudWatch.
+
+    **¿Cómo funciona?**
+
+    ```text
+    Lambda Function
+        │
+        │ assumes
+        ▼
+    Execution Role
+        │
+        │ tiene asociadas
+        ▼
+    IAM Policies
+        │
+        │ permiten acciones
+        ▼
+    AWS Services
+    (S3, DynamoDB, SNS, CloudWatch...)
+    ```
+
+    :::tip Ejemplo
+    Supongamos que Lambda necesita leer archivos de un bucket S3. La política asociada al execution role podría permitir:
+
+    ```text
+    s3:GetObject
+    ```
+
+    sobre los objetos de un bucket específico.
+
+    ```text
+    Lambda
+    │
+    ▼
+    Execution Role
+    │
+    ▼
+    IAM Policy
+    │
+    └── s3:GetObject
+            │
+            ▼
+            S3
+    ```
+    :::
+
+    El **Execution Role no contiene directamente la lista de permisos**. El role sirve como identidad que Lambda asume, mientras que las **IAM Policies asociadas al role** especifican qué acciones están permitidas o denegadas.
+
+    **Recuerda**:
+
+    > **Execution Role = permisos que necesita Lambda para acceder a otros recursos de AWS durante su ejecución.**
+  </Tab>
+  <Tab label="Resource-based policies">
+    Una **resource-based policy** es una política que se encuentra asociada directamente a un recurso y define qué entidades principales pueden acceder a ese recurso y qué acciones pueden realizar.
+
+    En Lambda, las resource-based policies se utilizan principalmente para controlar quién puede invocar una función.
+
+    Por ejemplo:
+
+    ```text
+    S3
+    │
+    │ InvokeFunction
+    ▼
+    Lambda
+    ```
+
+    La función Lambda puede tener una resource-based policy que permita que un determinado bucket de S3 la invoque.
+
+    También puede utilizarse con otros servicios que actúan como invocadores.
+
+    :::tip Ejemplo conceptual
+    ```txt
+    S3 Bucket
+        │
+        │ "Puedo invocar esta Lambda"
+        ▼
+    Lambda Function
+        │
+        ▼
+    Resource-based Policy
+        │
+        └── Allow: s3.amazonaws.com
+    ```
+    :::
+
+    No debes pensar que las resource-based policies son exclusivamente "permisos entrantes" para todos los servicios AWS. Es una simplificación útil.
+
+    La definición correcta es:
+
+    >**Una resource-based policy especifica quién puede acceder a un recurso y qué acciones puede realizar sobre él.**
+
+    En el caso de Lambda, se utilizan especialmente para **autorizar invocaciones**.
+  </Tab>
+  <Tab label="Least Privilege">
+    
+    El **principio de mínimo privilegio (Least Privilege)** consiste en otorgar a una función Lambda solamente los permisos necesarios para realizar su tarea y ningún permiso adicional innecesario.
+
+    **1. Ejemplo incorrecto**. Una Lambda solamente necesita leer S3, pero se le concede:
+
+    ```text
+    AdministratorAccess
+    ```
+
+    Esto proporciona muchos permisos que la función no necesita.
+
+    **2. Ejemplo correcto**. Si la función solamente necesita leer objetos:
+
+    ```text
+    s3:GetObject
+    ```
+
+    y únicamente sobre el bucket y objetos necesarios.
+
+    ```text
+    Lambda
+    │
+    ▼
+    Execution Role
+    │
+    ▼
+    s3:GetObject
+    │
+    ▼
+    Bucket específico
+    ```
+
+    **¿Por qué es importante?**
+
+    Si el código Lambda fuera comprometido, un atacante tendría acceso únicamente a los recursos permitidos por el role, reduciendo el impacto potencial.
+  </Tab>
+  <Tab label="Variables de entorno">
+        
+    Las **variables de entorno de Lambda** permiten proporcionar valores de configuración a una función sin tener que escribirlos directamente en el código.
+
+    Por ejemplo:
+
+    ```text
+    TABLE_NAME=Users
+    ENVIRONMENT=production
+    LOG_LEVEL=INFO
+    ```
+
+    El código puede leer estos valores durante la ejecución.
+
+    **¿Para qué se utilizan?**
+
+    Principalmente para:
+
+    * Configuración de la aplicación.
+    * Nombre de tablas.
+    * Identificadores.
+    * URLs.
+    * Configuración específica de cada entorno.
+    * Parámetros que pueden cambiar sin modificar el código.
+
+    **¿Se pueden cifrar?**
+
+    Sí. **Lambda** permite proteger las variables de entorno mediante **cifrado**, utilizando AWS KMS.
+
+    :::info AWS KMS (Key Management Service)
+    **AWS Key Management Service (AWS KMS)** es un servicio administrado que permite **crear y controlar claves criptográficas utilizadas para proteger datos mediante cifrado**.
+
+    KMS se utiliza para diferentes servicios de AWS y puede integrarse con Lambda. En Lambda, KMS puede utilizarse para proteger las **variables de entorno mediante cifrado**.
+    :::
+
+
+    **¿Debo guardar secretos ahí?**
+
+    Aunque Lambda proporciona mecanismos para cifrar variables de entorno, **para secretos como contraseñas, API keys y tokens es recomendable utilizar un servicio especializado como AWS Secrets Manager**.
+
+    :::info AWS Secrets Manager
+    **AWS Secrets Manager** es un servicio administrado que permite **almacenar, administrar, recuperar y controlar el acceso a secretos de forma segura**.
+
+    Los secretos pueden incluir:
+
+    * Contraseñas.
+    * Credenciales de bases de datos.
+    * API keys.
+    * Tokens.
+    * Otras credenciales sensibles.
+
+    **Ejemplo**
+
+    En lugar de colocar una contraseña directamente en Lambda:
+
+    ```javascript
+    const password = "MiPassword123";
+    ```
+
+    se almacena el secreto en Secrets Manager. Lambda puede recuperarlo mediante una llamada autorizada por IAM.
+
+    **Ventaja importante**
+
+    Puedes cambiar o rotar los secretos sin tener que modificar directamente el código de la función.
+    :::
+  </Tab>
+</Tabs>
+
+:::info Diferencia fundamental
+- Execution Role = **¿Qué puede hacer Lambda?**
+- Resource-based Policy = **¿Quién puede invocar/acceder al recurso?**
+- Environment Variables = **configuración de la función.**
+- Secrets Manager = **gestión de secretos y credenciales sensibles.**
+- AWS KMS = **claves criptográficas y cifrado.**
+- IAM Role = **Preferible a Access Keys hardcodeadas**.
+- Least Privilege = **conceder solamente los permisos mínimos necesarios.**
+
+:::
+
+**El principio clave de seguridad**
+
+> Una función Lambda **no debería tener Access Keys de AWS codificadas directamente en el código**. Esto puede provocar una exposición de credenciales si el código llega a manos de una persona no autorizada. Además, las credenciales estáticas requieren una gestión y rotación adecuada.
+>- **Solución recomendada**: Utilizar un **IAM Execution Role**. Lambda asume el role y obtiene **credenciales temporales** para realizar las acciones autorizadas.
+
+:::tip Ejemplo práctico: Lambda accede a DynamoDB
+Imagina que tu función necesita obtener un usuario desde una tabla DynamoDB.
+
+**Configuración correcta:**
+1. Creas un **IAM Role** con una política que permita `dynamodb:GetItem` sobre la tabla específica.
+2. Asignas ese rol como **execution role** de tu función Lambda.
+3. En tu código, llamas a DynamoDB normalmente. Lambda usa las **credenciales temporales** del rol (no necesitas poner ninguna Access Key).
+4. La función **no contiene ninguna credencial**.
+
+:::
+
+>Una función Lambda necesita acceder a una tabla en Amazon DynamoDB para leer datos. ¿Cuál es la forma recomendada de otorgar permisos? **Asignar un IAM Role a la función Lambda**. El IAM Role (execution role) otorga permisos a la función sin almacenar credenciales. Es la práctica segura recomendada.
+
+## 10. Monitorización y logging
+
+![Monitorización y logging](/aws/compute/lambda-logging.jpg)
+
+<Tabs>
+  <Tab label="Amazon CloudWatch">
+   
+    Lambda se integra de forma nativa con **CloudWatch** para monitoreo y logging. Cada ejecución de tu función genera automáticamente:
+
+    **CloudWatch Logs:**
+    - Registro de cada invocación.
+    - Mensajes `print`/`console.log` de tu código.
+    - Información de inicio/fin de ejecución.
+    - Errores y stack traces.
+    - Uso de memoria.
+
+    **CloudWatch Metrics:**
+    Métricas agregadas de tus funciones:
+    - Número de invocaciones.
+    - Errores.
+    - Duración promedio.
+    - Tasa de éxito/fallo.
+    - Throttles (invocaciones limitadas por concurrencia).
+
+    **CloudWatch Alarms:**
+    Puedes crear alarmas basadas en métricas (por ejemplo, "alertar si hay más de 10 errores en 5 minutos").
+  </Tab>
+  <Tab label="AWS X-Ray">
+    - Servicio de **trazabilidad distribuida**.
+    - Permite rastrear una solicitud a través de múltiples servicios (API Gateway → Lambda → DynamoDB).
+    - Útil para depurar latencia y encontrar cuellos de botella.
+  </Tab>
+</Tabs>
+
+Recuerda:
+
+> **CloudWatch** es el servicio de monitoreo/logging, y que **X-Ray** sirve para trazar solicitudes distribuidas.
+
+## 11. Versiones y aliases
+
+**Versiones** y **aliases** en AWS Lambda es un tema muy importante para entender cómo se manejan cambios, despliegues y diferentes entornos de una función Lambda.
+
+![Versiones y aliases](/aws/compute/lambda-versiones.jpg)
+
+<Tabs>
+  <Tab label="Lambda Versions">
+    Una **versión** de una función Lambda es una **instantánea inmutable** de tu código y configuración en un punto específico del tiempo.
+
+    >**"Inmutable"** significa que, una vez publicada, no puedes modificar esa versión.
+
+    - Cada versión tiene su propio ARN (identificador).
+    - Sirve para tener "puntos de referencia" estables de tu código.
+
+    **Concepto fundamental**
+
+    **$LATEST:**
+    Es la versión **especial** que siempre contiene los últimos cambios que has realizado en la función. Cuando trabajas en la consola editando tu código, estás modificando `$LATEST`. Cuando estás satisfecho, puedes publicar una versión (la fijas).
+
+    La diferencia importante es:
+
+    | **`$LATEST`**                      | Versiones publicadas                   |
+    | ------------------------------ | -------------------------------------- |
+    | Puede cambiar                  | Son inmutables                         |
+    | Representa cambios actuales    | Representan una configuración concreta |
+    | Se usa para desarrollo/cambios | Se usa para despliegues estables       |
+    | No tiene número                | Tiene número: 1, 2, 3...               |
+
+    **¿Por qué son importantes las versiones?**
+
+    Porque permiten tener diferentes estados de una aplicación disponibles simultáneamente. Por ejemplo:
+
+    ```mermaid
+    graph LR
+        Lambda --> V1[Version 1] --> P1[producción anterior]
+        Lambda --> V2[Version 2] --> P2[producción actual]
+        Lambda --> V3[Version 3] --> P3[nueva versión en pruebas]
+    ```
+  </Tab>
+  <Tab label="Aliases">
+    Un **alias** de Lambda es un nombre que apunta a una versión específica de una función Lambda. Piensa en un alias como un apodo o puntero.
+
+    - Permite usar un nombre estable (por ejemplo, `prod`, `dev`, `test`) para apuntar a versiones diferentes.
+    - Puedes cambiar a qué versión apunta un alias sin modificar el código.
+    - Útil para **despliegues** (deploy blue/green, cambiar el tráfico).
+
+    ```text
+    Alias "prod"  →  apunta a Version 2
+    Alias "dev"   →  apunta a $LATEST
+    ```
+  </Tab>
+</Tabs>
+
+:::info Uso de versiones para despliegues
+Con versiones y aliases puedes:
+- Mantener la versión `prod` apuntando a la versión estable.
+- Probar cambios en `dev`.
+- Cuando estés listo, cambiar el alias `prod` hacia la nueva versión.
+- Revertir fácilmente si algo sale mal (volver a apuntar `prod` a la versión anterior).
+
+:::
+
+## 12. Lambda Layers
+
+![Lambda Layers](/aws/compute/lambda-layers.jpg)
+
+Un **Lambda Layer** es un archivo (zip) que contiene **código o dependencias reutilizables** que puede compartirse entre múltiples funciones Lambda.
+
+>La idea principal es separar las dependencias del código principal de tu función.
+
+**Para qué sirven**
+
+Permiten separar:
+- **Código de tu aplicación** (la lógica de negocio de cada función).
+- **Dependencias compartidas** (librerías, utilitarios, frameworks, runtime personalizado).
+
+**Cuándo utilizarlos**
+
+- Cuando varias funciones comparten las **mismas librerías** o el **mismo código utilitario**.
+- Cuando quieres reducir el tamaño del paquete de cada función (subes la librería al layer en lugar de incluirla en cada función).
+- Cuando quieres actualizar una dependencia en un solo lugar sin tocar todas las funciones.
+
+**Beneficios**
+
+- **Reutilización:** Comparte código entre funciones.
+- **Organización:** Separa dependencias de la lógica de negocio.
+- **Mantenimiento:** Actualiza la dependencia en el layer y todas las funciones afectadas se actualizan.
+- **Tamaño reducido:** Las funciones no necesitan empaquetar las dependencias.
+
+:::tip Ejemplo
+Dos funciones Lambda (`generarPdf` y `enviarEmail`) ambas usan la librería de logging `mi-utilidades`. En lugar de incluir la librería en cada función, la subes una vez como capa (layer) y ambas la comparten.
+
+```text
+Layer: "utilidades-compartidas" (librería de logging)
+        ├── usada por función "generarPdf"
+        └── usada por función "enviarEmail"
+```
+:::
+
+Una forma sencilla de recordarlo es:
+
+>**Lambda Function** = lógica de negocio
+>
+>**Lambda Layer** = dependencias compartidas. Sirven para **compartir código/dependencias entre funciones**.
+
+## 13. Modelo de precios de Lambda
+
+<Tabs>
+  <Tab label="Pago por uso">
+    Lambda ofrece un modelo de precios basado en **"paga solo por lo que usas"** (pay-as-you-go). No pagas por servidores inactivos; pagas cuando tu código se ejecuta.
+
+    El costo se calcula con dos componentes principales:
+    
+    **Requests (Solicitudes)**
+
+    - Pagas por **cada invocación** de tu función (cada solicitud que ejecuta tu código).
+    - El costo por request es fijo y varía según región.
+
+    **Duration (Duración)**
+
+    - Pagas por el **tiempo de ejecución** de tu código.
+    - La duración se mide en **milisegundos** (millisegundos redondeados hacia arriba).
+    - El costo de la duración depende de la **memoria asignada**: a mayor memoria, mayor costo por segundo.
+
+    >**Memoria asignada**
+    >- Cuanta más memoria configures, mayor será el costo por duración.
+    >- Uso más memoria = más CPU = más costo.
+    >- Debes elegir un balance entre rendimiento y costo
+  </Tab>
+  <Tab label="Free Tier">
+    El nivel gratuito de **AWS Lambda** incluye un **millón de solicitudes gratuitas por mes** y **400 000 GB-segundos de tiempo de computación por mes**, utilizable para funciones basadas en procesadores x86 y Graviton2, en total. Además, el nivel gratuito incluye **100 GiB por mes de transmisión de respuestas HTTP**, más allá de los primeros 6 MB por solicitud, que no tienen costo. Lambda también ofrece opciones de precios por niveles para la duración bajo demanda que supera ciertos umbrales de uso mensual.
+
+    **AWS Lambda** forma parte de **Savings Plans** para computación, un modelo de precios flexible que ofrece precios económicos por el uso de Amazon Elastic Compute Cloud (Amazon EC2), AWS Fargate y Lambda a cambio de comprometerse a una cantidad constante de uso (medida en USD por hora) durante un plazo de uno o tres años. Con Compute **Savings Plans** puede ahorrar hasta un **17 % en AWS Lambda**. El ahorro se aplica a la duración y a la simultaneidad aprovisionada.
+
+    > **Importante:** Las cifras de Free Tier y precios pueden cambiar. Consulta siempre la documentación oficial vigente (https://aws.amazon.com/lambda/pricing/).
+  </Tab>
+</Tabs>
+
+:::info ¿Por qué Lambda es económica para cargas intermitentes?
+- Si tu función se ejecuta rara vez (por ejemplo, solo cuando se sube un archivo), pagas **solo por esas ejecuciones**.
+- No hay costo por "mantenerla disponible" mientras no se usa.
+- Utiliza el tamaño de memoria adecuado para no pagar de más.
+
+>¿Cómo se calcula el costo de AWS Lambda? **Por el número de requests + la duración de la ejecución**. Lambda se cobra por solicitudes (requests) + duración de cómputo (duration), que depende de la memoria asignada.
+
+:::
+
+**Diferencia conceptual frente a EC2**
+
+![Diferencia conceptual frente a EC2](/aws/compute/lambda-precio-vs-ec2.jpg)
+
+| Aspecto | EC2 | Lambda |
+|---|---|---|
+| Pagas por… | Hora (instancia encendida) | Solicitud + duración |
+| Instancia inactiva | Se paga igual | No se paga (no corre) |
+| Escalado | Tú configuras | Automático |
+| Idoneidad | Cargas continuas | Cargas intermitentes |
+
+## 14. AWS Lambda vs otros servicios
+
+| Servicio | Modelo | Ideal para |
+|---|---|---|
+| **Lambda** | Función serverless por eventos | Procesamiento por eventos, cargas intermitentes |
+| **EC2** | Servidor virtual (IaaS) | Control total, cargas continuas |
+| **ECS** | Contenedores gestionados | Aplicaciones containerizadas |
+| **Fargate** | Contenedores serverless | Contenedores sin administrar servidores |
+| **Batch** | Trabajos por lotes | Procesamiento masivo de larga duración |
+| **Step Functions** | Orquestación de workflows | Coordinar múltiples pasos/funciones |
+
+>Un desarrollador quiere crear una API REST usando Lambda como backend. ¿Qué servicio AWS debería exponer la API HTTP? **Amazon API Gateway**. API Gateway recibe las solicitudes HTTP y las reenvía a Lambda como backend. Es la "cara" de la API.
+
+
+## 15. Infografia AWS Lambda
+
+![Infografia AWS Lambda](/aws/compute/lambda-infografia.png)
+
+---
+
+**Referencias recomendadas:**
+
+- [Documentación de AWS Lambda](https://docs.aws.amazon.com/lambda/)
+- [AWS Lambda Pricing](https://aws.amazon.com/lambda/pricing/)

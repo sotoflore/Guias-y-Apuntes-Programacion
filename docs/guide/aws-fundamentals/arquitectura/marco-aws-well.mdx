@@ -1,0 +1,251 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Marco de AWS Well-Architected
+
+Para diseñar soluciones en la nube que no solo sean funcionales sino que también estén optimizadas, AWS ofrece el **Marco de Well-Architected**. Le brinda un enfoque estructurado para crear arquitecturas seguras, de alto rendimiento, resilientes y eficientes, que estén alineadas con las prácticas recomendadas.
+
+El **AWS Well-Architected Framework** es un marco de buenas prácticas desarrollado por AWS que ayuda a los arquitectos y equipos de desarrollo a diseñar, evaluar y mejorar cargas de trabajo en la nube. Su propósito es comprobar que una solución esté construida de manera adecuada y pueda cumplir los requisitos del negocio a medida que evoluciona.
+
+El marco permite revisar una arquitectura desde diferentes perspectivas y detectar riesgos, debilidades y oportunidades de mejora antes de que estos provoquen problemas de seguridad, disponibilidad, rendimiento o costos.
+
+>AWS Well-Architected Framework es una guía para diseñar y revisar arquitecturas de AWS siguiendo buenas prácticas en seis pilares: operaciones, seguridad, fiabilidad, rendimiento, costos y sostenibilidad.
+
+Una forma sencilla de recordarlo:
+
+>**Operar → Proteger → Ser confiable → Rendir bien → Optimizar costos → Ser sostenible**
+
+Además, AWS proporciona **AWS Well-Architected Tool**, que permite realizar revisiones de las cargas de trabajo, responder preguntas relacionadas con los pilares, identificar riesgos y obtener recomendaciones para mejorar la arquitectura.
+
+## 1. Pilares del Marco de Well-Architected
+
+AWS Well-Architected se estructura alrededor de seis pilares fundamentales.
+
+Excelencia operativa: operar y supervisar los sistemas de forma eficiente.
+Seguridad: proteger sistemas, datos y recursos.
+Fiabilidad: garantizar que las cargas de trabajo funcionen correctamente y puedan recuperarse de fallos.
+Eficiencia del rendimiento: utilizar los recursos tecnológicos de manera eficiente.
+Optimización de costos: evitar gastos innecesarios y maximizar el valor obtenido de AWS.
+Sostenibilidad: reducir el impacto ambiental de las cargas de trabajo.
+
+<Tabs>
+  <Tab label="Excelencia operativa">
+    Se centra en las operaciones, la supervisión, la automatización y la mejora continua. Ejecutar y monitorear sistemas para entregar valor de negocio y mejorar continuamente los procesos y procedimientos.
+
+    **Principios de Diseño**
+
+    - **Perform operations as code** - Automatiza todo lo que puedas
+    - **Make frequent, small, reversible changes** - Cambios pequeños y reversibles
+    - **Refine operations procedures frequently** - Mejora continuamente
+    - **Anticipate failure** - Planifica para el fallo
+    - **Learn from all operational failures** - Aprende de cada error
+
+    **Mejores Prácticas**
+
+    | Área | Mejor Práctica | AWS Services |
+    |---|---|---|
+    | **IaC** | Usa CloudFormation o CDK | CloudFormation, CDK |
+    | **CI/CD** | Implementa pipelines automatizados | CodePipeline, CodeBuild |
+    | **Monitoreo** | Logs centralizados y métricas | CloudWatch, CloudTrail |
+    | **Runbooks** | Documenta procedimientos operativos | Systems Manager |
+    | **Incident Response** | Plan de respuesta a incidentes | EventBridge, SNS |
+    | **Configuration** | Gestión centralizada de configs | SSM Parameter Store, Secrets Manager |
+  </Tab>
+  <Tab label="Seguridad">
+    Protege los sistemas y los datos mediante las prácticas recomendadas, como el principio de mínimo privilegio y la integridad de los datos.
+
+    **Principios de Diseño**
+
+    - **Implement a strong identity foundation** - Identidad sólida
+    - **Maintain traceability** - Trazabilidad completa
+    - **Apply security at all layers** - Seguridad en todas las capas
+    - **Automate security best practices** - Automatiza seguridad
+    - **Protect data in transit and at rest** - Protege datos en tránsito y en reposo
+    - **Keep people away from data** - Mantén personas lejos de datos sensibles
+    - **Prepare for security events** - Prepara para eventos de seguridad
+    
+    **Mejores Prácticas por Capa**
+
+    | Capa | Servicios | Acciones |
+    |---|---|---|
+    | **Identity** | IAM, SSO, MFA | Least privilege, MFA enforced |
+    | **Perimeter** | WAF, Shield, CloudFront | DDoS protection, rate limiting |
+    | **Network** | VPC, SG, NACLs | Micro-segmentation, private subnets |
+    | **Compute** | EC2 SSM, Inspector | Patching, vulnerability scanning |
+    | **Application** | WAF, ACM, Cognito | Input validation, encryption |
+    | **Data** | KMS, Secrets Manager | Encryption at rest and in transit |
+  </Tab>
+  <Tab label="Fiabilidad">
+    Hace hincapié en la planificación de la recuperación y la adaptabilidad del sistema para satisfacer las demandas cambiantes. Recuperarse de fallos y satisfacer la demanda de los usuarios. Enfocado en disaster recovery, disponibilidad y mitigación de fallos.
+
+    **Principios de Diseño**
+
+    - **Automatically recover from failure** - Recuperación automática
+    - **Test recovery procedures** - Prueba procedimientos de recuperación
+    - **Scale horizontally to increase availability** - Escala horizontalmente
+    - **Stop guessing capacity** - No adivines la capacidad
+    - **Manage change in automation** - Gestiona cambios en automatización
+  </Tab>
+  <Tab label="Eficiencia">
+    La **Eficiencia del rendimiento** fomenta el uso de los recursos adecuados para el trabajo y los ajustes a medida que cambian las necesidades. Usar recursos de computación de manera eficiente para satisfacer los requisitos del sistema y mantener la eficiencia a medida que cambian las tecnologías.
+
+    **Principios de Diseño**
+
+    - **Democratize advanced technologies** - Tecnologías avanzadas accesibles
+    - **Use a managed service** - Usa servicios managed
+    - **Experiment more often** - Experimenta frecuentemente
+    - **Consider performance in cost** - Considera performance en costo
+    - **Use profiling to improve **- Usa profiling para mejorar
+
+    **Decisiones de Performance**
+
+    | Necesidad | Servicio Recomendado | Cuándo Usar |
+    |---|---|---|
+    | API con tráfico variable | Lambda + API Gateway | Tráfico unpredictable, event-driven |
+    | Base de datos relacional | Aurora | MySQL/PostgreSQL compatible, high performance |
+    | Base de datos NoSQL | DynamoDB | Key-value, serverless, auto-scaling |
+    | Cache | ElastiCache (Redis) | Low latency, session management |
+    | Búsqueda full-text | OpenSearch | Analytics, logging, search |
+    | Data warehouse | Redshift | Analytics, BI, reporting |
+    | Storage estático | S3 | Assets, backups, data lake |
+  </Tab>
+  <Tab label="Optimización de costos">
+    Ayuda a controlar y reducir los costos mediante el aprovisionamiento inteligente y la administración de recursos. Ejecutar sistemas para entregar valor de negocio al menor costo posible.
+
+    **Principios de Diseño**
+
+    - **Implement cloud financial management** - Gestión financiera en la nube
+    - **Adopt a consumption model** - Modelo de consumo
+    - **Measure overall efficiency** - Mide la eficiencia general
+    - **Stop spending money on undifferentiated work** - No gastes en trabajo no diferenciado
+    - **Analyze and attribute expenditure** - Analiza y atribuye gastos
+    
+    **Estrategias de Ahorro**
+
+    | Estrategia | Ahorro | Aplicabilidad |
+    |---|---|---|
+    | **Right-sizing** | 30-60% | Todas las instancias |
+    | **Reserved Instances (1yr)** | 40% | Workloads steady-state |
+    | **Reserved Instances (3yr)** | 60% | Workloads a largo plazo |
+    | **Spot Instances** | 90% | Fault-tolerant, batch jobs |
+    | **Savings Plans** | 40-60% | Flexible across instance types |
+    | **S3 Lifecycle** | 40-70% | Data with aging patterns |
+    | **Graviton Instances** | 20% | ARM-compatible workloads |
+  </Tab>
+  <Tab label="Sostenibilidad">
+    Promueve un diseño eficiente en el uso de la energía y un uso de recursos responsable con el medio ambiente. Minimizar el impacto ambiental de las cargas de trabajo en la nube.
+
+    **Principios de Diseño**
+
+    - **Understand your impact** - Entiende tu impacto
+    - **Establish sustainability goals** - Establece metas de sostenibilidad
+    - **Maximize utilization** - Maximiza la utilización
+    - **Anticipate new, more efficient hardware** - Anticipa hardware más eficiente
+    - **Use managed services** - Usa servicios managed
+    - **Reduce downstream impact** - Reduce el impacto downstream
+    
+    **Mejores Prácticas**
+
+    | Área | Acción | Impacto |
+    |---|---|---|
+    | **Compute** | Usa Graviton (ARM) | 60% menos energía |
+    | **Compute** | Usa Spot Instances | Mejor utilización de hardware |
+    | **Storage** | Lifecycle policies | Menos almacenamiento redundante |
+    | **Network** | CloudFront caching | Menos transferencia de datos |
+    | **Data** | Compresión y deduplicación | Menos almacenamiento |
+    | **Architecture** | Serverless | Escala a cero cuando no se usa |
+  </Tab>
+</Tabs>
+
+## 2. Herramienta de AWS Well-Architected
+
+![Herramienta de AWS Well-Architected](/icons/aws-well-architected-tool.svg)
+
+La **Herramienta de AWS Well-Architected** (Herramienta de AWS WA) es un servicio gratuito que ayuda a evaluar y mejorar las cargas de trabajo en la nube según los seis pilares clave: excelencia operativa, seguridad, fiabilidad, eficiencia del rendimiento, optimización de costos y sostenibilidad. Ofrece revisiones de cargas de trabajo, seguimiento de hitos y enfoques adaptados para evaluaciones personalizadas y planes de mejoras. Gracias a su integración con servicios de AWS, como AWS Identity and Access Management (AWS IAM) y las API, permite la colaboración en equipo y el seguimiento continuo del progreso. La Herramienta de AWS WA es ideal para arquitectos, ingenieros y equipos de cumplimiento, y promueve revisiones de arquitectura coherentes, procesables y bien documentadas.
+
+:::info Resumen de Pilares
+| Pilar | Pregunta Clave | Servicios Clave |
+|---|---|---|
+| **Operational Excellence** | ¿Cómo operamos y mejoramos? | CloudFormation, CodePipeline, CloudWatch, Systems Manager |
+| **Security** | ¿Cómo protegemos todo? | IAM, KMS, WAF, Shield, Secrets Manager, GuardDuty |
+| **Reliability** | ¿Cómo nos recuperamos de fallos? | Route 53, ELB, Auto Scaling, Multi-AZ, CloudWatch |
+| **Performance Efficiency** | ¿Usamos recursos eficientemente? | Lambda, Aurora, ElastiCache, CloudFront, Graviton |
+| **Cost Optimization** | ¿Evitamos costos innecesarios? | Cost Explorer, Reserved Instances, Spot, S3 Lifecycle |
+| **Sustainability** | ¿Minimizamos impacto ambiental? | Graviton, Serverless, Spot, CloudFront |
+
+:::
+
+## 3. Optimización de una arquitectura en la nube
+
+Imagine que tiene un próspero negocio de floristería en línea, con pedidos que llegan sin parar en temporadas pico, como el Día de San Valentín o el Día de la Madre. Detrás de escena, la arquitectura en la nube debe ser tan resiliente y eficiente como las operaciones. Utilicemos el Marco de Well-Architected para optimizar el sistema en términos de fiabilidad, rendimiento, seguridad, ahorro de costos y sostenibilidad.
+
+Veamos los siguientes pasos:
+
+<Tabs>
+  <Tab label="Arquitectura inicial">
+    ![Arquitectura inicial](/aws/arquitectura/arquitectura-inicial-ejemplo.png)
+
+    Veamos su configuración actual. Tiene una arquitectura de comercio electrónico clásica. Incluye instancias de Amazon Elastic Compute Cloud (Amazon EC2) para el sitio web y bases de datos de Amazon Relational Database Service (Amazon RDS) para gestionar los pedidos y los datos de los clientes. También tiene un bucket de Amazon Simple Storage Service (Amazon S3) lleno de imágenes de productos. Es funcional, pero evaluemos qué tan bien está escalando y gestionando el tráfico, en especial durante las horas pico.
+  </Tab>
+  <Tab label="Paso 1">
+    **Excelencia operativa**
+
+    ![Excelencia operativa](/aws/arquitectura/arquitectura-inicial-excelencia-operativa.png)
+    
+    Su empresa funciona sin problemas, pero ¿qué ocurre si una instancia de EC2 se bloquea durante una avalancha de pedidos? Para ofrecer una resiliencia verdadera, puede automatizar el escalado con EC2 Auto Scaling. Además, para que las operaciones diarias sean más fiables y eficientes, puede usar la infraestructura como código e implementar mecanismos de reparación automática, como la restauración automática. Estas prácticas ayudan a que su sistema se adapte durante los períodos de alta demanda y funcione de manera eficiente a lo largo del tiempo.
+
+    **Mejora**: EC2 Auto Scaling
+  </Tab>
+  <Tab label="Paso 2">
+    **Seguridad**
+  
+    ![Seguridad](/aws/arquitectura/arquitectura-inicial-seguridad.png)
+
+    Ya tiene una base segura con Amazon Virtual Private Cloud (Amazon VPC), pero aún queda mucho por hacer. Pregúntese: ¿sus instancias de EC2 se actualizan con parches de forma regular? ¿Sus políticas de IAM siguen el principio de mínimo privilegio? La protección de los datos de los clientes, como los nombres, las direcciones y la información de pago, requiere un cifrado sólido de los datos en reposo y en tránsito, junto con controles de acceso detallados. El fortalecimiento de estas capas genera confianza en sus clientes y protege la información confidencial.
+
+    **Mejora**: fortalecimiento del cifrado y las políticas de IAM
+  </Tab>
+  <Tab label="Paso 3">
+    **Fiabilidad**
+
+    ![Fiabilidad](/aws/arquitectura/arquitectura-inicial-fiabilidad.png)
+
+    En las temporadas altas, la disponibilidad es lo más importante. Ya dio un gran paso al implementar recursos en varias zonas de disponibilidad, pero puede aumentar aún más la fiabilidad. Utilice Amazon CloudWatch para supervisar el estado de su sistema y configurar acciones de recuperación automatizadas.
+
+    **Mejora**: Amazon CloudWatch
+  </Tab>
+  <Tab label="Paso 4">
+    **Eficiencia del rendimiento**
+
+    ![Eficiencia del rendimiento](/aws/arquitectura/arquitectura-inicial-eficiencia-rendimiento.png)
+
+    A medida que su negocio crece, su sistema debe escalar junto con él. ¿Sus instancias de EC2 y de RDS tienen el tamaño adecuado para la carga de trabajo? AWS Compute Optimizer puede ser útil para garantizar que no desperdicie recursos ni aprovisione de forma insuficiente su infraestructura. Ya utiliza AWS Lambda para tareas basadas en eventos, como el procesamiento de imágenes, lo que resulta ideal para un escalado flexible. Asegúrese también de que esas funciones tengan el tamaño correcto. Además, con Amazon CloudFront ya puede entregar imágenes de productos rápidamente a clientes de todo el mundo para disfrutar de una experiencia de compra rápida y fluida.
+
+    **Mejora**: AWS Compute Optimizer
+  </Tab>
+  <Tab label="Paso 5">
+    **Optimización de costos**
+
+    ![Optimización de costos](/aws/arquitectura/arquitectura-inicial-optimización-costos.png)
+
+    Actualmente utiliza instancias de EC2 bajo demanda, que son excelentes para empezar, pero cambiar a instancias de spot para tráfico variable y Savings Plans para cargas de trabajo estables puede reducir los costos de manera significativa. Realice un seguimiento de sus gastos en la nube y adminístrelos en tiempo real con AWS Budgets y el explorador de costos de AWS. Estas herramientas son útiles para tomar decisiones inteligentes y rentables, y, al mismo tiempo, mantener el rendimiento y la fiabilidad.
+
+    **Mejora**: Savings Plans, AWS Budgets y el explorador de costos de AWS
+  </Tab>
+  <Tab label="Paso 6">
+    **Sustentabilidad**
+
+    ![Sustentabilidad](/aws/arquitectura/arquitectura-inicial-sustentabilidad.png)
+
+    El uso de recursos elásticos y sin servidor ya reduce su huella ambiental. Para dar un paso más, continúe optimizando las cargas de trabajo y minimice el desperdicio de recursos. Esto beneficia tanto al planeta como a su balance final, lo que demuestra que las decisiones responsables con el medio ambiente también pueden ser inteligentes desde el punto de vista empresarial.
+
+    **Mejora**: Informe de costo y uso de AWS
+  </Tab>
+</Tabs>
+
+---
+
+**Referencias recomendadas:**
+
+- [AWS Well-Architected](https://aws.amazon.com/es/architecture/well-architected/)
+- [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
+- [¿Qué es la Herramienta de AWS Well-Architected?](https://docs.aws.amazon.com/wellarchitected/latest/userguide/intro.html)

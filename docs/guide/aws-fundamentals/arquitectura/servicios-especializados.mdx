@@ -1,0 +1,139 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Servicios especializados de AWS
+
+Los **servicios especializados de AWS** son servicios diseñados para resolver necesidades específicas y avanzadas dentro de una arquitectura en la nube. En lugar de utilizar únicamente servicios generales de cómputo, almacenamiento o redes, AWS ofrece soluciones especializadas para áreas como inteligencia artificial, machine learning, análisis de datos, IoT, medios digitales, migración, seguridad y desarrollo de aplicaciones.
+
+Estos servicios permiten a las organizaciones crear soluciones más completas y eficientes sin tener que desarrollar desde cero toda la infraestructura o tecnología necesaria. Muchos de ellos son servicios administrados, lo que reduce la cantidad de tareas de mantenimiento que debe realizar el cliente.
+
+**Por ejemplo**, una organización puede utilizar Amazon Rekognition para analizar imágenes y videos, Amazon Textract para extraer texto y datos de documentos, Amazon Comprehend para analizar lenguaje natural o servicios de AWS IoT para conectar y administrar dispositivos.
+
+>Los servicios especializados de AWS permiten resolver necesidades concretas utilizando capacidades administradas y especializadas, evitando que el cliente tenga que construir estas soluciones desde cero.
+
+Una forma sencilla de entenderlos es:
+
+>**Necesidad específica → Servicio especializado → Integración con la arquitectura → Solución**
+
+## 1. Tipos de servicios
+
+Los servicios de AWS están diseñados para casos de uso específicos. En la siguiente sección, obtendrá más información sobre los siguientes cuatro tipos de servicios especializados de AWS:
+
+- Servicios de desarrollo
+- Servicios de aplicaciones empresariales
+- Servicios de computación de usuario final
+- Servicios de IoT
+
+## 2. Servicios de desarrollo
+
+AWS ofrece varios servicios para ayudar a los desarrolladores a automatizar las canalizaciones de CI/CD, supervisar y depurar aplicaciones, crear API de GraphQL e implementar aplicaciones web y móviles en AWS.
+
+<Tabs>
+  <Tab label="AWS CodeBuild">
+    ![AWS CodeBuild](/icons/aws-codebuild.svg)
+
+    **CodeBuild** es un servicio de integración continua completamente administrado que compila código fuente, ejecuta pruebas y produce paquetes de software para su implementación. Se escala automáticamente para satisfacer la demanda y usted solo paga por el tiempo de compilación que utiliza.
+  </Tab>
+  <Tab label="AWS CodePipeline">
+    ![AWS CodePipeline](/icons/aws-codepipeline.svg)
+
+    **CodePipeline** es un servicio de integración y entrega continuas (continuous integration, continuous delivery, CI/CD) completamente administrado que automatiza las fases de creación, prueba e implementación del proceso de lanzamiento. Esto ayuda a los desarrolladores a optimizar los flujos de trabajo del lanzamiento del software y a ofrecer nuevas características y correcciones de manera fiable, sin necesidad de aprovisionar servidores.
+
+    >Las canalizaciones de CI/CD automatizan la integración, las pruebas y la implementación de cambios en el código para facilitar una entrega de software rápida y fiable.
+  </Tab>
+  <Tab label="AWS X-Ray">
+    ![AWS X-Ray](/icons/aws-x-ray.svg)
+
+    **X-Ray** es una potente herramienta de rastreo, depuración y análisis del rendimiento que ayuda a los desarrolladores a visualizar el comportamiento de las aplicaciones. Con X-Ray, los desarrolladores pueden identificar rápidamente los cuellos de botella en el rendimiento, solucionar problemas y optimizar las aplicaciones para lograr una mayor eficiencia y fiabilidad.
+  </Tab>
+  <Tab label="AWS AppSync">
+    ![AWS AppSync](/icons/aws-appSync.svg)
+
+    **AWS AppSync** es un servicio de GraphQL completamente administrado. Con AWS AppSync, los desarrolladores pueden crear una única API de GraphQL que pueda acceder, manipular y combinar de forma segura los datos de varios orígenes. Esto ayuda a los desarrolladores a conectar las aplicaciones de frontend con los datos de backend.
+
+    >Con GraphQL, un lenguaje de consulta para las API, los clientes solo solicitan los datos específicos que necesitan.
+  </Tab>
+  <Tab label="AWS Amplify">
+    ![AWS Amplify](/icons/aws-amplify.svg)
+
+    **Amplify** es útil para optimizar el proceso de desarrollo, implementación y administración de aplicaciones de pila completa, seguras y escalables en AWS. Con Amplify, los desarrolladores pueden agregar características rápidamente, como autenticación, API, almacenamiento y alojamiento, con una administración mínima de la infraestructura.
+
+    >Las aplicaciones de pila completa son sistemas de software que implican tanto el desarrollo de frontend (interfaz de usuario) como de backend (lado del servidor).
+  </Tab>
+</Tabs>
+
+## 3. Servicios de aplicaciones empresariales
+
+Estos servicios son ideales para administrar las necesidades de las aplicaciones empresariales, como las operaciones de servicio al cliente y las promociones por correo electrónico. Analicemos algunos ejemplos.
+
+<Tabs>
+  <Tab label="Amazon Connect">
+    ![Amazon Connect](/icons/amazon-connect.svg)
+
+    Las empresas pueden usar este servicio de centro de contacto basado en IA para configurar y operar de manera eficiente un centro de llamadas de servicio al cliente escalable. Amazon Connect ofrece funciones de enrutamiento, grabación y análisis de llamadas, y se integra perfectamente con otros servicios de AWS.
+  </Tab>
+  <Tab label="Amazon Simple Email Service (Amazon SES)">
+    ![Amazon Simple Email Service](/icons/amazon-simple-email-service.svg)
+
+    **Amazon SES** es un proveedor de servicio correo electrónico escalable y rentable que puede integrarse en cualquier aplicación para automatizar el envío de correos electrónicos fiables y de alto volumen. Ayuda a las empresas a optimizar la entrega de correos electrónicos transaccionales y de marketing, lo que produce una mayor participación de los clientes.
+  </Tab>
+</Tabs>
+
+## 4. Servicios de computación de usuario final
+
+En las empresas modernas, es común que los departamentos de TI necesiten brindar acceso remoto a recursos como escritorios virtuales y aplicaciones. Analicemos algunos servicios de AWS que se pueden usar a fin de configurar estos entornos para los empleados.
+
+<Tabs>
+  <Tab label="Amazon AppStream 2.0">
+    ![Amazon AppStream 2.0](/icons/amazon-appStream.svg)
+
+    **AppStream 2.0** es un servicio completamente administrado que transmite aplicaciones desde la nube directamente a cualquier dispositivo compatible. Esto incluye aplicaciones de software como servicio (software-as-a-service, SaaS) y aplicaciones convertidas de escritorio a SaaS sin revisiones de código. Esto proporciona acceso inmediato a software potente sin necesidad de contar con hardware local de alta gama.
+
+    >En el SaaS, las aplicaciones se alojan en la nube y se accede a ellas a través de internet, sin necesidad de instalación o mantenimiento local.
+  </Tab>
+  <Tab label="Amazon WorkSpaces">
+    ![Amazon WorkSpaces](/icons/amazon-workSpaces.png)
+
+    **WorkSpaces** es un servicio de computación de escritorio basado en la nube completamente administrado. Con WorkSpaces, los empleados pueden acceder de forma segura a su entorno de trabajo desde cualquier dispositivo con conexión a internet. Los empleados pueden realizar las mismas tareas que si estuvieran en un equipo físico de oficina, mientras que las empresas pueden beneficiarse de la rentabilidad y la facilidad de administración.
+  </Tab>
+  <Tab label="Amazon WorkSpaces Secure Browser">
+    ![Amazon WorkSpaces Secure Browser](/icons/amazon-workSpaces-secure-browser.png)
+
+    **WorkSpaces Secure Browser** (anteriormente Amazon WorkSpaces Web) es un navegador empresarial remoto completamente administrado. Proporciona un entorno protegido para que los empleados accedan a sitios web privados, aplicaciones de SaaS y la internet pública. Con WorkSpaces Secure Browser, los departamentos de TI no necesitan administrar software de cliente especializado, infraestructura ni conexiones de VPN.
+  </Tab>
+</Tabs>
+
+## 5. Servicios de IoT
+
+El internet de las cosas (IoT) es una red de dispositivos físicos conectados con sensores y software que recopilan e intercambian datos a través de internet. Estos dispositivos se pueden supervisar y controlar de forma remota para mejorar la eficiencia, brindar nuevos servicios y mejorar la calidad de vida.
+
+Analicemos un servicio de AWS diseñado específicamente para la administración de IoT.
+
+<Tabs>
+  <Tab label="AWS IoT Core">
+    ![AWS IoT Core](/icons/aws-iot-core.svg)
+
+    **AWS IoT Core** es un servicio de nube administrado que se utiliza para conectar dispositivos físicos con aplicaciones en la nube de forma segura. Es útil para crear soluciones de IoT eficientes, ya que simplifica el complejo proceso que implica ingerir los datos del dispositivo, procesarlos y tomar acción en base a ellos. Las conexiones y los datos de los dispositivos están protegidos con autenticación mutua y cifrado de extremo a extremo, y puede elegir entre varios protocolos de comunicación.
+
+    Algunas soluciones de IoT incluyen las siguientes:
+
+    - Cámaras de seguridad inteligentes: supervisión doméstica que envía alertas a su teléfono
+    - Comederos inteligentes para mascotas: un comedero para mascotas que se puede controlar de forma remota
+    - Sistemas de riego inteligentes: un sistema que ajusta el riego según el clima y las condiciones del suelo
+  </Tab>
+</Tabs>
+
+---
+
+**Referencias recomendadas:**
+
+- [AWS CodeBuild](https://aws.amazon.com/codebuild/)
+- [AWS CodePipeline](https://aws.amazon.com/codepipeline/)
+- [AWS X-Ray](https://aws.amazon.com/xray/)
+- [AWS AppSync](https://aws.amazon.com/appsync/)
+- [AWS Amplify](https://aws.amazon.com/amplify/)
+- [Amazon Connect](https://aws.amazon.com/connect/)
+- [Amazon SES](https://aws.amazon.com/ses/)
+- [Amazon AppStream 2.0](https://aws.amazon.com/appstream2/)
+- [Amazon WorkSpaces](https://aws.amazon.com/workspaces/)
+- [Amazon WorkSpaces Secure Browser](https://aws.amazon.com/workspaces-family/workspaces-web/)
+- [AWS IoT Core](https://aws.amazon.com/iot-core/)

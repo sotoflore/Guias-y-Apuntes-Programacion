@@ -1,0 +1,33 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "supervision-y-cumplimiento",
+        "label": "Supervisión y Cumplimiento"
+    },
+    {
+        "type": "file",
+        "name":"aws-organizations",
+        "label": "AWS Organizations"
+    },
+    {
+        "type": "file",
+        "name": "gobernanza",
+        "label": "Gobernanza"
+    },
+    {
+        "type": "file",
+        "name": "estado-recursos",
+        "label": "Estado de los Recursos"
+    },
+    {
+        "type": "file",
+        "name": "aws-trusted-advisor",
+        "label": "AWS Trusted Advisor"
+    }
+    
+]

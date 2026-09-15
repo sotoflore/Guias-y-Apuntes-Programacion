@@ -1,0 +1,104 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Mensajería y colas
+
+La **mensajería y las colas en AWS** permiten que diferentes aplicaciones y servicios se comuniquen de forma **desacoplada, confiable y escalable**. En lugar de que un servicio tenga que esperar directamente por otro, los mensajes pueden almacenarse temporalmente y procesarse cuando el sistema esté disponible. AWS ofrece servicios como **Amazon SQS** para colas de mensajes y **Amazon SNS** para distribuir notificaciones, facilitando la construcción de aplicaciones más resistentes y escalables.
+
+## 1. Servicios de desacoplamiento
+
+En el desarrollo de aplicaciones modernas, la fiabilidad y la resiliencia son importantes. Una forma eficaz de lograr esto es adoptar un enfoque orientado al servicio.
+
+<Tabs>
+  <Tab label="Aplicaciones monolíticas">
+    Las aplicaciones constan de varios componentes que trabajan en conjunto para transmitir datos, cumplir con las solicitudes y mantener el correcto funcionamiento de la aplicación. En un enfoque tradicional de la arquitectura de aplicaciones, los componentes (como la lógica de la base de datos, los servidores de aplicaciones web, las interfaces de usuario y la lógica empresarial) están estrechamente relacionados. Esto significa que si un componente falla, puede provocar errores en otros componentes, lo que posiblemente haría que toda la aplicación falle.
+
+    ![Aplicaciones monolíticas](/aws/compute/compute-mensajeria-colas-monolito.png)
+  </Tab>
+  <Tab label="Arquitectura de microservicios">
+    Para mejorar la disponibilidad y la resiliencia de las aplicaciones, puede adoptar una arquitectura de microservicios. En este enfoque, los componentes de la aplicación tienen un acoplamiento débil, lo que significa que si un componente falla, los demás siguen funcionando normalmente. La comunicación entre los componentes permanece intacta y el error de un solo componente no afecta a todo el sistema. Este diseño brinda una mayor flexibilidad y fiabilidad en la aplicación.
+
+    ![Arquitectura de microservicios](/aws/compute/compute-mensajeria-colas-microservicio.png)
+  </Tab>
+</Tabs>
+
+## 2. Comunicación en la nube escalable y fiable
+
+**Amazon EventBridge**, **Amazon SNS** y **Amazon SQS** son servicios de AWS que ayudan a las distintas partes de una aplicación a comunicarse de manera eficaz en la nube. Estos servicios ayudan a crear sistemas basados en mensajes y en eventos. En conjunto, ayudan a crear aplicaciones escalables y fiables que pueden gestionar un tráfico alto y pueden mejorar la comunicación entre los componentes.
+
+### 2.1 EventBridge
+
+![EventBridge](/icons/amazon-eventBridge.svg)
+
+**EventBridge** es un servicio sin servidor que ayuda a conectar diferentes partes de una aplicación mediante eventos, lo que permite crear sistemas escalables y basados en eventos. Con EventBridge, puede dirigir los eventos desde fuentes, como aplicaciones personalizadas, servicios de AWS y software de terceros, a otras aplicaciones. EventBridge simplifica el proceso de recepción, filtrado, transformación y entrega de eventos para que pueda crear rápidamente aplicaciones fiables.
+
+#### 2.1.1 Ejemplo: EventBridge
+
+Los clientes utilizan un servicio de entrega de alimentos en línea para pedir comidas en restaurantes locales a través de una aplicación móvil. Cuando un cliente hace un pedido, deben realizarse varios pasos al mismo tiempo. Para obtener más información sobre estos pasos, seleccione cada uno de los cuatro marcadores numerados.
+
+![Ejemplo: EventBridge](/aws/compute/compute-mensajeria-colas-eventbridge-ejemplo.png)
+
+1. **Procesamiento de pago**. El servicio de pago debe verificar y procesar el pago del cliente.
+2. **Notificación para el restaurante**. El restaurante recibe una notificación para empezar a preparar la comida.
+3. **Administración de inventarios**. El sistema de inventario comprueba si los ingredientes del pedido están disponibles.
+4. **Envío de entrega**. Se notifica a un repartidor para que recoja y entregue la comida.
+
+:::info Cómo ayuda EventBridge
+**EventBridge** puede dirigir los eventos, como el pedido realizado o el pago completado, a los servicios pertinentes (pago, restaurante, inventario y entrega). Puede gestionar grandes volúmenes de eventos durante las horas pico, lo que garantiza que cada servicio funcione de forma independiente. Incluso si un servicio falla, EventBridge almacenará el evento y lo procesará tan pronto como el servicio vuelva a estar disponible. EventBridge ayuda a proporcionar un funcionamiento fluido y fiable en todo el sistema.
+:::
+
+### 2.2 Amazon SQS
+
+![Amazon SQS](/icons/amazon-sqs.svg)
+
+**Amazon SQS** es un servicio de colas de mensajes que facilita una comunicación fiable entre los componentes de software. Puede enviar, almacenar y recibir mensajes a cualquier escala, garantizando que no se pierdan y sin depender de la disponibilidad de otros servicios para procesarlos. En Amazon SQS, una aplicación coloca los mensajes en una cola, y un usuario o servicio recupera el mensaje, lo procesa y, a continuación, lo elimina de la cola.
+
+#### 2.2.1 Ejemplo: Amazon SQS
+
+A medida que los equipos de atención al cliente crecen y el volumen de problemas aumenta, es posible que los flujos de trabajo tradicionales presenten problemas para mantener el ritmo. Consideremos cómo un equipo de atención al cliente podría abordar este desafío.
+
+<Tabs>
+  <Tab label="Situación">
+    Un equipo de atención al cliente está formado por un agente de soporte y un especialista técnico. El agente de soporte se ocupa de recibir los problemas de los clientes y el especialista técnico se ocupa de resolverlos. Este proceso funciona bien siempre que tanto el agente como el especialista estén disponibles y coordinados.
+
+    ![Ejemplo: Amazon SQS](/aws/compute/compute-mensajeria-colas-sqs-ejemplo.png)
+  </Tab>
+  <Tab label="Desafío">
+    Sin embargo, ¿qué ocurre si el agente de soporte crea un ticket, pero el especialista técnico está ocupado trabajando en otro problema o no está disponible? El agente tendría que esperar hasta que el especialista tenga tiempo para aceptar el nuevo ticket, lo que provocaría retrasos en la resolución de los problemas de los clientes y prolongaría los tiempos de espera. A medida que aumenta el volumen de problemas de los clientes, este proceso se vuelve ineficiente.
+
+    ![Ejemplo: Amazon SQS](/aws/compute/compute-mensajeria-colas-sqs-ejemplo_v1.png)
+  </Tab>
+  <Tab label="Solución">
+    Para mejorar la eficiencia, implementan un sistema de colas con Amazon SQS. El agente de soporte agrega los problemas de los clientes a la cola, lo que crea una lista de tareas pendientes. Incluso si el especialista está ocupado, el agente puede seguir agregando nuevos problemas. El especialista revisa la cola, resuelve los problemas y actualiza al agente. Este sistema proporciona un flujo de trabajo fluido y ayuda a gestionar volúmenes más altos sin demoras ni cuellos de botella.
+
+    ![Ejemplo: Amazon SQS](/aws/compute/compute-mensajeria-colas-sqs-ejemplo_v2.png)
+  </Tab>
+</Tabs>
+
+### 2.3 Amazon SNS
+
+![Amazon SNS](/icons/amazon-sns.svg)
+
+**Amazon SNS** es un servicio de publicación y suscripción que los publicadores utilizan para enviar mensajes a los suscriptores a través de temas de SNS. En Amazon SNS, los suscriptores pueden incluir servidores web, direcciones de correo electrónico, funciones de Lambda y otros puntos de conexión. Más adelante, conocerá Lambda con más detalle.
+
+#### 2.3.1 Ejemplo: Amazon SNS
+
+Una empresa que vende una variedad de productos envía un único correo electrónico a todos los clientes con actualizaciones sobre diversos temas, como nuevos productos, ofertas especiales y próximos eventos. Si bien este método funcionó al principio, los clientes solo quieren recibir las actualizaciones que les interesan. La actualización actual del correo electrónico está provocando la insatisfacción de los clientes y una menor participación.
+
+![Ejemplo: Amazon SNS](/aws/compute/compute-mensajeria-colas-sns-ejemplo.png)
+
+1. **Segmente la comunicación**. La empresa decide dividir la comunicación en tres temas distintos: uno para productos nuevos, otro para ofertas especiales y otro para eventos. Cada tema se centrará en un área de interés específica.
+
+2. **Deje que los clientes elijan los temas**. Los clientes pueden suscribirse a los temas que les interesan, como los siguientes:
+
+    - Un cliente puede suscribirse solo a las actualizaciones de productos nuevos.
+    - Otro cliente puede optar solo por recibir notificaciones de eventos.
+    - Un tercer cliente puede optar por suscribirse a las actualizaciones de productos nuevos y a las ofertas especiales.
+
+3. **Envíe notificaciones personalizadas**. Con Amazon SNS, la empresa puede enviar notificaciones personalizadas a los suscriptores según sus intereses específicos. Amazon SNS se asegura de que estas notificaciones se envíen rápidamente a la audiencia correcta, lo que mejora la eficiencia y la relevancia de la comunicación.
+
+---
+
+**Referencias recomendadas:**
+
+- [Amazon Simple Notification Service](https://aws.amazon.com/es/sns/)
+- [Amazon Simple Queue Service](https://aws.amazon.com/es/sqs/)

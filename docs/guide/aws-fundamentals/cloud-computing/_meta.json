@@ -1,0 +1,67 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "on-premise-vs-cloud",
+        "label": "On-Premise vs Cloud Computing"
+    },
+    {
+        "type": "file",
+        "name": "caracteristicas-cloud",
+        "label": "Características del Cloud Computing"
+    },
+    {
+        "type": "file",
+        "name": "modelos-servicio",
+        "label": "Modelos de Servicio"
+    },
+    {
+        "type": "file",
+        "name": "modelos-despliegue-cloud",
+        "label": "Modelos de Despliegue"
+    },
+    {
+        "type": "file",
+        "name": "intro-infraestructura-global",
+        "label": "Infraestructura global de AWS"
+    },
+    {
+        "type": "file",
+        "name": "intro-responsabilidad-compartida",
+        "label": "Responsabilidad Compartida AWS"
+    },
+    {
+        "type": "file",
+        "name": "04-escalabilidad",
+        "label": "Escalabilidad"
+    },
+    {
+        "type": "file",
+        "name": "05-alta-disponibilidad",
+        "label": "Alta disponibilidad"
+    },
+    {
+        "type": "file",
+        "name": "latencia",
+        "label": "Latencia"
+    },
+    {
+        "type": "file",
+        "name": "serverles",
+        "label": "Serverles"
+    },
+    {
+        "type": "file",
+        "name": "api-gateway",
+        "label": "API Gateway"
+    },
+    {
+        "type": "file",
+        "name": "virtualizacion",
+        "label": "Virtualizacion"
+    }
+]

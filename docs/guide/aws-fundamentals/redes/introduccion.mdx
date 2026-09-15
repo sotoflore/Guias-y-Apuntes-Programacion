@@ -1,0 +1,82 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Introducción a las redes en AWS
+
+El término **redes** se refiere a dispositivos interconectados que pueden intercambiar datos y recursos. Las redes en la nube de AWS se componen de la infraestructura y los servicios que trabajan en conjunto para alojar sus aplicaciones, datos y cualquier otro recurso que pueda necesitar.
+
+Las **redes en AWS** permiten conectar de forma segura y controlada los diferentes recursos y servicios que forman parte de una arquitectura en la nube, como servidores, bases de datos, aplicaciones, contenedores y servicios administrados.
+
+El principal servicio de networking de AWS es **Amazon Virtual Private Cloud (Amazon VPC)**, que permite crear una **red virtual aislada lógicamente** dentro de AWS. Una VPC permite definir aspectos fundamentales de la red, como los rangos de direcciones IP, subredes, rutas y mecanismos de control del tráfico.
+
+La conectividad en AWS no se limita a una única VPC. También existen servicios para conectar diferentes redes y entornos, como **VPC Peering, AWS Transit Gateway y AWS Site-to-Site VPN**. Para conexiones dedicadas entre una infraestructura local y AWS, se puede utilizar **AWS Direct Connect**.
+
+Puedes entender las redes de AWS mediante esta estructura:
+
+>**VPC → Subredes → Rutas → Gateways → Control de tráfico → Conectividad**
+
+Las redes de AWS proporcionan la base para construir arquitecturas **seguras, aisladas, escalables y altamente disponibles y eficientes**, permitiendo controlar tanto **cómo se comunican los recursos** como **quién puede comunicarse con ellos**.
+
+## 1. Componentes de las redes
+
+El componente central es **Amazon VPC (Virtual Private Cloud)**, que permite crear una red virtual aislada dentro de AWS.
+
+### 1.1 Amazon Virtual Private Cloud (Amazon VPC)
+
+![icono de Amazon VPC](/icons/amazon-vpc.svg)
+
+Una **Amazon VPC** le permite aprovisionar una sección aislada de forma lógica de la nube de AWS, donde puede lanzar recursos de AWS en una red virtual que usted defina.
+
+![Amazon VPC](/aws/redes/redes-componentes-vpc.png)
+
+### 1.2 Subred
+
+Las **subredes** se utilizan para organizar los recursos y pueden ser de acceso **público** o **privado**. Por lo general, una subred privada se utiliza para contener recursos como una base de datos que almacena información de clientes o transacciones. Una subred pública se suele utilizar para recursos como un sitio web orientado al cliente.
+
+![Subred](/aws/redes/redes-componentes-subred.png)
+
+## 2. Componentes de redes: comprensión de las conexiones mediante diagramas
+
+Si es su primera experiencia con la TI o la computación en nube, es posible que aún no haya trabajado con diagramas arquitectónicos. En pocas palabras, un diagrama es un esquema o mapa de su red en la nube de AWS. Puede ofrecer un panorama de cómo los usuarios o las aplicaciones acceden a los servicios, los recursos o los datos. Con un vistazo rápido, puede determinar si la red se creó para ofrecer redundancia, seguridad e incluso escalabilidad. También puede servir como esquema para que no olvide las conexiones importantes al momento de crear sus soluciones.
+
+
+![Relación entre Región](/aws/redes/vpc-relacion-az-region.jpg)
+
+Este diagrama representa la estructura de red fundamental de una aplicación desplegada en la nube de Amazon Web Services (AWS), diseñada con alta disponibilidad y separación de seguridad.
+
+<Tabs>
+  <Tab label="Nube de AWS, regiones, Amazon VPC y AZ">
+    ![Nube de AWS, regiones, Amazon VPC y AZ](/aws/redes/vpc-nube-region-vpc-az.png)
+
+    1. **Nube de AWS (AWS Cloud)**: El perímetro global de la cuenta o infraestructura en la nube.
+
+    2. **Región**: Las regiones de AWS son áreas geográficas independientes. Usted elige su región en función de la ubicación geográfica de sus usuarios (a fin de reducir la latencia), los requisitos de cumplimiento y residencia de datos, los servicios disponibles y el costo.
+
+    3. **Amazon VPC**: Representa su virtual aislada y segmentada de forma lógica dentro de AWS donde despliegas tus recursos. Una VPC le ayuda a controlar los recursos y la seguridad de su red.
+
+    4. **Zona de Disponibilidad (AZ A y AZ B)**: Son ubicaciones aisladas que constan de uno o varios centros de datos independientes, dentro de una región de AWS que proporcionan redundancia y tolerancia a fallos. Utilizar varias AZ puede proteger sus aplicaciones contra el error de una sola ubicación en la región.
+
+  </Tab>
+  <Tab label="Subredes privadas">
+    ![Subredes privadas](/aws/redes/vpc-subredes-privadas.png)
+
+    Las **subredes** son, en esencia, segmentos de su VPC que le permiten dividir la VPC en secciones más pequeñas y fáciles de administrar. Una subred es un rango de direcciones IP en su VPC.
+
+    Las **subredes privadas** están diseñadas para aislar los recursos que no deberían exponerse de forma directa a la internet pública. En los diagramas, se ilustran con cuadros de líneas sólidas.
+  </Tab>
+  <Tab label="Subredes públicas">
+    ![Subredes públicas](/aws/redes/vpc-subredes-publicas.png)
+
+    Las **subredes públicas** están diseñadas para brindar acceso directo a través de internet a los recursos que se encuentran dentro de ellas. Para permitir el acceso, se conectan a una puerta de enlace de internet. Aprenderá más sobre las puertas de enlace de internet en otra lección. En los diagramas, las subredes públicas se representan con cuadros de líneas discontinuas.
+  </Tab>
+</Tabs>
+
+:::info Flujo de comunicación
+Una vez configurados los componentes, los recursos se comunican según las rutas y las reglas de seguridad: el tráfico sale de la instancia, la Route Table decide hacia dónde va, y los mecanismos de seguridad (Security Group / NACL) permiten o deniegan el paso.
+:::
+
+**Puntos clave**
+
+>- Una **VPC tiene alcance regional**: pertenece a una AWS Region y puede contener recursos distribuidos en varias Availability Zones (AZ) de esa Región.
+>- Una **subnet tiene alcance de una sola Availability Zone**: cada subnet está asociada a una única AZ y no puede extenderse entre varias AZ.
+>- Por lo tanto, una misma VPC puede contener múltiples subnets, distribuidas entre diferentes AZ.
+>- Para diseñar arquitecturas altamente disponibles, normalmente se crean subnets en varias AZ dentro de la misma VPC.

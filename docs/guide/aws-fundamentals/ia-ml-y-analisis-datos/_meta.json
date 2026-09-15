@@ -1,0 +1,22 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "ia-ml-aws",
+        "label": "IA/ML en AWS"
+    },
+    {
+        "type": "file",
+        "name": "ia-generativa-aws",
+        "label": "IA Generativa en AWS"
+    },
+    {
+        "type": "file",
+        "name": "analisis-datos",
+        "label": "Análisis de Datos"
+    }
+]

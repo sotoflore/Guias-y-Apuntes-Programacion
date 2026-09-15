@@ -1,0 +1,197 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Introducción a la globalización en AWS
+
+La **globalización en AWS** hace referencia a la capacidad de Amazon Web Services para ofrecer aplicaciones, servicios y datos a usuarios de todo el mundo mediante una **infraestructura distribuida globalmente**. En lugar de ejecutar una aplicación desde un único centro de datos, AWS permite desplegar recursos en diferentes ubicaciones geográficas para mejorar la **disponibilidad, el rendimiento, la escalabilidad y la tolerancia a fallos**.
+
+![Infraestructura Global](/aws/aws-infra-global-intro.jpg)
+
+AWS organiza su infraestructura global principalmente mediante **Regiones (Regions)**, **Zonas de disponibilidad (Availability Zones)** y **puntos de presencia (Points of Presence)**. Estos componentes permiten que las aplicaciones estén más cerca de sus usuarios y puedan continuar funcionando incluso cuando ocurre un problema en una determinada ubicación.
+
+Por ejemplo, una empresa que tiene usuarios en **Colombia, Estados Unidos y Europa** puede utilizar una arquitectura distribuida para acercar sus servicios a cada mercado. Servicios como **Amazon CloudFront**, **Amazon Route 53** y las diferentes **AWS Regions** permiten dirigir a los usuarios hacia los recursos más adecuados según su ubicación y las necesidades de la aplicación.
+
+> la globalización en AWS consiste en aprovechar la infraestructura mundial de AWS para construir aplicaciones que sean **rápidas, disponibles, escalables y resistentes**, independientemente de dónde se encuentren los usuarios.
+
+## 1. Globalización con la infraestructura de AWS
+
+Cuando utilizas AWS, tu información no vive en un solo computador ubicado en un lugar misterioso. AWS posee **centros de datos (Data Centers) físicos distribuidos por todo el planeta**, organizados en estructuras lógicas que permiten ejecutar aplicaciones cerca de tus usuarios, con alta disponibilidad y baja latencia.
+
+A esa red mundial de instalaciones físicas y su organización lógica se la conoce como la **Infraestructura Global de AWS**.
+
+La **Infraestructura Global de AWS** es el conjunto de **instalaciones geográficamente dispersas** (Regiones, Availability Zones, Data Centers, Edge Locations, Local Zones, Wavelength Zones y Outposts) y de la **red de alta velocidad** que las conecta, sobre la cual se ejecutan todos los servicios de AWS. Su diseño permite a los clientes colocar recursos y datos en múltiples ubicaciones para mejorar el rendimiento, proporcionar tolerancia a fallos, alta disponibilidad, baja latencia y habilitar estrategias de recuperación ante desastres.
+
+:::info ¿Por qué AWS necesita una infraestructura distribuida globalmente?
+Aws distribuye alrededor del mundo su infraestructura para ofrecer servicios de nube con:
+
+- **Baja latencia**. Acercar los servicios a los usuarios finales reduce el tiempo de respuesta.
+- **Alta disponibilidad**. Si una zona falla, otras siguen operando.
+- **Tolerancia a fallos**. Redundancia en múltiples ubicaciones evita la caída total.
+- **Residencia de datos**. Cumplir leyes que exigen que los datos vivan en un país/región concreto.
+- **Recuperación ante desastres**. Otra Región puede asumir el servicio si una Región completa queda inutilizada.
+- **Escalabilidad**. Capacidad distribuida para absorber picos de demanda a nivel mundial.
+- **Optimizar costos:** elegir regiones y arquitecturas que se ajusten a los requerimientos de la organización.
+
+:::
+
+Una forma sencilla de visualizar la jerarquía principal es:
+
+![Infraestructura Global](/aws/aws-infra-global-jerarquia.jpg)
+
+> *AWS no es solo una nube — es una red global de data centers diseñada para ofrecer baja latencia, alta disponibilidad y cumplimiento normativo en cualquier parte del mundo.*
+
+**Visión General de la Infraestructura**
+
+![Infraestructura Global](/aws/global-vision-general.jpg)
+
+### 1.1 Ejemeplo de uso: Cafetería
+
+La cafetería se está expandiendo a ubicaciones de todo el mundo. El siguiente contenido muestra cómo los elementos de la expansión de nuestra cafetería representan diferentes partes de la infraestructura global de AWS.
+
+
+<Tabs>
+  <Tab label="Cómo elegir una o varias regiones">
+    Si tuviéramos que expandir nuestra cafetería abriendo nuevas ubicaciones, habría varias cosas a tener en cuenta, como la demanda de los clientes y el costo de desarrollo. Del mismo modo, debe tener en cuenta varios factores a la hora de seleccionar una región o un conjunto de regiones para sus recursos reales.
+  </Tab>
+  <Tab label="Ubicaciones periféricas de AWS">
+    Al igual que nuestra franquicia de café podría expandirse con versiones más pequeñas de la tienda, como carritos de café móviles, AWS cuenta con instalaciones de menor tamaño denominadas **ubicaciones periféricas**. Estas ubicaciones almacenan en caché elementos como imágenes, videos y otros recursos, para que los usuarios puedan acceder al contenido que necesitan con una latencia más baja.
+  </Tab>
+  <Tab label="Infraestructura como código y CloudFormation">
+    Otra consideración importante de la expansión de una cafetería sería mantener un producto consistente de un lugar a otro. AWS cuenta con servicios, como **CloudFormation**, que puede utilizar para automatizar la implementación de sus recursos en la nube. Estos servicios utilizan la infraestructura como código (infrastructure as code, IaC), lo que le ayuda a lograr una configuración uniforme y fiable cada vez que su negocio crece.
+  </Tab>
+</Tabs>
+
+## 2. Conceptos Fundamentales
+
+### 2.1 Alta Disponibilidad
+
+La **Alta Disponibilidad** (High Availability - HA) es la capacidad de un sistema para seguir funcionando de manera continua incluso cuando alguno de sus componentes falla. Su objetivo es reducir al máximo el tiempo de caída y mantener el servicio accesible para el usuario casi todo el tiempo.
+
+En otras palabras:
+
+>El servicio permanece disponible para los usuarios la mayor parte del tiempo, minimizando las interrupciones. Permitiendo asi reducir caídas del sistema, minimizar tiempos de inactividad (Downtime) y garantizando continuidad del negocio.
+
+<Tabs>
+  <Tab label="Cómo funciona">
+    La idea central es evitar puntos únicos de fallo. Para eso se usan varias técnicas: balanceo de carga, réplicas de servidores, bases de datos replicadas, conmutación por error automática y despliegue en múltiples zonas de disponibilidad o regiones.
+
+    :::tip Ejemplo sencillo
+    Imagina un supermercado. Tiene una sola caja registradora. **¿Qué ocurre si la caja deja de funcionar?** Todos los clientes dejan de comprar. El supermercado queda prácticamente detenido.
+
+    Ahora imagina que existen cuatro cajas. **Si una caja falla**: las demás continúan atendiendo, los clientes casi no perciben el problema. Eso es Alta Disponibilidad.
+    ![Ejemplo sencillo](/aws/global-ejemplo.jpg)
+    :::
+  </Tab>
+  <Tab label="Elementos clave">
+    - **Downtime**. Es el tiempo durante el cual un servicio no está disponible.
+
+        ![Downtime](/aws/global-elementos-clave_v1.jpg)
+
+        Las causas pueden ser:
+
+        - falla eléctrica
+        - error humano
+        - daño de hardware
+        - actualización fallida
+
+        La Alta Disponibilidad busca reducir este tiempo al mínimo.
+
+    - **Redundancia**. Consiste en tener recursos duplicados o adicionales para que otro componente tome el relevo si uno falla.
+
+        ![Redundancia](/aws/global-elementos-clave_v2.jpg)
+
+        En lugar de tener:
+
+        ```txt
+        Servidor
+        ```
+        Se tiene:
+
+        ```txt
+        Servidor A
+        Servidor B
+        Servidor C
+        ```
+        Si **Servidor `A`** falla. El servicio continúa funcionando.
+
+    - **Replicación de datos**. No basta con replicar servidores. También deben replicarse los datos.
+
+        ***Por ejemplo:*** Si la base de datos principal falla, la réplica continua atendiendo las operaciones. Esto evita la pérdida de los datos de información.
+
+        ![Replicación de datos](/aws/global-elementos-clave_v3.jpg)
+  </Tab>
+  <Tab label="¿Cómo se mide la Alta Disponibilidad?">
+    La **alta disponibilidad** se cuantifica comúnmente mediante **"nueves"** (nines), que representan el porcentaje de tiempo de actividad (uptime) esperado en un año:
+
+    >La disponibilidad indica qué porcentaje del tiempo un sistema permanece funcionando correctamente.
+
+    Se expresa normalmente como un porcentaje. Por ejemplo:
+
+    ![¿Cómo se mide la Alta Disponibilidad?](/aws/global-formula-disponibilidad.jpg)
+
+    ![¿Cómo se mide la Alta Disponibilidad?](/aws/global-ejemplo-disponibilidad.jpg)
+
+    Mientras más cercano esté al **`100%`**, mejor.
+
+    En Cloud Computing se habla constantemente de los "**Nueves**" (Availability Nines).
+
+    | Disponibilidad (%) | Tiempo de inactividad permitido (al año) |
+    | -------------- | -------------------: |
+    | 99%            |            3 días y 15 horas |
+    | 99.9%          |           8 horas y 45 minutos |
+    | 99.99%         |        52 minutos|
+    | 99.999%        |         5 minutos y 26 segundos |
+
+    La mayoría de las arquitecturas críticas en la nube apuntan al menos a **`99.99%`** o más.
+  </Tab>
+  <Tab label="Pilares fundamentales">
+    Para lograr que una aplicación en la nube sea altamente disponible, se deben implementar cuatro principios arquitectónicos esenciales:
+
+    **1. Eliminación de puntos únicos de fallo (Single Points of Failure - SPOF)**
+
+    Si un componente crítico (un servidor, una base de datos o un cable de red) falla y hace caer todo el sistema, existe un SPOF. Para evitarlo, todos los componentes esenciales deben estar duplicados (redundancia).
+
+    **2. Redundancia e Infraestructura Multi-AZ**
+
+    Los proveedores de nube dividen sus regiones geográficas en Zonas de Disponibilidad (Availability Zones o AZs). Una AZ es uno o más centros de datos discretos con energía, refrigeración y redes independientes.
+
+    >**Estrategia**: Desplegar instancias de tus aplicaciones en múltiples AZs simultáneamente. Si una zona sufre un apagón o un desastre natural, el tráfico se enruta automáticamente hacia las zonas restantes que siguen operativas.
+
+    **3. Tolerancia a fallos y conmutación por error (Failover)**
+
+    Cuando un componente activo falla, el sistema debe ser capaz de detectar la falla y cambiar de forma automática a un recurso secundario de respaldo sin intervención humana perceptible para el usuario final. Esto se divide en:
+
+    - **Activo Pasivo**: El servidor secundario está encendido pero inactivo, esperando a que el primario falle.
+
+    - **Activo Activo**: Múltiples servidores procesan solicitudes de manera simultánea, distribuyendo la carga.
+
+    **4. Balanceo de carga (Load Balancing)**
+
+    Los balanceadores de carga actúan como "puertas de entrada" inteligentes que distribuyen el tráfico de red entrante entre múltiples servidores, contenedores o bases de datos. Si un servidor deja de responder, el balanceador deja de enviarle tráfico de inmediato.
+  </Tab>
+  </Tabs>
+
+:::info
+La **Alta Disponibilidad** busca que una aplicación permanezca operativa el mayor tiempo posible, incluso cuando algunos componentes fallan. Para lograrlo se combinan mecanismos como la redundancia, los balanceadores de carga, las comprobaciones de estado, el escalado automático, la replicación de datos y la distribución de recursos entre múltiples Zonas de Disponibilidad. Cuanto mejor se diseñe la arquitectura, menor será el tiempo de inactividad y mayor la continuidad del negocio.
+:::
+
+### 2.2 Agilidad
+La **agilidad** se refiere a la capacidad de adaptarse rápidamente a los requisitos cambiantes o a las condiciones del mercado. Al implementar la infraestructura de AWS, puede modificar e implementar los servicios rápidamente.
+
+### 2.3 Elasticidad
+La **elasticidad** se refiere a la capacidad de un sistema para reducir o escalar verticalmente los recursos de forma automática en respuesta a los cambios en la demanda. La infraestructura de AWS está configurada para que pueda reducir o escalar verticalmente los recursos según la demanda.
+
+### 2.4 Resiliencia
+
+- Capacidad del sistema de **recuperarse** de fallos y **volver a su estado operativo**.
+- Abarca la capacidad de adaptarse y recuperarse ante incidentes.
+- La resiliencia incluye Alta Disponibilidad** (High Availability) y tolerancia a fallos, y se refiere a **recuperarse bien** de los problemas.
+
+## 3. Infografia de la Infraestructura Global de AWS
+
+![Infraestructura Global de AWS](/aws/global-infografia.png)
+
+---
+
+**Referencias recomendadas:**
+
+- [Infraestructura global de AWS](https://aws.amazon.com/about-aws/global-infrastructure/)

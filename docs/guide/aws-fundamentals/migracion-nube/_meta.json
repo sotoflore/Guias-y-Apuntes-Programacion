@@ -1,0 +1,22 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "aws-caf",
+        "label": "AWS CAF"
+    },
+    {
+        "type": "file",
+        "name":"estrategias-migracion",
+        "label": "Estrategias de Migración"
+    },
+    {
+        "type": "file",
+        "name": "servicios-migracion",
+        "label": "Servicios de Migración"
+    }
+]

@@ -1,0 +1,360 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Introducción a la Computación en la Nube
+
+La **computación en la nube** (**cloud computing**), se ha convertido en una herramienta imprescindible en el mundo de la tecnología moderna. Con su aparición, ha revolucionado la manera en que las organizaciones y usuarios individuales acceden y gestionan sus recursos informáticos.
+
+Principales características:
+
+- **Elasticidad**: Se puede escalar rápidamente la capacidad según aumente o disminuya la demanda. 
+- **Pago por uso**: Solo se paga por los recursos consumidos, optimizando costes. 
+- **Accesibilidad**: Se accede a los servicios desde cualquier dispositivo con conexión a Internet.
+
+![cloud computing](/aws/cloud-img/cloud-intro.png)
+
+:::info ¿Qué significa "la nube"?
+Muchas personas imaginan que **"la nube"** es un lugar mágico donde viven los datos. La realidad es diferente. La nube son **centros de datos** (Data Centers) distribuidos por todo el mundo. Estos centros contienen miles o incluso millones de servidores físicos conectados entre sí.
+
+Cuando subes una foto a Google Drive o Netflix reproduce una película, realmente estás utilizando alguno de esos servidores.
+:::
+
+## 1. Definición de la Computación en la Nube
+
+La **computación en la nube** (**Cloud Computing**) **es la <u>entrega bajo demanda</u> de <u>recursos de TI</u> <u>a través de internet</u> con un modelo de precios de <u>pago por uso</u>**. En lugar de que las empresas tengan que comprar, poseer y mantener sus propios servidores y centros de datos físicos, pueden acceder a potencia de cómputo, almacenamiento, bases de datos y otras tecnologías de forma remota en función de sus necesidades a través de un proveedor de la nube.
+
+<Tabs>
+  <Tab label="Entrega bajo demanda">
+    La **entrega bajo demanda** significa que los clientes pueden acceder a los recursos de computación, como el almacenamiento o la potencia de computación, en cuestión de segundos y según sea necesario. Los usuarios pueden escalar o reducir verticalmente el uso de sus recursos según los requisitos actuales sin largos procesos de aprovisionamiento.
+
+    > **Bajo demanda significa**: Que los recursos están disponibles cuando los necesitas y puedes aprovisionarlos sin tener que adquirir previamente el hardware físico.
+  </Tab>
+  <Tab label="de recursos de TI">
+    El aspecto de los **recursos de TI** destaca la amplia variedad de activos de tecnología de la información en el espacio de la computación en la nube. Estos recursos incluyen servidores, soluciones de almacenamiento, bases de datos, componentes de redes, herramientas de inteligencia artificial y machine learning (IA/ML), entre otros. Los clientes pueden usar estos recursos para crear, implementar y administrar aplicaciones y servicios a través de la infraestructura de nube.
+  </Tab>
+  <Tab label="a través de internet">
+    **A través de internet** significa que la computación en la nube ofrece recursos de TI a través de la conectividad a Internet. Esto implica que los usuarios acceden a estos recursos y los utilizan a través de servicios basados en la web en lugar de mantener el hardware o el software locales. Internet actúa como el conducto que proporciona acceso remoto a la potencia de computación, el almacenamiento y las aplicaciones desde cualquier parte del mundo.
+  </Tab>
+  <Tab label="con precios de pago por uso">
+    La **flexibilidad de precios** es un aspecto económico fundamental de la computación en la nube. Los usuarios pagan solo por los recursos que realmente consumen, en lugar de comprometerse con contratos fijos a largo plazo. Este modelo de precios basado en el uso ofrece rentabilidad y flexibilidad financiera.
+  </Tab>
+</Tabs>
+
+![definición cloud computing](/aws/cloud-img/definicion-cloud-computing.jpg)
+
+::: info Definición según NIST
+La definición más utilizada es la del **National Institute of Standards and Technology (`NIST`)**:
+
+>**Cloud Computing** es un modelo que permite el acceso conveniente y bajo demanda, a través de la red, a un conjunto compartido de recursos informáticos configurables (como redes, servidores, almacenamiento, aplicaciones y servicios), que pueden ser aprovisionados y liberados rápidamente con un mínimo esfuerzo administrativo o interacción con el proveedor.
+
+Esta definición resume perfectamente la esencia del Cloud:
+
+- Bajo demanda.
+- Acceso por Internet.
+- Recursos compartidos.
+- Escalable.
+- Pago por uso.
+
+:::
+
+### 1.1 Principales beneficios de la nube de AWS
+
+Los seis beneficios clave de la nube de AWS son los siguientes:
+
+- **Operar con gastos variables en lugar de gastos fijos**. Al usar la nube de AWS, las empresas pueden pasar de inversiones fijas a costos variables. Con los costos variables, los gastos de los clientes se alinean mejor con el uso real, lo que crea una mayor flexibilidad financiera.
+
+- **Aprovechar las economías de escala masivas**. Al igual que comprar un producto al por mayor puede reducir los precios por unidad, la amplia infraestructura global de AWS puede reducir los costos para los clientes. Esto significa que muchas organizaciones pueden usar AWS, desde pequeñas startups hasta grandes corporaciones. Tanto las empresas grandes como las pequeñas pueden acceder a tecnologías avanzadas a las que antes solo podían acceder las grandes empresas.
+
+- **Dejar de hacer conjeturas sobre la capacidad**. Los clientes pueden escalar o reducir verticalmente los recursos de la nube de AWS de forma dinámica según la demanda en tiempo real. Esto significa que las empresas pueden lograr un rendimiento óptimo sin aprovisionar más o menos infraestructura de la que necesitan.
+
+- **Aumentar la velocidad y la agilidad**. Gracias a la nube, las empresas pueden implementar aplicaciones y servicios con rapidez, lo que acelera el tiempo de comercialización y genera respuestas más rápidas a las cambiantes necesidades empresariales y las condiciones del mercado.
+
+- **Dejar de gastar dinero en la ejecución y el mantenimiento de centros de datos**. La nube de AWS elimina la necesidad de que las empresas inviertan en centros de datos físicos. Esto significa que los clientes no tienen que dedicar tiempo ni dinero a los servicios básicos ni al mantenimiento continuo. Como AWS se ocupa de la infraestructura física de la nube, los recursos de los clientes se pueden reasignar a iniciativas más estratégicas.
+
+- **Convertirse en una empresa global en minutos**. Las empresas no necesitan establecer su propia infraestructura para expandirse internacionalmente. AWS proporciona una sólida infraestructura global que los clientes pueden usar para implementar aplicaciones y servicios en varias áreas en cuestión de minutos.
+
+
+
+AWS identifica **seis beneficios principales de la computación en la nube** que explican por qué las organizaciones migran sus aplicaciones e infraestructura a la nube.
+
+#### 1.1.1 Operar con gastos variables en lugar de gastos fijos
+
+En un modelo tradicional, una empresa debe realizar grandes inversiones iniciales para adquirir servidores, almacenamiento, redes y otros equipos. Estos son **gastos fijos o inversiones de capital (CapEx)**.
+
+Al usar la nube de AWS, las empresas pueden pasar de inversiones fijas a costos variables. Con los costos variables, los gastos de los clientes se alinean mejor con el uso real, lo que crea una mayor flexibilidad financiera. Esto convierte gran parte del gasto en un **gasto variable (OpEx)**.
+
+Recuerda:
+
+> **Nube = pasar de grandes inversiones iniciales (CapEx) a gastos variables (OpEx).**
+
+#### 1.1.2 Aprovechar las economías de escala masivas
+
+Así como comprar productos en grandes cantidades puede reducir el costo por unidad, AWS aprovecha su enorme escala de infraestructura para ofrecer servicios de forma más eficiente y a costos potencialmente menores para sus clientes. Esto permite que organizaciones de cualquier tamaño, desde pequeñas startups hasta grandes corporaciones, puedan acceder a infraestructura y tecnologías avanzadas sin tener que realizar grandes inversiones en infraestructura propia.
+
+:::tip Ejemplo
+Imagina que una persona compra un producto individualmente y paga $10. Una empresa que compra miles de unidades puede negociar un precio menor por unidad.
+:::
+
+AWS aplica un concepto similar a gran escala:
+
+>**Mayor volumen de infraestructura → mayor eficiencia → costos potencialmente menores para los clientes.**
+
+Recuerda:
+
+> **Economías de escala = AWS puede reducir costos gracias a operar infraestructura a gran escala.**
+
+#### 1.1.3 Dejar de hacer conjeturas sobre la capacidad
+
+Los clientes pueden escalar o reducir verticalmente los recursos de la nube de AWS de forma dinámica según la demanda en tiempo real. Esto significa que las empresas pueden lograr un rendimiento óptimo sin aprovisionar más o menos infraestructura de la que necesitan.
+
+>En pocas palabras: AWS permite utilizar la cantidad de recursos necesaria en cada momento, optimizando el rendimiento y evitando el desperdicio de infraestructura.
+
+En un centro de datos tradicional, una empresa debe intentar predecir cuántos recursos necesitará en el futuro. Esto puede generar dos problemas:
+
+**Sobreaprovisionamiento**. Se compran más recursos de los necesarios.
+
+```text
+Demanda real:       ██████
+Infraestructura:    █████████████
+                    ↑
+              Recursos sin utilizar
+```
+
+**Subaprovisionamiento**. Se compran menos recursos de los necesarios.
+
+```text
+Demanda real:       █████████████
+Infraestructura:    ██████
+                    ↑
+              Recursos insuficientes
+```
+
+Con AWS, los recursos pueden **escalarse según la demanda**.
+
+Recuerda:
+
+> **Cloud = capacidad bajo demanda y escalabilidad.**
+
+#### 1.1.4 Aumentar la velocidad y la agilidad
+
+Gracias a la nube, las empresas pueden implementar aplicaciones y servicios con rapidez, lo que acelera el tiempo de comercialización y genera respuestas más rápidas a las cambiantes necesidades empresariales y las condiciones del mercado.
+
+En un entorno tradicional, obtener un nuevo servidor puede requerir:
+
+1. Comprar el hardware.
+2. Esperar la entrega.
+3. Instalarlo.
+4. Configurarlo.
+5. Conectarlo a la red.
+6. Prepararlo para producción.
+
+Este proceso puede tardar días o incluso semanas.
+
+En AWS, muchos recursos pueden crearse en **minutos** mediante la consola, CLI, APIs o herramientas de infraestructura como código.
+
+Recuerda:
+
+> **Cloud = mayor velocidad y agilidad para experimentar, desarrollar e implementar.**
+
+#### 1.1.5 Dejar de gastar dinero en la ejecución y mantenimiento de centros de datos
+
+La nube de AWS elimina la necesidad de que las empresas inviertan en centros de datos físicos. Esto significa que los clientes no tienen que dedicar tiempo ni dinero a los servicios básicos ni al mantenimiento continuo. Como AWS se ocupa de la infraestructura física de la nube, los recursos de los clientes se pueden reasignar a iniciativas más estratégicas.
+
+:::warning Importante
+Esto **no significa que AWS administre todo lo relacionado con la aplicación del cliente**.
+:::
+
+Recuerda:
+
+> **AWS administra la infraestructura física subyacente; el cliente puede concentrarse más en el negocio.**
+
+#### 1.1.6 Convertirse en una empresa global en minutos
+
+Las empresas no necesitan establecer su propia infraestructura para expandirse internacionalmente. AWS proporciona una sólida infraestructura global que los clientes pueden usar para implementar aplicaciones y servicios en varias áreas en cuestión de minutos.
+
+Con una infraestructura tradicional, esta expansión podría requerir construir o contratar infraestructura física en diferentes regiones.
+
+Con AWS, puede utilizar diferentes **Regiones y Zonas de Disponibilidad** según las necesidades de su aplicación.
+
+Recuerda:
+
+> **AWS permite implementar aplicaciones globalmente sin tener que construir centros de datos propios en cada ubicación.**
+
+:::info Enfoque para AWS Cloud Practitioner
+Estos beneficios suelen aparecer en preguntas conceptuales. No basta con memorizar el nombre; debes reconocer **qué situación representa cada beneficio**.
+
+- **Por ejemplo**: Una empresa experimenta un aumento repentino de tráfico y necesita agregar recursos rápidamente.
+
+La respuesta relacionada con: **"Dejar de hacer conjeturas sobre la capacidad"**. Es la más adecuada porque AWS permite ajustar los recursos según la demanda.
+
+- **Otro ejemplo**: Una startup quiere lanzar rápidamente una aplicación sin comprar servidores físicos.
+
+La respuesta está relacionada con: **"Aumentar la velocidad y la agilidad"**.
+
+- Si la pregunta habla de evitar grandes inversiones iniciales en infraestructura: **"Operar con gastos variables en lugar de gastos fijos."**
+
+- Si habla de AWS operando infraestructura a gran escala: **"Aprovechar las economías de escala masivas."**
+
+- Si habla de no tener que comprar, mantener y operar servidores físicos: **"Dejar de gastar dinero en la ejecución y mantenimiento de centros de datos."**
+
+- Si habla de desplegar aplicaciones en diferentes partes del mundo: **"Convertirse en una empresa global en minutos."**
+
+:::
+
+
+La idea central es que **AWS permite a las organizaciones obtener infraestructura tecnológica de forma flexible, escalable y global, sin tener que realizar y mantener toda la infraestructura física por cuenta propia.**
+
+
+### 1.2 ¿Por qué surgió el Cloud Computing?
+
+El Cloud nació porque el modelo tradicional dejó de ser suficiente para las necesidades modernas. Hace años, cualquier empresa debía comprar toda su infraestructura. Eso implicaba: Comprar servidores, discos duros, switches, routers, instalar sistemas operativos, Configurar redes, contratar personal especializado, tener una sala de servidores.
+
+Todo esto requería una enorme inversión. Además, si el negocio crecía, era necesario comprar más equipos. Si el negocio disminuía, los servidores seguían ocupando espacio y consumiendo energía. Era un modelo poco flexible.
+
+:::info Analogía
+Antes de que existiera la red eléctrica, cada fábrica necesitaba su propia planta de energía. Si necesitaba más potencia, debía comprar más generadores. Si la planta fallaba, toda la producción se detenía. Era un modelo costoso, difícil de mantener y poco escalable.
+
+Hoy todo es diferente. Simplemente conectas un aparato a un enchufe y pagas únicamente por la electricidad que consumes. No necesitas saber cómo funciona la planta de generación, darle mantenimiento o preocuparte por su capacidad.
+
+**El Cloud Computing funciona exactamente con la misma idea.**
+
+En lugar de comprar y mantener servidores propios, utilizas la infraestructura de un proveedor en la nube y pagas solo por los recursos que realmente utilizas.
+
+![surgiemiento cloud computing](/aws/cloud-img/surgimiento-cloud-computing.jpg)
+:::
+
+**Principales problemas**
+
+- **Alto costo inicial**. Los servidores eran muy costosos. Una pequeña empresa podía gastar miles de dólares antes incluso de comenzar a operar.
+
+- **Mucho tiempo de implementación**. Comprar un servidor podía tomar semanas. Después era necesario: instalarlo, configurarlo, conectarlo, probarlo. Mientras tanto el proyecto esperaba.
+
+- **Mala utilización**. Muchos servidores trabajaban únicamente al 10% o 20% de su capacidad. El resto del tiempo permanecían prácticamente sin uso. Sin embargo, seguían consumiendo: electricidad, espacio, refrigeración, mantenimiento.
+
+- **Difícil escalar**. Si una página web recibía muchas visitas inesperadas: el servidor podía saturarse y el sitio dejaba de responder. La única solución era comprar más hardware.
+
+- **Mantenimiento constante**. Había que: cambiar discos dañados, actualizar hardware, instalar parches, monitorear temperatura, reemplazar componentes. Todo esto requería personal especializado.
+
+- **Disponibilidad limitada**. Si ocurría un incendio, inundación o falla eléctrica, los servicios podían quedar completamente fuera de línea.
+
+## 2. Tipos de implementación en la nube
+
+Puede implementar los recursos de nube de varias maneras: en la nube, en las instalaciones e híbrida. Cada tipo ofrece beneficios y consideraciones únicas, y explorar estas opciones puede ayudarle a tomar decisiones informadas sobre su estrategia de nube.
+
+<Tabs>
+  <Tab label="Implementación en la Nube">
+    En un modelo de **implementación basado en la nube**, tiene la flexibilidad de migrar sus recursos existentes a la nube, diseñar y crear nuevas aplicaciones dentro del entorno de nube, o usar una combinación de ambos.
+
+    **Por ejemplo**, una empresa puede migrar sus recursos de datos a la nube y, luego, desarrollar una aplicación compuesta por servidores virtuales, bases de datos y componentes de red que estén completamente alojados en la nube.
+  </Tab>
+  <Tab label="Implementación en las Instalaciones">
+    La **implementación de recursos en las instalaciones** mediante herramientas de virtualización y administración de recursos no ofrece muchos de los beneficios de la computación en la nube. Sin embargo, a veces se busca por su capacidad para proporcionar recursos dedicados y baja latencia.
+
+    En la mayoría de los casos, este modelo de implementación es idéntico al de la infraestructura de TI heredada y utiliza tecnologías de virtualización y administración de aplicaciones para intentar aumentar la utilización de los recursos.
+  </Tab>
+  <Tab label="Implementación Híbrida">
+    En una **implementación híbrida**, los recursos basados en la nube y la infraestructura en las instalaciones funcionan en conjunto. Este enfoque es ideal para situaciones en las que las aplicaciones heredadas deben permanecer en las instalaciones debido a las preferencias de mantenimiento o los requisitos reglamentarios.
+
+    **Por ejemplo**, una empresa puede optar por retener ciertas aplicaciones heredadas reguladas en las instalaciones mientras utiliza los servicios de nube para el procesamiento y el análisis avanzados de datos.
+
+    Las **implementaciones multinube** también se pueden considerar implementaciones híbridas.
+  </Tab>
+</Tabs>
+
+## 3. Conceptos fundamentales
+
+Es importante comprender los componentes que hacen posible su funcionamiento. Estos conceptos forman la base sobre la que se construyen servicios como Amazon Web Services (AWS), Microsoft Azure y Google Cloud Platform.
+
+
+<Tabs>
+  <Tab label="Infraestructura Física">
+    La **infraestructura física** es el conjunto de componentes de hardware que permiten operar un centro de datos. Incluye elementos como:
+
+    - Servidores físicos.
+    - Discos SSD y HDD.
+    - Procesadores (CPU).
+    - Memoria RAM.
+    - Switches y routers.
+    - Cables de red.
+    - Sistemas de refrigeración.
+    - Sistemas eléctricos (UPS y generadores).
+    - Racks para alojar los servidores.
+    - Sistemas de seguridad física.
+
+    Toda esta infraestructura constituye la base sobre la que funcionan los servicios en la nube.
+
+    :::tip Ejemplo
+    Imagina construir un edificio. Antes de instalar oficinas o muebles, primero necesitas los cimientos, columnas, electricidad y tuberías. Esa es la infraestructura física del Cloud.
+    :::
+  </Tab>
+  <Tab label="Centro de Datos (Data Center)">
+    Un ** Data Center** es una instalación especialmente diseñada para alojar miles de servidores y garantizar que funcionen de forma continua. Un centro de datos dispone de:
+
+    - Energía eléctrica redundante.
+    - Refrigeración.
+    - Conexión de alta velocidad a Internet.
+    - Sistemas contra incendios.
+    - Seguridad física.
+    - Monitoreo las 24 horas.
+
+    Los grandes proveedores de nube como AWS, Azure y Google Cloud poseen centros de datos distribuidos en diferentes regiones del mundo para ofrecer alta disponibilidad y baja latencia.
+
+    :::tip Ejemplo
+    Cuando guardas una foto en Google Drive, esta no se almacena "en la nube" de forma mágica; realmente queda almacenada en alguno de los servidores ubicados dentro de un Data Center.
+    :::
+  </Tab>
+  <Tab label="Servidor (Server)">
+    Un **servidor** es una computadora de alto rendimiento diseñada para ofrecer servicios a otros equipos a través de una red. Entre sus funciones están:
+
+    - Ejecutar aplicaciones.
+    - Alojar sitios web.
+    - Ejecutar bases de datos.
+    - Procesar solicitudes de usuarios.
+    - Almacenar información.
+
+    A diferencia de un computador personal, un servidor puede atender simultáneamente a cientos o miles de usuarios.
+
+    :::tip Ejemplo
+    Cuando visitas una página web, tu navegador envía una solicitud a un servidor, el cual procesa la petición y devuelve la información correspondiente.
+    :::
+
+    Un servidor normalmente tiene:
+
+    - CPU (procesador)
+    - Memoria RAM
+    - Disco SSD o HDD
+    - Tarjeta de red
+    - Sistema operativo (Linux, Windows Server, etc.)
+  </Tab>
+  <Tab label="Virtualización">
+    La **virtualización** es una tecnología que permite dividir un servidor físico en múltiples servidores virtuales independientes. Cada máquina virtual dispone de:
+
+    - Su propio sistema operativo.
+    - Su propia memoria RAM;
+    - Su propio disco;
+    - Su propia CPU virtual.
+    - Configuración de red.
+
+    Todo ello compartiendo el mismo hardware físico mediante un software llamado **hipervisor**.
+
+    Gracias a la virtualización es posible aprovechar mucho mejor los recursos disponibles y crear nuevos servidores en cuestión de minutos. Antes de la virtualización, un servidor físico normalmente ejecutaba una sola aplicación. Hoy, un mismo servidor puede alojar decenas o incluso cientos de máquinas virtuales.
+  </Tab>
+  <Tab label="Recursos de Cómputo">
+    Los **recursos de cómputo** son los elementos tecnológicos que una aplicación necesita para funcionar. Los principales recursos son:
+
+    | Recurso        | Función                                                                           |
+    | -------------- | --------------------------------------------------------------------------------- |
+    | CPU            | Ejecuta instrucciones y procesa información.                                      |
+    | Memoria RAM    | Almacena temporalmente los datos mientras se ejecutan las aplicaciones.           |
+    | Almacenamiento | Guarda archivos y bases de datos de forma permanente.                             |
+    | Red            | Permite la comunicación entre usuarios, servidores y servicios.                   |
+    | GPU (opcional) | Acelera tareas como inteligencia artificial, renderizado y procesamiento gráfico. |
+
+    En Cloud Computing estos recursos pueden aumentarse o reducirse bajo demanda, pagando únicamente por lo que se utiliza.
+  </Tab>
+</Tabs>
+
+---
+
+**Referencias recomendadas:**
+
+- [¿Qué es la computación en la nube?](https://aws.amazon.com/es/what-is-cloud-computing/?nc1=f_cc)

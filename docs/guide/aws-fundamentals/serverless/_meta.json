@@ -1,0 +1,17 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "aws-lambda",
+        "label": "AWS Lambda"
+    },
+    {
+        "type": "file",
+        "name": "contenedores-y-orquestacion",
+        "label": "Contenedores y orquestación"
+    }
+]

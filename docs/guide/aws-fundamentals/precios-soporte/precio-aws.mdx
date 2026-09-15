@@ -1,0 +1,161 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Precios de AWS
+
+El **modelo de precios de AWS** (Amazon Web Services) está diseñado para que los clientes paguen principalmente por los recursos y servicios que realmente utilizan, en lugar de tener que realizar grandes inversiones iniciales en infraestructura física. Este enfoque se conoce como **pago por uso** (pay-as-you-go) y permite aumentar o reducir los recursos según las necesidades de una aplicación.
+
+En AWS, el costo depende de factores como el servicio utilizado, la cantidad de recursos consumidos, la región, el tiempo de uso y el modelo de precios seleccionado.
+
+Comprender cómo funciona el sistema de precios de AWS es fundamental para **estimar costos**, **controlar el consumo**, **elegir correctamente los servicios** y **evitar gastos inesperados**. Para ello, AWS proporciona herramientas como **AWS Pricing Calculator**, **AWS Budgets** y **AWS Cost Explorer**, que ayudan a estimar, supervisar y analizar el gasto en la nube.
+
+> AWS busca combinar flexibilidad + pago por uso + optimización de costos, permitiendo que una organización adapte sus gastos de infraestructura a su consumo real.
+
+## 1. Conceptos clave de los precios de AWS
+
+### 1.1 Pago por uso
+
+Con el pago por uso, puede adaptarse a las cambiantes necesidades empresariales y reducir el riesgo de aprovisionar en exceso o sufrir una falta de capacidad. 
+
+### 1.2 Ahorro cuando se compromete
+
+Para ciertos servicios, como los servicios de computación de AWS, Savings Plans ofrece descuentos en comparación con los precios bajo demanda si se compromete a un plan de 1 o 3 años.
+
+### 1.3 Más uso, menos dinero
+
+Con AWS, puede obtener importantes ahorros a medida que aumenta su uso. Para algunos servicios, los precios son escalonados, lo que significa que cuanto más los utilice, menos pagará.
+
+## 2. Factores determinantes del costo
+
+El precio de los servicios de AWS varía en función de varios factores, como la **categoría** o el **tipo de servicio**, la **configuración**, la **región de AWS** y el **modelo de precios** que elija. Consulte la pestaña de precios en la página web de un servicio para obtener detalles sobre sus factores de precios específicos. 
+
+Existen tres aspectos fundamentales de costo con AWS: el **cómputo**, el **almacenamiento** y la **transferencia de datos** salientes. Estos factores determinantes afectan las categorías de servicios de AWS de diferentes maneras. 
+
+<Tabs>
+  <Tab label="Computación">
+    En el caso de los recursos de computación, se paga por un período de tiempo determinado, **por ejemplo**, por hora o por segundo. A menos que haya hecho una reserva cuyo costo esté acordado de antemano, pagará desde el momento en que lance un recurso hasta el momento en que detenga la instancia.
+  </Tab>
+  <Tab label="Almacenamiento">
+    Puede elegir entre una amplia cartera de soluciones de almacenamiento con una amplia funcionalidad para almacenar, proteger y analizar los datos, además de acceder a ellos. El precio del almacenamiento depende en gran medida de la cantidad de almacenamiento que haya aprovisionado o de la cantidad que esté utilizando.
+
+    Para algunas opciones de almacenamiento, como **Amazon Simple Storage Service** (Amazon S3), el costo de almacenamiento es escalonado. Esto significa que puede optimizar los costos de almacenamiento en función de la frecuencia y rapidez con la que necesite acceder a los datos. Con Amazon S3, tenga en cuenta los seis componentes de costo siguientes al almacenar y administrar los datos de los clientes:
+
+    - Precio de almacenamiento
+    - Precio de solicitud y recuperación de los datos
+    - Precio de transferencia de datos y aceleración de transferencia
+    - Precio de la administración y el análisis de datos
+    - Precio de replicación
+    - Precio del procesamiento de datos con Amazon S3 Object Lambda
+  </Tab>
+  <Tab label="Transferencia de datos">
+    En la mayoría de los casos, la transferencia de datos entrantes o entre los servicios de AWS de la misma región es gratuita. Existen algunas excepciones, así que asegúrese de verificar las tarifas de transferencia de datos antes de comenzar. 
+
+    La transferencia saliente de datos se suma entre los distintos servicios y, luego, se cobra según la tarifa para transferencia saliente de datos. Cuantos más datos transfiera, menos pagará por gigabyte. Para el almacenamiento y la transferencia de datos, se suele pagar por gigabyte.
+  </Tab>
+</Tabs>
+
+## 3. Situación hipotética
+
+Apliquemos estos conceptos de precios de AWS y los factores que impulsan los costos a una situación hipotética. Utilizaremos Amazon Elastic Compute Cloud (Amazon EC2), un servicio de la categoría de computación, como ejemplo. 
+
+>Un cliente de AWS decide aprovisionar una instancia de EC2 para su organización sin fines de lucro.
+>
+> ![Situación hipotética](/aws/precio-soporte/precio-aws-ejemplo.jpg)
+
+Para saber cómo esta instancia de EC2 de este cliente podría verse afectada por los factores determinantes de costo de la computación, el almacenamiento y la transferencia de datos, veamos cada uno:
+
+![Situación hipotética](/aws/precio-soporte/precio-aws-ejemplo_v1.png)
+
+<Tabs>
+  <Tab label="1. Computación">
+    **Ejemplo**:
+
+    La organización creó su propia aplicación que procesa y administra las donaciones en línea. Hay más de 500 tipos de instancias de EC2 entre las que pueden elegir para ejecutar esa aplicación. Cada tipo de instancia de EC2 tiene una cantidad diferente de CPU y memoria, y ambos son factores de computación de Amazon EC2. En función de sus requisitos, la organización optó por utilizar la instancia t4g.nano, que brinda el precio más bajo sin dejar de cubrir sus necesidades.
+  </Tab>
+  <Tab label="2. Almacenamiento">
+    **Ejemplo**:
+
+    La aplicación de procesamiento de donaciones de la organización requiere almacenamiento, por lo que configuran su instancia de EC2 con Amazon Elastic Block Store (Amazon EBS). El precio se verá afectado por la cantidad de capacidad configurada.    
+  </Tab>
+  <Tab label="3. Transferencia de datos">
+    **Ejemplo**:
+
+    La aplicación de procesamiento de donaciones de la organización transferirá los datos de su instancia de EC2 a otra solución para ejecutar el análisis. Esta transferencia se consideraría transferencia de datos saliente. El precio se verá afectado por la capacidad y la fuente de internet o la región de AWS a la que se transfieren los datos.
+  </Tab>
+</Tabs>
+
+## 4. Servicios de facturación y precios de AWS
+
+Estos servicios están diseñados específicamente para ayudarle a pronosticar, rastrear, administrar y ver sus costos de AWS. Cuando empieza a utilizar la nube de AWS, puede resultar difícil diferenciarlos. Para ayudarle a diferenciarlos, revisemos estos servicios y sus casos de uso clave.
+
+En primer lugar, abordará el concepto de facturación unificada en AWS Organizations. Luego, conocerá algunos servicios que puede usar para ver, rastrear y pronosticar los gastos.
+
+### 4.1 AWS Organizations
+
+![AWS Organizations](/icons/aws-organizations.svg)
+
+**AWS Organizations** proporciona administración y gobernanza centralizados de su entorno de AWS. Con AWS Organizations, puede crear, agrupar y administrar cuentas. También puede aplicar políticas de seguridad a nivel de cuenta y consolidar la facturación con varias cuentas mediante un único método de pago.
+
+**Casos de uso**:
+
+- Consolide varias cuentas de AWS en una organización central.
+- Implemente políticas en toda la organización.
+
+### 4.2 Panel de administración de facturación y costos de AWS
+
+![Panel de administración de facturación y costos de AWS](/icons/aws-billing.png)
+
+El **Panel de administración de facturación y costos de AWS** (AWS Billing and Cost Management Dashboard) centraliza la administración de costos y muestra los cargos actuales, el uso, las previsiones y los desgloses detallados. También proporciona herramientas para administrar los pagos, ver las facturas, establecer presupuestos y consolidar la facturación.
+
+**Casos de uso**:
+
+- Utilice visualizaciones e informes de facturación útiles sobre el gasto mensual en AWS.
+- Configure y administre los métodos de pago.
+
+### 4.3 AWS Budgets
+
+![AWS Budgets](/icons/aws-budgets.svg)
+
+**AWS Budgets** ayuda a establecer presupuestos personalizados y envía alertas cuando los costos, el uso o la cobertura o la utilización de Savings Plans y las instancias reservadas (RI) superan los umbrales definidos.
+
+**Casos de uso**:
+
+- Configure alertas para cuando los costos proyectados superen los umbrales predefinidos.
+- Prevea los gastos futuros en función de las tendencias de uso actuales.
+
+### 4.4 Explorador de costos de AWS
+
+![Explorador de costos de AWS](/icons/aws-cost-explorer.svg)
+
+El **explorador de costos** (AWS Cost Explorer) de AWS ayuda a visualizar, analizar y administrar los costos y el uso de AWS con gráficos, informes y pronósticos interactivos. Brinda información sobre los patrones de gasto, las tendencias y las recomendaciones de instancias reservadas.
+
+**Casos de uso**:
+
+- Analice las tendencias históricas de gasto para identificar oportunidades de ahorro de costos.
+- Prevea los costos futuros de AWS en función de los patrones de uso actuales para presupuestar de manera eficaz.
+
+### 4.5 Calculadora de precios de AWS
+
+![Calculadora de precios de AWS](/icons/aws-price-calculator.jpg)
+
+Otra herramienta útil es la **calculadora de precios** de AWS (AWS Price Calculator). La calculadora de precios de AWS es una herramienta de planificación basada en la web que puede utilizar para crear estimaciones. Puede ingresar configuraciones específicas, como tipos de instancias, opciones de almacenamiento y volúmenes de transferencia de datos. Luego, según sus configuraciones, recibirá un desglose detallado de los costos para ayudarle a presupuestar la asignación de recursos de AWS.
+
+**Casos de uso**:
+
+- Calcule los costos potenciales antes de la implementación.
+- Compare los costos de los diferentes servicios y configuraciones de AWS.
+
+---
+
+**Referencias recomendadas**:
+
+- [Precios de Amazon S3.](https://aws.amazon.com/es/s3/pricing/?nc=sn&loc=4)
+- [Transferencia de datos en Amazon EC2](https://aws.amazon.com/es/ec2/pricing/on-demand/)
+- [Guía del usuario de AWS Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html)
+- [AWS Billing Console](https://aws.amazon.com/es/aws-cost-management/aws-billing/)
+- [Guía del usuario de facturación de AWS](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/view-billing-dashboard.html)
+- [AWS Budgets](https://aws.amazon.com/es/aws-cost-management/aws-budgets/)
+- [Managing your costs with AWS Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html)
+- [Explorador de costos de AWS](https://aws.amazon.com/es/aws-cost-management/aws-cost-explorer/)
+- [Analyzing your costs and usage with AWS Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html)
+- [AWS Pricing Calculator Documentation](https://docs.aws.amazon.com/pricing-calculator/)
+- [Generating estimates with AWS Pricing Calculator](https://docs.aws.amazon.com/cost-management/latest/userguide/pricing-calculator.html)

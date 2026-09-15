@@ -1,0 +1,22 @@
+[
+    {
+        "type": "file",
+        "name": "introduccion",
+        "label": "Introducción"
+    },
+    {
+        "type": "file",
+        "name": "componentes-infraestructura",
+        "label": "Componentes de la Infraestructura"
+    },
+    {
+        "type": "file",
+        "name": "implementacion-recursos",
+        "label": "Implementación de Recursos"
+    },
+    {
+        "type": "file",
+        "name": "infraestructura-automatizaciom",
+        "label": "Infraestructura y automatización"
+    }
+]

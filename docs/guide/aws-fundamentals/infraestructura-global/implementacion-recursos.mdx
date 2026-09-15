@@ -1,0 +1,262 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Implementación de recursos multirregionales y multi-AZ
+
+Aprendió cómo la implementación de sus recursos de nube en varias regiones puede lograr una alta disponibilidad. Además de implementar en varias regiones, también se recomienda implementar recursos en varias zonas de disponibilidad. Al crear arquitecturas redundantes o replicar sus recursos en varios niveles de la infraestructura de AWS, puede mejorar la fiabilidad de las aplicaciones para que los usuarios tengan acceso a su contenido cuando lo necesiten.
+
+Además de la alta disponibilidad, la infraestructura global de AWS también le ayuda a conseguir agilidad y elasticidad para su empresa. 
+
+
+## 1. Recuperación ante desastres
+
+**¿Cómo participa la infraestructura global en DR?**
+
+La disponibilidad de **múltiples Regiones** permite diseñar estrategias de **recuperación ante desastres** (Disaster Recovery / DR): si una Región completa deja de estar disponible (evento catastrófico), el servicio puede recuperarse desde otra Región.
+
+Existen cuatro estrategias comunes, ordenadas de menor a mayor costo y de mayor a menor tiempo de recuperación:
+
+<Tabs>
+  <Tab label="Backup and Restore">
+    **Respaldo y restauración**
+    - Se realizan **copias de seguridad** de los datos en otra Región (o en S3).
+    - Ante un desastre, se **restauran** los sistemas desde esas copias.
+    - **Costo:** bajo (solo pagas el respaldo).
+    - **Tiempo de recuperación (RTO):** alto (puede tardar horas/días).
+    - **Complejidad:** baja.
+  </Tab>
+  <Tab label="Pilot Light">
+    **Luz piloto**
+    - Se mantiene una **versión mínima** de la aplicación o **solo los datos esenciales** funcionando en la Región secundaria (la "llama piloto").
+    - Ante un desastre, se **enciende** la infraestructura completa a partir de esa base.
+    - **Costo:** medio-bajo.
+    - **Tiempo de recuperación:** medio (minutos/horas).
+    - **Complejidad:** media.
+  </Tab>
+  <Tab label="Warm Standby">
+    **Espera en caliente**
+
+    - Se mantiene una **copia de la aplicación dimensionada reducida** en la Región secundaria, lista para **escalar** si la principal falla.
+    - Ante un desastre, se **escala** a tamaño completo.
+    - **Costo:** medio-alto.
+    - **Tiempo de recuperación:** medio-bajo (minutos).
+    - **Complejidad:** media.
+  </Tab>
+  <Tab label="Multi-Site / Active-Active">
+    - La aplicación está **activa en dos o más Regiones al mismo tiempo**, repartiendo el tráfico.
+    - Ante un desastre, el tráfico se redirige a la Región sana.
+    - **Costo:** alto.
+    - **Tiempo de recuperación:** mínimo (casi inmediato).
+    - **Complejidad:** alta.
+  </Tab>
+</Tabs>
+
+> **Disaster Recovery** usa **múltiples Regiones** para recuperarse de un desastre regional. A mayor costo y complejidad, menor tiempo de recuperación (y viceversa). Identifica la relación **costo ↔ velocidad de recuperación**.
+
+:::tip Ejemplos sencillos
+- **Alta disponibilidad:** una web en dos AZ con balanceador; si cae una AZ, la otra responde (hay un segundo).
+- **Tolerancia a fallos:** un servidor redundante que asume sin que el usuario note nada.
+- **Resiliencia:** el sistema detecta el fallo, escala y se recupera solo.
+- **Disaster Recovery(DR):** si toda una Región queda inutilizada, se restaura el servicio desde otra Región usando respaldos.
+
+:::
+
+## 2. Multi-Region vs Multi-AZ
+
+En AWS, **Multi-AZ** y **Multi-Region** son estrategias de arquitectura utilizadas para mejorar la disponibilidad, resiliencia y continuidad de las aplicaciones.
+
+Aunque ambos conceptos buscan reducir el impacto de los fallos, **operan a diferentes niveles de la infraestructura global de AWS**.
+
+![Multi-Region vs Multi-AZ](/aws/global-multi-region-multi-az.jpg)
+
+<Tabs>
+  <Tab label="Multi-AZ">
+    
+    **Multi-AZ** significa distribuir los recursos de una aplicación entre **dos o más Availability Zones (AZs) dentro de una misma Región**.
+
+    > La **alta disponibilidad en AWS se logra principalmente mediante Multi-AZ** (repartir la carga y los datos entre varias Availability Zones) dentro de una Región.
+
+    Su objetivo principal es proporcionar:
+
+    * **Alta disponibilidad (High Availability)**
+    * **Tolerancia a fallos**
+    * Protección frente a la **caída de una Availability Zone**
+    * Continuidad de la aplicación dentro de una misma Región
+
+    - **¿Cómo funciona?**
+
+        Una aplicación puede distribuir sus componentes entre diferentes AZs:
+
+        ```text
+                            AWS Region
+                                │
+                ┌──────────────┴──────────────┐
+                │                             │
+            Availability Zone A          Availability Zone B
+                │                             │
+            ┌───▼───┐                     ┌───▼───┐
+            │  App  │                     │  App  │
+            │Server │                     │Server │
+            └───┬───┘                     └───┬───┘
+                │                             │
+                └──────────────┬──────────────┘
+                                │
+                        Base de datos
+                        Multi-AZ / HA
+        ```
+
+        Si una AZ presenta una falla, los recursos que se encuentran en otra AZ pueden continuar atendiendo las solicitudes, dependiendo de cómo esté diseñada la arquitectura.
+
+    >**Importante:** Multi-AZ **no significa utilizar varias Regiones**. Todos los recursos permanecen dentro de la misma Región.
+
+    - **¿Cuándo utilizar Multi-AZ?**
+
+        Multi-AZ es apropiado cuando necesitas:
+
+        * Alta disponibilidad.
+        * Tolerancia frente a fallos de infraestructura dentro de una Región.
+        * Evitar que la caída de una AZ deje fuera de servicio toda la aplicación.
+        * Diseñar aplicaciones productivas más resilientes.
+        * Mantener los recursos dentro de una misma Región.
+
+        **Por ejemplo**, Una aplicación desplegada en:
+
+        ```text
+        us-east-1
+        │
+        ├── us-east-1a → Aplicación
+        │
+        ├── us-east-1b → Aplicación
+        │
+        └── us-east-1c → Aplicación
+        ```
+
+        Si `us-east-1a` deja de estar disponible, las otras AZs pueden continuar proporcionando el servicio.
+    > **Recuerda:** **Multi-AZ NO es Multi-Region.** Multi-AZ protege dentro de una Región (ante caída de una zona). Multi-Region protege ante caída de una Región completa y sirve para DR. No los confundas.
+  </Tab>
+  <Tab label="Multi-Region">
+    
+    **Multi-Region** significa distribuir una aplicación o sus datos entre **dos o más Regiones de AWS geográficamente separadas**.
+
+    Su objetivo es proporcionar un nivel de resiliencia superior al de Multi-AZ.
+
+    Se utiliza principalmente para:
+
+    * Recuperación ante desastres (Disaster Recovery - DR)
+    * Continuidad del negocio
+    * Protección frente a una **falla regional completa**
+    * Reducir la latencia para usuarios distribuidos geográficamente
+    * Cumplir determinados requisitos de **residencia o ubicación de datos**
+    * Obtener un mayor aislamiento geográfico
+
+    - **¿Cómo funciona?**
+
+        Una aplicación puede desplegarse en varias Regiones:
+
+        ```text
+                    AWS Global Infrastructure
+
+                ┌─────────────────────────────┐
+                │                             │
+                ▼                             ▼
+        Region A                       Region B
+        us-east-1                      eu-west-1
+                │                             │
+        ┌────┴────┐                   ┌────┴────┐
+        │   AZ A  │                   │   AZ A  │
+        │   AZ B  │                   │   AZ B  │
+        │   AZ C  │                   │   AZ C  │
+        └─────────┘                   └─────────┘
+                │                             │
+                └───────────┬─────────────────┘
+                            │
+                    Replicación / DR
+        ```
+
+        Si una Región completa presenta un desastre o una interrupción grave, una arquitectura Multi-Region puede permitir que el servicio continúe desde otra Región, siempre que la aplicación y los datos estén diseñados para ello.
+
+    - **¿Cuándo utilizar Multi-Region?**
+
+        Multi-Region es especialmente útil cuando necesitas:
+
+        - **Disaster Recovery**. Proteger la aplicación ante una interrupción grave de una Región completa.
+
+        - **Baja latencia global**. Si los usuarios están distribuidos por diferentes partes del mundo, puedes desplegar recursos en Regiones más cercanas a ellos.  Esto **puede reducir la latencia**, aunque depende de la arquitectura completa y de cómo se enrute el tráfico.
+
+        - **Residencia de datos**. Algunas organizaciones tienen requisitos legales o regulatorios relacionados con dónde deben almacenarse determinados datos.
+
+        Una arquitectura Multi-Region puede ayudar a cumplir estos requisitos cuando los servicios de AWS involucrados y la arquitectura lo permiten.
+  </Tab>
+</Tabs>
+
+:::info Multi-AZ vs Multi-Region
+La diferencia fundamental es el **alcance geográfico**.
+
+| Característica                 | Multi-AZ                                  | Multi-Region                                |
+| ------------------------------ | ----------------------------------------- | ------------------------------------------- |
+| **Alcance**                    | Dentro de una Región                      | Entre varias Regiones                       |
+| **Objetivo principal**         | Alta disponibilidad y tolerancia a fallos | Disaster Recovery y continuidad             |
+| **Protege contra**             | Fallo de una AZ                           | Fallo de una Región completa                |
+| **Latencia global**            | No está diseñado para reducirla           | Puede reducirla                             |
+| **Complejidad**                | Menor                                     | Mayor                                       |
+| **Coste**                      | Generalmente menor                        | Generalmente mayor                          |
+| **Disaster Recovery regional** | No                                      | Sí                                        |
+| **Aislamiento geográfico**     | Limitado a una Región                     | Mayor                                       |
+| **Residencia de datos**        | Limitada a una Región                     | Puede facilitar requisitos multi-territorio |
+
+> **Nota:** El coste y la complejidad reales dependen de los servicios utilizados y de cómo se diseñe la arquitectura.
+
+:::
+
+**Regla rápida para el examen**:
+
+> **Multi-AZ → "¿Qué pasa si falla una zona?"**
+>
+> **Multi-Region → "¿Qué pasa si falla toda la Región?"**
+
+
+## 3. Infraestructura global y seguridad
+
+En cuanto a infraestructura física, **AWS** protege los Data Centers y la infraestructura. El control de accesos (biometría, capas de seguridad), vigilancia, detección de intrusos y aislamiento. El cliente **no accede físicamente** a ellos.  
+
+El cliente es responsable de proteger lo que **despliega encima** (datos y configuraciones).
+
+### 3.1 Seguridad de red y aislamiento entre recursos
+
+- Cada Región y cada AZ ofrecen **aislamiento** de la infraestructura.
+- El cliente aísla sus recursos a nivel **lógico** mediante **VPC, subnets, security groups y NACLs**.
+- El aislamiento físico entre AZ y Regiones es gestionado por AWS.
+
+### 3.2 Importancia de seleccionar correctamente las Regiones
+
+Seleccionar la Región correcta influye en el **cumplimiento** y en la **residencia de los datos**. Elegir una Región equivocada puede violar requisitos legales de donde deben vivir los datos.
+
+> **Importante:** la seguridad física es de **AWS**; la seguridad de datos/código es **del cliente**. La elección de Región afecta al cumplimiento (residencia de datos).
+
+## 4. Infraestructura global y costos
+
+AWS publica precios por **servicio** y, en muchos casos, dichos precios **varían según la Región**. Por ejemplo, el costo de la misma instancia EC2 o del mismo almacenamiento S3 no es idéntico en todas las Regiones.
+
+> **Importante:** no memorices precios exactos. El dato relevante es que **el precio puede cambiar según la Región** y que las arquitecturas que abarcan varias Regiones tienen costos adicionales.
+
+### 4.1 Transferencia de datos
+
+- La **transferencia de datos dentro de la misma Región y misma AZ** suele ser gratuita o de bajo costo.
+- La **transferencia de datos entre Regiones** (o entre AZ) suele tener **costo**.
+- La **salida de datos a internet (egress)** tiene costo y puede ser significativa.
+
+> Mover datos **entre Regiones o hacia internet** genera costos de transferencia. Mantener los datos y la cómputo **en la misma Región/AZ** reduce esos costos.
+
+### 4.2 Costos asociados a arquitecturas Multi-Region
+
+Las arquitecturas Multi-Region (necesarias para DR o baja latencia global) implican **duplicar la infraestructura** en varias Regiones, por lo que el **costo suele ser mayor** que una solución en una sola Región.
+
+:::info Balance entre rendimiento, disponibilidad y costo
+No siempre conviene la opción más redundante o distribuida. Debe encontrarse un **equilibrio** entre:
+
+- **Rendimiento** (latencia y velocidad).
+- **Disponibilidad / resiliencia** (Multi-AZ, Multi-Region).
+- **Costo** (recursos duplicados).
+
+:::
+
+> **Importante:** Cuando una solución pide el **menor costo posible** con el requisito mínimo de disponibilidad, evita añadir Multi-Region o recursos redundantes innecesarios. Elige la opción que cumpla los requisitos **básicos** al mínimo costo.

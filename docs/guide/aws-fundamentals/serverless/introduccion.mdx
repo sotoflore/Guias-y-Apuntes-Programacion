@@ -1,0 +1,78 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Introducción a la computación sin servidor en AWS
+
+La **computación sin servidor (Serverless)** es un modelo de computación en la nube en el que el proveedor de servicios, como **Amazon Web Services (AWS)**, se encarga de administrar gran parte de la infraestructura necesaria para ejecutar una aplicación. Esto incluye tareas como el aprovisionamiento de servidores, mantenimiento del hardware, actualización del sistema operativo, escalabilidad y, dependiendo del servicio, alta disponibilidad.
+
+A pesar de su nombre, **Serverless no significa que no existan servidores**. Los servidores siguen siendo necesarios para ejecutar las aplicaciones, pero el desarrollador **no tiene que administrarlos directamente**.
+
+En un modelo tradicional, una organización puede tener que seleccionar servidores, configurar sistemas operativos, instalar aplicaciones, administrar capacidad y planificar el escalamiento:
+
+>**Modelo tradicional → Desarrollador → Servidor → Sistema operativo → Aplicación → Administración de infraestructura**
+
+Con Serverless, AWS abstrae gran parte de esta infraestructura:
+
+>**Modelo Serverless → Desarrollador → Código/Aplicación → Servicio Serverless de AWS → AWS administra la infraestructura**
+
+## 1. ¿Cómo funciona Serverless en AWS?
+
+AWS proporciona diferentes servicios que permiten construir aplicaciones sin tener que administrar servidores directamente. Algunos de los más importantes son:
+
+* **AWS Lambda** → ejecuta código en respuesta a eventos sin administrar servidores.
+* **Amazon API Gateway** → permite crear y administrar APIs que pueden invocar funciones Lambda.
+* **Amazon DynamoDB** → base de datos NoSQL administrada y altamente escalable.
+* **Amazon S3** → almacenamiento de objetos que puede utilizarse para aplicaciones y sitios web estáticos.
+* **Amazon EventBridge** → permite conectar aplicaciones y ejecutar acciones como respuesta a eventos.
+* **Amazon SQS** → permite desacoplar componentes mediante colas de mensajes.
+* **Amazon SNS** → permite enviar notificaciones y mensajes a diferentes consumidores.
+
+Un **ejemplo** sencillo sería una aplicación que recibe una petición HTTP:
+
+![¿Cómo funciona Serverless en AWS?](/aws/compute/computacion-sin-servidor-como-funciona.jpg)
+
+>El usuario realiza una petición → **API Gateway** recibe la solicitud → **Lambda** ejecuta la lógica de negocio → **DynamoDB** almacena o consulta los datos.
+
+El desarrollador se concentra principalmente en **el código y la lógica de la aplicación**, mientras AWS administra la infraestructura subyacente.
+
+## 2. Principales características
+
+La arquitectura Serverless se caracteriza principalmente por:
+
+- **No administrar servidores**. No es necesario crear, configurar o mantener servidores físicos o máquinas virtuales para ejecutar determinadas cargas de trabajo.
+
+- **Escalabilidad automática**. Los servicios Serverless pueden aumentar o disminuir los recursos utilizados según la demanda, dependiendo del servicio y de su configuración.
+
+- **Pago según uso**. En muchos servicios Serverless, el costo está relacionado con el consumo real, como solicitudes, tiempo de ejecución, almacenamiento o transferencia de datos, en lugar de mantener servidores funcionando permanentemente.
+
+- **Alta disponibilidad administrada**. AWS se encarga de buena parte de la infraestructura necesaria para proporcionar disponibilidad y resiliencia, aunque el diseño de la aplicación sigue siendo responsabilidad del arquitecto.
+
+- **Orientación a eventos**. Muchas arquitecturas Serverless funcionan mediante **eventos**:
+
+    > **Evento → Lambda → Procesamiento → Resultado**
+
+Por ejemplo:
+
+![ejemplo](/aws/compute/computacion-sin-servidor-ejemplo.jpg)
+
+:::info Serverless no significa "sin infraestructura"
+**Serverless no elimina los servidores**; **elimina la necesidad de que el desarrollador administre directamente esos servidores** y puede concentrarse en el código, los datos y la lógica de negocio.
+
+AWS continúa utilizando infraestructura física y servidores para ejecutar las aplicaciones. La diferencia está en que **AWS administra esa infraestructura por ti**.
+:::
+
+## 3. Servicios administrados y no administrados
+
+AWS ofrece servicios **administrados** y no **administrados** para adaptarse a diferentes niveles de control y responsabilidad. Al comprender este modelo, sabrá qué tareas administra AWS y de cuáles es responsable usted, lo que le ayudará a proteger y administrar sus recursos en la nube de manera eficaz.
+
+<Tabs>
+  <Tab label="Servicios no administrados y administrados">
+    Con **servicios de computación no administrados**, como **Amazon EC2**, AWS se encarga de la infraestructura física subyacente, pero usted es responsable de configurar, proteger y mantener el sistema operativo, las configuraciones de red y las aplicaciones en sus instancias. Los **servicios administrados**, por otro lado, reducen la cantidad de infraestructura que debe administrar. Si bien AWS se encarga de gran parte de la sobrecarga operativa, es posible que usted tenga que realizar algún tipo de aprovisionamiento o configuración, según el servicio.
+
+    ![Servicios no administrados y administrados](/aws/compute/compute-computacion-sin-servidor-servicios-administrados-no-administrados.png)
+  </Tab>
+  <Tab label="Servicios completamente administrados">
+    Los **servicios completamente administrados**, como los sin servidor, aumentan aún más el nivel de abstracción, ya que eliminan la necesidad de aprovisionar o administrar servidores. AWS administra completamente la infraestructura subyacente, por lo que puede centrarse exclusivamente en escribir e implementar código. Por ejemplo, **AWS Lambda**, que es un servicio de computación sin servidor en el que AWS se encarga de la infraestructura, el escalado y la disponibilidad, mientras que usted es responsable de proteger y administrar el código de la aplicación.
+
+    ![Servicios completamente administrados](/aws/compute/compute-computacion-sin-servidor-servicios-administrados.png)
+  </Tab>
+</Tabs>

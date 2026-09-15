@@ -1,0 +1,27 @@
+[
+    {
+        "type": "file",
+        "name": "amazon-ec2",
+        "label": "Amazon EC2"
+    },
+    {
+        "type": "file",
+        "name": "escalado-amazon-ec2",
+        "label": "Escalado de Amazon EC2"
+    },
+    {
+        "type": "file",
+        "name": "direccion-trafico",
+        "label": "Dirección de tráfico"
+    },
+    {
+        "type": "file",
+        "name": "mensajeria-colas",
+        "label": "Mensajería y colas"
+    },
+    {
+        "type": "file",
+        "name": "servicios-adicionales",
+        "label": "Servicios de computación adicionales"
+    }
+]

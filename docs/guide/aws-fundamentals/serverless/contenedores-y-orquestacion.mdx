@@ -1,0 +1,110 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Contenedores y orquestación en AWS
+
+Los **contenedores** son una tecnología que permite empaquetar una aplicación junto con todo lo que necesita para ejecutarse, como sus dependencias, bibliotecas y configuraciones en una sola unidad portátil, lo que los hace ideales para los flujos de trabajo que requieren un alto nivel de seguridad, fiabilidad y escalabilidad. De esta manera, la aplicación puede ejecutarse de forma más consistente en diferentes entornos, evitando muchos de los problemas relacionados con diferencias entre máquinas.
+
+En AWS, los contenedores permiten ejecutar aplicaciones de manera flexible y escalable sin tener que construir toda la infraestructura desde cero.
+
+**¿Por qué necesitamos orquestación?**
+
+Ejecutar **un solo contenedor** puede ser relativamente sencillo. Sin embargo, una aplicación real puede necesitar decenas o incluso cientos de contenedores. Aquí aparecen varios problemas:
+
+* ¿Quién inicia los contenedores?
+* ¿Qué ocurre si uno falla?
+* ¿Cómo se agregan más contenedores cuando aumenta el tráfico?
+* ¿Cómo se distribuye el tráfico?
+* ¿Cómo se actualizan las aplicaciones?
+* ¿Cómo se mantienen disponibles los contenedores?
+
+Para resolver este tipo de problemas existe la **orquestación de contenedores**.
+
+>La **orquestación** consiste en **administrar automáticamente el ciclo de vida, despliegue, escalabilidad, disponibilidad y comunicación de los contenedores**.
+
+Una arquitectura típica puede verse así:
+
+![arquitectura típica](/aws/compute/compute-computacion-sin-servidor-arquitectura-contenedor.jpg)
+
+## 1. Resolución de los desafíos de implementación
+
+### 1.1 Contenedores y máquinas virtuales (VM)
+
+Un **contenedor** empaqueta la aplicación con todo lo que necesita para ejecutarse, por lo que funciona igual en cualquier equipo. Esto es útil para el movimiento, la actualización y la administración. Los contenedores son más rápidos y livianos que las máquinas virtuales (virtual machines, VM) porque comparten el sistema operativo del equipo host. Las VM utilizan un hipervisor para ejecutar sistemas operativos completos e independientes, lo que las hace menos eficientes en el uso de los recursos y tienen tiempos de inicio más prolongados.
+
+![Contenedores y máquinas virtuales](/aws/compute/compute-computacion-sin-servidor-contenedores.png)
+
+### 1.2 Coherencia en la implementación con contenedores
+
+Cuando el entorno del desarrollador difiere del entorno provisional o de producción, las implementaciones pueden fallar y volverse difíciles de depurar. Los contenedores resuelven este problema al mantener el entorno de la aplicación de manera coherente en todas partes, lo que facilita las implementaciones y ayuda a solucionar problemas.
+
+![Coherencia en la implementación con contenedores](/aws/compute/compute-computacion-sin-servidor-coherencia-contenedores.png)
+
+### 1.3 Escalado de contenedores con orquestación
+
+A medida que las aplicaciones en contenedores escalan, su administración se vuelve más compleja. Una configuración que comenzó con unos pocos contenedores en un único host puede convertirse rápidamente en cientos o miles de contenedores en varios hosts. A esa escala, la administración manual del ciclo de vida de los contenedores, la supervisión y las operaciones generales se vuelven insostenibles. Aquí es donde entran en juego las herramientas de orquestación. Automatizan la implementación, el escalado y la administración para que todo funcione sin problemas.
+
+![Escalado de contenedores con orquestación](/aws/compute/compute-computacion-sin-servidor-escalado-contenedores.png)
+
+## 2. Servicios de contenedores de AWS
+
+AWS cuenta con un conjunto de herramientas para administrar contenedores que se clasifican en tres categorías: **orquestación**, **registro** y **computación**.
+
+<Tabs>
+  <Tab label="Amazon ECS">
+    ![Amazon ECS](/icons/amazon-ecs.svg)
+
+    **Amazon Elastic Container Service** (Amazon ECS) es un servicio escalable de orquestación de contenedores para ejecutar y administrar contenedores en AWS, como los contenedores de Docker. Docker es una plataforma de software para crear, probar e implementar aplicaciones rápidamente.
+
+    **Tipos de lanzamiento de Amazon ECS**
+
+    Aquí aparecen los tipos de lanzamiento (launch types), que determinan quién se encarga de administrar la infraestructura donde se ejecutan los contenedores. Tradicionalmente, Amazon ECS ofrece dos opciones principales, la diferencia fundamental está en **quién administra los servidores**.
+
+    - **Amazon ECS con Amazon EC2**. Es ideal para las pequeñas y medianas empresas que necesitan un control total de la infraestructura. Adecuado para aplicaciones personalizadas que requieren configuraciones de red o hardware específicas, con la flexibilidad de Amazon EC2 y la simplicidad de Amazon ECS.
+  
+    - **Amazon ECS con AWS Fargate**. Es perfecto para startups o equipos pequeños que crean aplicaciones web con tráfico variable. Es una opción sin servidor (no se requiere administración de servidores), por lo que los equipos pueden centrarse en el desarrollo mientras Amazon ECS se ocupa del escalado y la orquestación.
+
+    :::warning Una aclaración importante
+    Actualmente, en documentación moderna de ECS también encontrarás el concepto de **capacity providers**. Estos permiten gestionar cómo ECS obtiene la **capacidad para ejecutar las tareas, incluyendo Fargate, Fargate Spot y EC2 Auto Scaling groups**.
+
+    Conviene distinguir:
+
+    - **Launch type** → una forma de especificar dónde se ejecutan las tareas (por ejemplo, EC2 o Fargate).
+    - **Capacity provider** → mecanismo más flexible y moderno para gestionar la capacidad de ejecución de ECS.
+
+    :::
+  </Tab>
+  <Tab label="Amazon EKS">
+    ![Amazon EKS](/icons/amazon-eks.svg)
+
+    **Amazon Elastic Kubernetes Service** (Amazon EKS) es un servicio completamente administrado para ejecutar Kubernetes en AWS. Simplifica la implementación, la administración y el escalado de aplicaciones en contenedores mediante Kubernetes de código abierto, con soporte y actualizaciones continuas de la comunidad en general.
+
+    **Tipos de lanzamiento de Amazon EKS**
+
+    - **Amazon EKS con Amazon EC2**: es lo mejor para las empresas que necesitan un control total de la infraestructura. Ofrece una personalización profunda de las instancias de EC2 junto con la escalabilidad de Kubernetes, lo que resulta ideal para cargas de trabajo complejas a gran escala.
+
+    - **Amazon EKS con AWS Fargate**: es ideal para los equipos que desean la flexibilidad de Kubernetes sin tener que administrar servidores. Combina la potencia de Kubernetes con la simplicidad sin servidores, lo que ayuda a escalar las aplicaciones rápidamente en varios casos de uso.
+  </Tab>
+  <Tab label="Amazon ECR">
+    ![Amazon ECR](/icons/amazon-ecr.svg)
+
+    **Amazon Elastic Container Registr**y (Amazon ECR) es el lugar donde puede almacenar, administrar e implementar imágenes de contenedores. Admite imágenes de contenedores que cumplen con los estándares de la Open Container Initiative (OCI). Puede insertar, extraer y administrar imágenes en sus repositorios de Amazon ECR mediante herramientas estándar de contenedores e interfaces de línea de comandos (CLI).
+  </Tab>
+  <Tab label="Fargate">
+    ![Fargate](/icons/amazon-fargate.svg)
+
+    **AWS Fargate** es un motor de computación sin servidor para contenedores. Funciona con Amazon ECS y Amazon EKS. Fargate es una plataforma de alojamiento de contenedores, a diferencia de Amazon ECS y Amazon EKS, que son servicios de orquestación de contenedores.
+
+    Cuando utiliza Fargate, no tiene que aprovisionar ni administrar servidores. Fargate administra la infraestructura de servidores por usted. Puede centrarse más en innovar y desarrollar sus aplicaciones, y paga solo por los recursos necesarios para ejecutar los contenedores.
+  </Tab>
+</Tabs>
+
+---
+
+**Referencias recomendadas:**
+
+- [Contenedores en AWS](https://aws.amazon.com/es/containers/)
+- [Amazon Elastic Container Registry (Amazon ECR)](https://aws.amazon.com/es/ecr/)
+- [Amazon Elastic Container Service (Amazon ECS)](https://aws.amazon.com/es/ecs/)
+- [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/es/eks/)
+- [AWS Fargate](https://aws.amazon.com/es/fargate/)
+- [Elegir una estrategia de aplicaciones modernas](https://docs.aws.amazon.com/es_es/decision-guides/latest/decision-guides/modern-apps-strategy-on-aws-how-to-choose.html)

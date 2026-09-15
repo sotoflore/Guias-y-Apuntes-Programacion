@@ -1,0 +1,186 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+import { Steps } from '@rspress/core/theme';
+
+# Almacenamiento de Bloques
+
+**AWS** ofrece dos tipos de almacenamiento en bloque: el **almacén de instancias Amazon EC2 (instance store)** y **Amazon Elastic Block Store (Amazon EBS)**. En esta lección, conocerá los diferentes casos de uso y beneficios del almacén de instancias Amazon EC2 y Amazon EBS.
+
+## 1. Almacén de instancias Amazon EC2
+
+![icono de instance store](/icons/instance-store.jpg)
+
+El **almacén de instancias Amazon EC2** (instance store) no es un servicio independiente de almacenamiento en bloque de AWS. Más bien, se refiere al almacenamiento a nivel de bloques que está conectado de forma física al equipo host de la instancia de EC2. 
+
+Según el tipo de instancia, el almacén de instancias EC2 puede incluirse como almacenamiento predeterminado. Dado que sus datos se pierden cuando una instancia se detiene o termina, el almacén de instancias EC2 es la mejor opción para las necesidades de almacenamiento temporal basado en memoria, como búferes, cachés y datos temporales. No se recomienda para aplicaciones que requieren retención de datos.
+
+### 1.1 Concepto Clave
+
+Un **almacén de instancias Amazon EC2** brinda **almacenamiento temporal a nivel de bloques** para una instancia de Amazon EC2. Esto significa que, si detiene o termina una instancia de Amazon EC2, se eliminan todos los datos escritos en el almacén de instancias conectado.
+
+Para saber cómo el almacén de instancias Amazon EC2 administra los datos cuando se detiene una instancia de EC2, sigue estos pasos:
+
+![Almacén de instancias Amazon EC2](/aws/almacenamiento/almacenamiento-bloques-instance-store.jpg)
+
+- **Paso 1**: Se ejecuta una instancia de EC2 y los datos se almacenan en un almacén de instancias EC2.
+- **Paso 2**: La instancia de EC2 se detiene.
+- **Paso 3**: Después de detener o terminar la instancia de EC2, se pierden todos los datos del almacén de instancias EC2 de esa instancia.
+
+:::info Conclusión clave
+En el almacén de instancias Amazon EC2 **no hay persistencia de datos**.
+:::
+
+### 1.2 Beneficios
+
+Los beneficios del almacén de instancias Amazon EC2 incluyen:
+
+- **Almacenamiento disponible de forma automática**. Los volúmenes de almacenamiento de instancias se conectan de forma automática a muchos tipos de instancias de EC2, lo que proporciona almacenamiento temporal a nivel de bloques sin costo adicional. Se conecta de forma física al equipo host, lo que ofrece un alto rendimiento de E/S (Entrada/Salida - Lectura/Escritura) para los datos que desaparecen cuando la instancia se detiene.
+
+- **Rentabilidad**. Puesto que el almacén de instancias EC2 está incluido en el precio de las instancias de EC2, no tiene que pagar ninguna tarifa adicional por el almacenamiento. Es ideal para las necesidades de almacenamiento temporal, como búferes, cachés o datos temporales, lo que podría reducir los gastos de las aplicaciones que no requieren almacenamiento persistente.
+
+- **Alto rendimiento**. El almacén de instancias EC2 ofrece almacenamiento de latencia muy baja que se conecta de forma directa al servidor host de su instancia de EC2. Esta proximidad posibilita un rendimiento de E/S muy alto, lo que lo hace ideal para el almacenamiento temporal de datos que requieren un procesamiento rápido.
+
+## 2. Amazon Elastic Block Store
+
+![icono de Amazon EBS](/icons/elastic-block-store.svg)
+
+**Amazon EBS** proporciona volúmenes de **almacenamiento persistente a nivel de bloques** para utilizarlos con instancias de Amazon EC2. Los volúmenes de EBS actúan como **discos duros** externos y ofrecen un rendimiento uniforme y de baja latencia para cargas de trabajo, como bases de datos y sistemas de archivos.
+
+Los **volúmenes de EBS** se pueden respaldar, redimensionar y conectar de manera conveniente a diferentes instancias de EC2. Para crear un volumen de EBS, defina la configuración para aspectos como el tamaño y el tipo del volumen. Luego de crear el volumen, puede conectarlo a una instancia de Amazon EC2. Dado que los volúmenes de EBS están pensados para datos que necesitan retenerse, es importante realizar copias de seguridad de los datos. Se recomienda realizar copias de seguridad progresivas de los volúmenes de EBS mediante la creación de **instantáneas (Snapshots)** de Amazon EBS.
+
+**Características principales**
+
+- **Persistente**. Los datos sobreviven al apagado de la instancia EC2
+- **Escalable**. Puedes cambiar el tamaño y tipo de volumen en cualquier momento
+- **Snapshots**. Copias de seguridad incrementales en S3
+- **Encriptación**.	Encriptación automática de datos en reposo
+- **Disponibilidad**. 99.99% de disponibilidad
+- **Multi-Attach**. Conectar un volumen a múltiples instancias (solo io2)
+
+### 2.1 Concepto Clave
+
+**Amazon EBS** proporciona volúmenes de almacenamiento a nivel de bloques que puede utilizar con instancias de Amazon EC2. Si detiene o termina una instancia de Amazon EC2, todos los datos del volumen de EBS adjunto permanecen disponibles.
+
+Para saber cómo Amazon EBS administra los datos cuando se detiene una instancia de EC2, sigue estos pasos:
+
+![Amazon EBS](/aws/almacenamiento/almacenamiento-bloques-amazon-ebs.jpg)
+
+- **Paso 1**: Se ejecuta una instancia de EC2 y los datos se almacenan en un volumen de EBS conectado.
+- **Paso 2**: La instancia de EC2 se detiene.
+- **Paso 3**: Después de detener o terminar la instancia de EC2, se retienen todos los datos almacenados en el volumen de EBS y se pueden volver a conectar a la misma instancia de EC2 o a otra.
+
+:::info Conclusión clave
+En Amazon EBS **hay persistencia de datos**.
+:::
+
+### 2.2 Casos de uso
+
+Algunos casos de uso prácticos de Amazon EBS incluyen el **alojamiento de bases de datos**, el **almacenamiento de copias de seguridad** para aplicaciones y la **implementación ágil de entornos de desarrollo** mediante instantáneas de volumen.
+
+### 2.3 Beneficios
+
+Los **volúmenes de EBS** admiten la portabilidad de datos gracias a su capacidad para desconectarse y volver a conectarse a las instancias según sea necesario. Hay muchas razones prácticas por las que puede optar por hacer esto.
+
+- **Migración de datos**. Los volúmenes de EBS se pueden migrar con facilidad entre zonas de disponibilidad mediante instantáneas (snapshots). Las instantáneas (snapshots) permiten mover datos entre regiones o crear copias de forma sencilla.
+
+- **Cambios en los tipos de instancia**. Dado que los volúmenes de EBS permanecen independientes de las instancias de EC2, no es complicado conectarlos a distintos tipos de instancias. Esta flexibilidad le permite aumentar o reducir la categoría de las instancias sin perder datos.
+
+- **Recuperación de desastres**. Las instantáneas (snapshots) de EBS proporcionan soluciones de copia de seguridad confiables que se pueden restaurar en diferentes regiones durante las emergencias. Las instantáneas (snapshots) automatizadas regulares garantizan que sus datos permanezcan protegidos y se puedan recuperar de inmediato.
+
+- **Optimización de costos**. Los volúmenes de EBS se pueden modificar en cuanto a tipo y tamaño para que se ajusten a los patrones de uso reales. Puede alternar entre tipos de almacenamiento o ajustar la capacidad sin tiempo de inactividad.
+
+- **Ajuste del rendimiento**. Amazon EBS ofrece muchos tipos de volúmenes para adaptarse a los diferentes requisitos de carga de trabajo y necesidades de IOPS (Input/Output Operations Per Second). Puede ajustar las características de rendimiento del volumen sobre la marcha para satisfacer las demandas cambiantes de las aplicaciones.
+
+### 2.4 Ciclo de vida de los datos
+
+Administrar el ciclo de vida de los datos de Amazon EBS implica **crear** y **eliminar volúmenes e instantáneas (snapshots)**, además de realizarles copias de seguridad. Este proceso optimiza los costos de almacenamiento y ayuda a garantizar la protección de los datos.
+
+#### 2.4.1 Snapshots de EBS
+
+Las **instantáneas de EBS (snapshots)** son copias de seguridad de un volumen de EBS en un momento dado. Se pueden utilizar para la recuperación de desastres, la migración de datos, el redimensionamiento de volúmenes y para crear copias de seguridad consistentes de las cargas de trabajo de producción. Estas **instantáneas (snapshots)** son progresivas, por lo que solo guardan los bloques del volumen que se modificaron después de la última instantánea.
+
+Las **instantáneas (snapshots)** se pueden utilizar para crear varios volúmenes nuevos, y los volúmenes nuevos creados a partir de una instantánea son una copia exacta del volumen original en el momento en que se tomó la instantánea. Las instantáneas de los volúmenes de EBS se almacenan de forma redundante en varias zonas de disponibilidad mediante **Amazon S3**. 
+
+##### Trabajo con instantáneas de EBS
+
+De acuerdo con el modelo de responsabilidad compartida de AWS, como cliente, usted es responsable de programar y administrar las instantáneas regulares de EBS como parte de su estrategia de copias de seguridad. Esto incluye supervisar los costos de las instantáneas y eliminar aquellas que no sean necesarias para evitar cargos excesivos. Además, debe asegurarse de que la información confidencial de las instantáneas esté cifrada, verificar la integridad de las instantáneas y probar los procedimientos de restauración con regularidad.
+
+En la siguiente ilustración, se muestra cómo se crean las instantáneas de EBS a partir de un volumen de EBS a lo largo del tiempo.
+
+![Snapshots de EBS](/aws/almacenamiento/almacenamiento-bloques-ebs-snapshots.jpg)
+
+<Tabs>
+  <Tab label="1. Instantánea inicial">
+    Cuando crea la primera instantánea de un volumen de EBS, se incluye una copia completa de todos los datos del volumen en ese momento.
+
+    Esta instantánea inicial sirve como línea de base y contiene todos los bloques de datos que se utilizaban en el volumen.
+  </Tab>
+  <Tab label="2. Instantáneas progresivas posteriores">
+    Para todas las instantáneas posteriores a la inicial, solo se capturan y almacenan los bloques que se modificaron desde la última instantánea.
+
+    Estas se denominan instantáneas progresivas. Son mucho más pequeñas y rápidas de crear que las instantáneas completas.
+
+    Cada instantánea progresiva contiene referencias a las instantáneas anteriores, lo que crea una cadena que permite la recuperación a un momento dado.
+  </Tab>
+  <Tab label="3. Consolidación y administración de instantáneas">
+    A pesar de ser progresiva, cada instantánea aparece como una copia completa del volumen a un momento dado.
+
+    La relación entre varias instantáneas del mismo volumen se administra de forma automática.
+
+    Cuando elimina una instantánea, solo se eliminan los datos que le son exclusivos. Los datos a los que hacen referencia otras instantáneas se conservan.
+  </Tab>
+</Tabs>
+
+##### Beneficios
+
+El uso de instantáneas de EBS ofrece varios beneficios, entre ellos:
+
+- **Protección y recuperación de datos**. Gracias a las copias de seguridad en un momento dado, las instantáneas permiten recuperar los datos de inmediato en caso de corrupción, eliminación accidental o errores del sistema.
+
+- **Flexibilidad operativa**. Las instantáneas permiten realizar operaciones como la migración de datos entre regiones, el redimensionamiento y la clonación de volúmenes, y el intercambio de datos entre cuentas de AWS.
+
+- **Rentabilidad**. Las instantáneas utilizan tecnología de copias de seguridad progresivas, lo que almacena solo los bloques modificados después de la copia inicial. Esto reduce los costos de almacenamiento y el tiempo para generar las copias.
+
+## 3. Amazon Data Lifecycle Manager
+
+Puede **automatizar la creación**, la **retención** y la **eliminación de instantáneas (snapshots) de EBS** con Amazon Data Lifecycle Manager. Este servicio puede programar instantáneas fuera de las horas de uso máximo para minimizar el impacto en el rendimiento y eliminar de forma automática las copias de seguridad obsoletas, a fin de controlar los costos de almacenamiento. En particular, es valioso para las implementaciones a gran escala en las que la administración manual de instantáneas llevaría mucho tiempo y sería propensa a errores.
+
+### 3.1 Flujo de trabajo
+
+Dado que reduce el esfuerzo manual y establece políticas de copias de seguridad consistentes, Amazon Data Lifecycle Manager ayuda a mantener los requisitos de cumplimiento, ya que programa copias de seguridad periódicas y aplica las reglas de retención.
+
+### 3.2 Configuración de políticas personalizadas
+
+Conoce el paso a paso para configurar políticas personalizadas en tus instantáneas de EBS con Data Lifecycle Manager:
+
+<Steps>
+
+### Paso 1: Crear una política de instantáneas de EBS
+Cree una política de instantáneas de EBS con la consola de Amazon EC2, las llamadas a la API, la Interfaz de la línea de comandos de AWS (AWS CLI), los SDK o AWS CloudFormation.
+
+### Paso 2: Seleccionar el tipo de recurso de destino
+Elija un volumen de EBS o una instancia de EC2 como destino de la instantánea.
+
+### Paso 3: Excluir volúmenes
+Reduzca la cantidad de datos que se incluirá en la instantánea; para ello, elija las opciones para excluir el volumen raíz o los volúmenes de datos.
+
+### Paso 4: Establecer programaciones personalizadas
+Automatice la creación, la retención y la eliminación de instantáneas de EBS; para ello, configure programaciones personalizadas.
+
+### Paso 5: Aplicar acciones adicionales
+Antes de finalizar la política, puede aplicar acciones adicionales. Estas incluyen la configuración de elementos de las instantáneas, como las etiquetas, el archivado de instantáneas, la restauración rápida de instantáneas de Amazon EBS, la copia entre regiones y el uso compartido entre cuentas.
+</Steps>
+
+## 4. Infografía de Estudio
+
+![Infografía de almacenamiento en bloque](/aws/almacenamiento/almacenamiento-bloque-intro.png)
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon Elastic Block Store (Amazon EBS)](https://docs.aws.amazon.com/ebs/)
+- [Almacén de instancias Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html)
+- [Amazon Elastic Block Store (Amazon EBS)](https://aws.amazon.com/es/ebs/)
+- [Preguntas frecuentes sobre Amazon EBS](https://aws.amazon.com/es/ebs/faqs/)
+- [Instantáneas de Amazon EBS](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html)
+- [Amazon Data Lifecycle Manager](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-lifecycle.html)

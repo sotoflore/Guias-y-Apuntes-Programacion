@@ -1,0 +1,420 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Componentes de redes en AWS
+
+Los **componentes de las redes en AWS** son los elementos que permiten diseñar, conectar, proteger y administrar la comunicación entre los recursos que se ejecutan en la nube. Estos componentes trabajan conjuntamente para determinar **dónde se encuentran los recursos, cómo se comunican entre sí, cómo acceden a Internet y qué tráfico está permitido**.
+
+El componente central es **Amazon VPC (Virtual Private Cloud)**, que permite crear una red virtual aislada dentro de AWS. Dentro de una VPC se pueden definir **subredes**, asignar rangos de direcciones IP y establecer las reglas que controlan el tráfico de red.
+
+Una VPC puede dividirse en **subredes públicas y privadas**, normalmente distribuidas entre diferentes **Availability Zones** para mejorar la disponibilidad. Las tablas de enrutamiento (**Route Tables**) determinan el camino que debe seguir el tráfico, mientras que componentes como el **Internet Gateway** y el **NAT Gateway** proporcionan diferentes formas de conectividad con Internet.
+
+La seguridad de la red se controla principalmente mediante **Security Groups** y **Network ACLs (NACLs)**. Los Security Groups permiten controlar el tráfico asociado a recursos específicos, mientras que las NACLs permiten establecer reglas de tráfico a nivel de subred.
+
+AWS también ofrece componentes para conectar diferentes redes y entornos. Por ejemplo, **VPC Peering** permite conectar VPC entre sí, **AWS Transit Gateway** facilita la conexión centralizada de múltiples redes y **AWS Site-to-Site VPN** permite conectar una red local con AWS mediante una conexión VPN.
+
+Puedes visualizar una arquitectura de red básica de AWS de esta manera:
+
+![arquitectura de red básica](/aws/redes/redes-vpc-arquitectura-red-basica.jpg)
+
+## 1. Principales componentes
+
+### 1.1 Amazon VPC
+
+![icono de Amazon VPC](/icons/amazon-vpc.svg)
+
+La **Nube Privada Virtual (Virtual Private Cloud - VPC)** es un servicio que permite crear **redes virtuales lógicamente aisladas** dentro de la nube de AWS. Una VPC define un **espacio de direcciones IP** (mediante CIDR), subnets (subredes), tablas de rutas, gateways y mecanismos de control de acceso, proporcionando un **control total de su entorno de red virtual**, incluida la selección del rango de IP, la creación de subnets y la configuración de tablas de rutas y gateways.
+
+![Amazon VPC](/aws/redes/vpc-intro.jpg)
+
+Una **VPC** permite definir cómo se organizan y comunican los recursos que ejecutamos en AWS, por ejemplo: Amazon EC2, Amazon RDS, Amazon ECS, Amazon EKS, AWS Lambda, Load Balancers, Bases de datos, Aplicaciones internas.
+
+>Podemos pensar en una VPC como nuestra **red privada dentro de AWS**.
+
+Estas son solo algunas de sus ventajas:
+
+- **Mayor seguridad**. Una VPC ofrece un entorno de red aislado —una burbuja en la que puedes proteger tus recursos frente a factores externos y al acceso no autorizado—. Además, puedes controlar el tráfico entrante y saliente y utilizar el cifrado para mejorar la protección y maximizar la seguridad de los datos.
+
+- **Ahorro de tiempo**. La VPC de AWS te ayuda a configurar rápidamente un entorno de red virtual seguro, por lo que supone un excelente ahorro de tiempo. En lugar de construirlo todo desde cero, puedes crear una infraestructura de red fiable con componentes ya preparados.
+
+- **Mayor control de los datos**. Una VPC mantiene tus datos separados de otras nubes. Esto significa que no hay absolutamente ningún riesgo de que tus datos se mezclen con otros. Además, puedes personalizar quién puede acceder a tus datos y cómo, por lo que tienes el máximo control sobre todo lo que hay en tu nube privada.
+
+- **Cumplimiento normativo sin esfuerzo**. Dentro de tu VPC, puedes configurar ajustes específicos para cumplir incluso con las normas más estrictas de privacidad y seguridad de los datos. Por ejemplo, si manejas datos confidenciales (como historiales médicos o informes financieros), el uso de una VPC puede ayudarte a proteger tus registros y garantizar que todo se almacene de acuerdo con la normativa pertinente (como la HIPAA en el sector sanitario).
+
+- **Optimización de costes**. AWS VPC ofrece un control granular sobre tus recursos: puedes asignarlos como quieras. En otras palabras, tú eliges cuánto dinero vas a gastar en tu VPC en función de tus necesidades, y solo pagas por lo que utilizas, por lo que no tienes que preocuparte por pagar de más por recursos que no necesitas.
+
+:::info Analogía
+Imagina que AWS es una enorme ciudad. Dentro de esa ciudad podemos construir una urbanización privada. La urbanización tiene: calles, edificios, entradas, zonas privadas, zonas públicas, controles de acceso, rutas entre edificios.
+
+La **VPC sería la urbanización**. Dentro de ella podemos crear:
+
+- **Subnets** → diferentes zonas o redes
+- **Route Tables** → reglas que indican por dónde debe viajar el tráfico
+- **Internet Gateway** → conexión con Internet (La puerta de entrada/salida principal hacia la calle)
+- **NAT Gateway** → salida a Internet desde recursos privados
+- **Security Groups** → Un guardia de seguridad en la puerta de cada edificio (firewall a nivel de recurso)
+- **Network ACLs** → El control de acceso en la entrada de cada área/barrio (firewall a nivel de subnet)
+
+:::
+
+#### 1.1.1 ¿Para qué sirve?
+
+- **Aislar** lógicamente los recursos de una organización.
+- **Definir el espacio de direcciones IP.**
+- **Segmentar** la red en subnets públicas y privadas.
+- **Controlar** la conectividad hacia/desde Internet y entre redes.
+- **Controlar el acceso** mediante grupos de seguridad y ACLs de red.
+- **Conectar** la red de AWS con redes empresariales (on-premises).
+
+#### 1.1.2 ¿Por qué necesitamos una VPC?
+
+Cuando ejecutamos aplicaciones en AWS necesitamos controlar aspectos de red como:
+
+- ¿Qué recursos pueden comunicarse entre sí?
+- ¿Qué recursos pueden recibir tráfico desde Internet?
+- ¿Qué recursos pueden salir a Internet?
+- ¿Qué recursos deben permanecer privados?
+- ¿Qué direcciones IP utilizarán?
+- ¿Cómo se conectará nuestra red con otra VPC?
+- ¿Cómo conectaremos AWS con nuestra infraestructura local?
+
+VPC proporciona las herramientas necesarias para construir esta arquitectura.
+
+#### 1.1.3 ¿Qué problema resuelve?
+
+Sin una VPC, los recursos carecerían de una red estructurada, segura y controlable. VPC resuelve:
+
+- La necesidad de **segmentar recursos** (frontend vs backend vs base de datos).
+- El control de **quién puede comunicarse** con qué.
+- El control de **acceso a Internet** de forma segura (recursos privados que salen sin quedar expuestos).
+- La **conexión segura** de la nube con la red de la empresa.
+
+:::info ¿Por qué necesitamos una red virtual en AWS?
+Porque una aplicación real no es un conjunto de servidores sueltos: necesita una red que defina **cómo se comunican** los componentes, **qué es público** y **qué es privado**, y **cómo se accede desde fuera** de forma segura. La red virtual proporciona esa estructura.
+:::
+
+#### 1.1.4 ¿Cómo se relaciona VPC con EC2 y otros servicios?
+
+- Las instancias **EC2** se lanzan **dentro de una subnet de una VPC**.
+- Las bases de datos (**RDS**, **DynamoDB**), **Lambda**, el **Load Balancer (ELB)**, **S3** (a través de endpoints), etc., se integran con tu VPC.
+- Sin VPC no podrías desplegar infraestructura de cómputo de forma gestionada y controlada.
+
+#### 1.1.5 ¿Cómo funciona una VPC?
+
+Al configurar tu cuenta de AWS, se te asigna una VPC predeterminada para cada región. Las regiones forman parte de la infraestructura global de AWS y representan áreas geográficas independientes repartidas por todo el mundo, compuestas por numerosos centros de datos.
+
+Las VPC predeterminadas vienen con una configuración preestablecida y son una opción excelente si necesitas poner en marcha algunos recursos rápidamente, pero es posible que no sean adecuadas para tus necesidades a largo plazo. Aunque puedes modificar componentes específicos de las VPC predeterminadas, no puedes alterar su estructura básica. En este caso, lo mejor es crear VPC adicionales y personalizarlas a tu gusto.
+
+Todas las VPC, sean predeterminadas o no, son específicas de cada región, en el sentido de que no están conectadas a VPC de otras regiones. No obstante, puedes cambiar esto si lo necesitas. Esto resulta especialmente útil si tu aplicación tiene usuarios en todo el mundo y deseas utilizar varias VPC para minimizar los retrasos y aumentar la velocidad de tu aplicación.
+
+![¿Cómo funciona una VPC?](/aws/redes/vpc-funcionamiento.jpg)
+
+Para construir y operar una VPC se siguen estos pasos conceptuales:
+
+1. **Se crea una VPC** dentro de una **Región**.
+2. **Se define un rango de direcciones IP** (CIDR) para la VPC.
+3. **Se crean subnets** dentro de las Availability Zones.
+4. **Se colocan recursos** (EC2, RDS, etc.) dentro de las subnets.
+5. **Se configuran tablas de rutas** (Route Tables) para dirigir el tráfico.
+6. **Se configuran gateways** cuando se necesita conectividad a Internet (IGW, NAT).
+7. **Se controlan las comunicaciones** mediante Security Groups y Network ACLs.
+
+**Funcionamiento general**
+
+![¿Cómo funciona una VPC?](/aws/redes/vpc-funcionamiento_v2.jpg)
+
+### 1.2 Subredes
+
+Una **subred** (subnet) es una **subdivisión de la VPC** dentro de un rango de direcciones IP. Segmenta la red de la VPC en secciones más pequeñas y manejables. Puedes crear recursos de AWS, como instancias de EC2, en subredes específicas.
+
+>Una **subred** es un rango de direcciones IP en su VPC.
+
+Cada **subred** reside en una única zona de disponibilidad y nunca puede abarcar varias zonas de disponibilidad. Esto ofrece protección frente a fallos, ya que cuando se lanzan recursos en zonas de disponibilidad distintas y una de ellas falla, la aplicación puede seguir funcionando.
+
+![Subredes](/aws/redes/vpc-subredes-intro.jpg)
+
+**¿Para qué sirve?**
+
+- **Segmentar** la red (pública vs privada).
+- **Organizar** recursos (frontend, backend, bases de datos).
+- **Controlar el tráfico** de forma independiente por segmento.
+- Distribuir recursos en distintas **AZ** para alta disponibilidad.
+
+:::info Analogia cafetería
+Primero, los clientes le dan sus pedidos al cajero. El cajero luego pasa los pedidos al barista. Este proceso permite que la fila siga funcionando sin problemas a medida que llegan más clientes. Ahora, Supongamos que algunos clientes intentan saltarse la fila del cajero y le dan sus pedidos directamente al barista. Esto interrumpe el flujo del tráfico y hace que los clientes accedan a una parte de la cafetería que les está restringida.
+
+![Analogia cafetería](/aws/redes/vpc-subred-analogia.jpg)
+
+Para solucionar esto, los dueños de la cafetería dividen el área del mostrador colocando al cajero y al barista en estaciones de trabajo separadas. La estación del cajero está orientada al público y diseñada para recibir a los clientes. El área del barista es privada. El barista aún puede recibir pedidos del cajero, pero no directamente de los clientes.
+
+![Analogia cafetería](/aws/redes/vpc-subred-analogia_v2.png)
+
+Esto es similar a cómo puedes usar los servicios de red de AWS para aislar recursos y determinar exactamente cómo fluye el tráfico de red. En la cafetería, puedes pensar en el área del mostrador como una VPC. El área del mostrador se divide en dos áreas separadas: la estación del cajero y la estación del barista. En una VPC, las **subredes son áreas separadas que se utilizan para agrupar recursos**.
+:::
+
+#### 1.2.1 Tipos de subredes
+
+El tipo de subred viene determinado por cómo configure el enrutamiento para sus subredes. Se puede elegir entre cuatro tipos de subredes:
+
+<Tabs>
+  <Tab label="Subredes Públicas">
+    Es una subred (subnet) cuya tabla de rutas tiene una ruta directa hacia un Internet Gateway (Puerta de enlace a Internet - IGW), y cuyos recursos pueden tener direcciones IP públicas para comunicarse con Internet.
+
+    >Tienen conexión directa a Internet y son adecuadas para recursos a los que se debe poder acceder públicamente.
+
+    ![Subredes Públicas](/aws/redes/redes-componentes-principales-subred-publica.jpg)
+
+    **Elementos**:
+
+    - Route Table con ruta `0.0.0.0/0` → Internet Gateway.
+    - Internet Gateway conectado a la VPC.
+    - Recursos con IP pública (o Elastic IP) para recibir tráfico.
+    
+    **Casos de uso**: servidores web públicos, load balancers de entrada, bastion hosts (hosts de salto) para administración.
+  </Tab>
+  <Tab label="Subredes Privadas">
+    Es una subred (subnet) que no tiene una ruta directa hacia el Internet Gateway. Los recursos en ella no quedan directamente expuestos a Internet.
+
+    >  No se conectan directamente a Internet, por lo que proporcionan una capa adicional de seguridad. Son ideales para implementar recursos confidenciales, como las bases de datos de Amazon. Puedes conectar tus subredes privadas a Internet, pero para ello necesitarás utilizar un dispositivo NAT.
+
+    ![Subredes Privadas](/aws/redes/redes-componentes-principales-subred-privada.jpg)
+
+    **Elementos**:
+
+    - Sin ruta directa al Internet Gateway en su Route Table.
+    - Para salir a Internet usa un NAT Gateway (ubicado en una subnet pública) o un VPC Endpoint.
+    
+    **Casos de uso**: backends, servidores de aplicación, bases de datos, recursos internos que no deben ser accesibles desde Internet directamente.
+  </Tab>
+  <Tab label="Solo VPN">
+    estas subredes no tienen conexión directa a Internet, pero se comunican con otras redes y recursos a través de una puerta de enlace privada virtual. Puedes configurar estas subredes para aplicaciones que tú y tu equipo utilicéis internamente y que no deban estar disponibles para el público en general.
+  </Tab>
+  <Tab label="Aisladas">
+    Las subredes aisladas no están conectadas a nada fuera de su VPC. Solo interactúan con recursos dentro de la misma VPC, por lo que son adecuadas para cargas de trabajo confidenciales.
+  </Tab>
+</Tabs>
+
+:::tip Ejemplo
+En una VPC, las subredes pueden comunicarse entre sí. Por ejemplo, podrías tener una aplicación que involucre instancias de **Amazon EC2** en una **subred pública** comunicándose con **bases de datos** ubicadas en una **subred privada**.
+
+![Ejemplo de subredes](/aws/redes/vpc-subred-ejemplo.jpg)
+:::
+
+**¿Cómo se determina si una subnet es pública o privada?**
+
+> Una subnet **no es pública** simplemente porque tenga una IP pública disponible. Su carácter público o privado depende principalmente de su **ruta hacia un Internet Gateway (IGW)**.
+>
+>AWS define una subnet como **pública** cuando su **tabla de rutas** contiene una **ruta hacia un Internet Gateway**. Una subnet **privada** no tiene dicha ruta directa.
+
+
+**Tabla comparativa**
+
+| Característica | Public Subnet | Private Subnet |
+|---|---|---|
+| **Ruta hacia Internet Gateway** | Sí (directa) | No (sin ruta directa) |
+| **IP pública en recursos** | Puede tenerla | Normalmente no |
+| **Acceso directo desde Internet** | Sí | No |
+| **Salida a Internet** | Directa (IGW) | Vía NAT Gateway / endpoint |
+| **Casos de uso** | Frontend, load balancer, bastion | Backend, bases de datos, recursos internos |
+| **Nivel de exposición** | Expuesta (controlada) | Protegida |
+
+> la distinción pública/privada la determina la **Route Table y su ruta al Internet Gateway**, no la mera presencia de una IP pública.
+
+### 1.3 Tablas de Enrutamiento
+
+Una **Tabla de rutas (Route Table)** es una lista de **rutas** que determinan **hacia dónde debe dirigirse el tráfico** que sale de una subnet. Cada subnet debe estar asociada a una tabla de rutas.
+
+>Las **tablas de enrutamiento** dirigen el tráfico de red mediante reglas específicas, de forma similar a los mapas, para determinar las mejores rutas por las que deben circular los datos.
+
+**¿Para qué sirve?**
+
+- Dirigir el tráfico entre subnets.
+- Dirigir el tráfico hacia Internet (a través del internet gateway - IGW).
+- Dirigir el tráfico hacia redes privadas (VPN, Direct Connect, Peering).
+- Dirigir el tráfico hacia servicios AWS (VPC Endpoints).
+
+:::info ¿Qué es una route?
+Cada **ruta** especifica:
+
+- **Destination (destino):** el rango de direcciones IP al que se dirige el tráfico (en formato CIDR).
+- **Target (objetivo):** hacia dónde se envía ese tráfico (IGW, gateway, instancia, endpoint, etc.).
+
+:::
+
+**Ejemplo de Route Table**
+
+| Destino | Target | Descripción |
+|---|---|---|
+| `10.0.0.0/16` | local | Tráfico dentro de la VPC |
+| `0.0.0.0/0` | igw-xxx | Todo el tráfico sale por Internet Gateway (pública) |
+| `0.0.0.0/0` | nat-xxx | Tráfico sale por NAT (privada) |
+
+- **`10.0.0.0/16 → local`:** todo el tráfico **dentro de la VPC** se mantiene en la VPC (ruta local interna).
+- **`0.0.0.0/0 → Internet Gateway`:** todo el tráfico hacia **cualquier dirección fuera** de la VPC sale a través del Internet Gateway. Esta **ruta por defecto** es la que convierte una subnet en "pública".
+
+:::info Asociación entre subnet y route table
+Cada subnet está **asociada a una Route Table**. El tráfico de esa subnet se dirige según las reglas de su tabla asociada.
+:::
+
+#### 1.3.1  Tipos de tablas de enrutamiento
+
+<Tabs>
+  <Tab label="Main Route Table">
+    La **Tabla de enrutamiento principal** (Main Route Table), es la tabla de enrutamiento predeterminada que obtendrás al configurar tu VPC. Controla el enrutamiento de las subredes que no disponen de su propia tabla de enrutamiento. Toda subnet que no se asocie explícitamente a otra tabla usa la main.
+  </Tab>
+  <Tab label="Custom Route Tables">
+   La **Tabla de enrutamiento personalizada** (Custom Route Tables), es la tabla de enrutamiento que configuras tú mismo para una VPC específica. Por ejemplo, una tabla "pública" con ruta al IGW y una "privada" sin ella.
+  </Tab>
+</Tabs>
+
+> Si modificas la ruta `0.0.0.0/0` de una Route Table al Internet Gateway, la subnet pasa a considerarse "pública". Si la retiras, deja de ser pública.
+
+### 1.4 Internet Gateway
+
+Una **puerta de enlace a Internet** (Internet Gateway - IGW) es un componente de la VPC que proporciona **conectividad entre la VPC e Internet**. Es escalable y redundante por diseño de AWS.
+
+Permite que tus recursos, como las instancias de EC2, se conecten a Internet si disponen de una dirección IPv4 o IPv6 pública. Estas direcciones corresponden a protocolos sin conexión que dividen los datos en bloques más pequeños para una transmisión más eficiente a través de Internet. Las puertas de enlace a Internet también permiten que las instancias de Internet se conecten a los recursos de tu subred.
+
+**¿Para qué sirve?**
+
+- Permitir que los recursos de las subnets **públicas** se comuniquen con Internet.
+- Permitir que el tráfico **entrante desde Internet** llegue a los recursos públicos.
+- Actuar como **puerta de entrada/salida** entre la VPC y la Internet.
+
+>El Internet Gateway (IGW) soporta tanto IPv4 como IPv6. Para IPv4, los recursos públicos usan IPs públicas o Elastic IPs. Para IPv6, las instancias pueden tener direcciones IPv6 públicas automáticamente.
+
+:::info ¿Cómo se conecta con una VPC?
+El Internet Gateway (IGW) se **adjunta a la VPC** (una VPC puede tener un IGW). Una vez adjuntado, se usa como target de las rutas de las subnets públicas.
+
+- Para que una instancia sea accesible desde Internet, debe estar en una **subnet pública** (ruta al IGW) **y** tener una **IP pública** (o Elastic IP).
+- El Internet Gateway (IGW) traduce/permite la comunicación entre direcciones públicas e internas.
+
+:::
+
+![Internet Gateway](/aws/redes/redes-componentes-principales-internet-gateway.jpg)
+
+Un error común, es pensar esto: "**Tengo un Internet Gateway, por lo tanto todas mis instancias tienen Internet**." Y **Esto es incorrecto.** Para que una instancia tenga acceso a Internet deben cumplirse **todas** estas condiciones:
+
+1. El **Internet Gateway (IGW) está adjuntado a la VPC**.
+2. La instancia está en una **subnet cuya Route Table tiene una ruta `0.0.0.0/0 → Internet Gateway`** (subnet pública).
+3. La instancia tiene una **IP pública** (o Elastic IP) si se requiere acceso entrante.
+4. Los **Security Groups y NACLs** permiten el tráfico correspondiente.
+
+>Un Internet Gateway (IGW) **por sí solo** no da Internet a todos los recursos; hace falta la ruta, la subnet correcta y las IPs.
+
+### 1.5 NAT Gateway
+
+Una **puerta de enlace de traducción de direcciones de red** (NAT Gateway - Network Address Translation) permite que las instancias de las subredes privadas se conecten a servicios externos a una VPC. Dado que los servicios externos no pueden conectarse directamente a los recursos de las subredes privadas, una **puerta de enlace NAT** traduce las direcciones IP privadas de las instancias a una dirección IP pública, lo que evita la exposición a conexiones entrantes no solicitadas.
+
+La puerta de enlace NAT funciona de manera similar al router de Internet de tu casa. Los dispositivos, como los teléfonos y los ordenadores, se conectan al router para acceder a Internet. El router utiliza una dirección IP pública para conectarse a Internet, pero asigna a los dispositivos una dirección IP privada para mantenerlos a salvo.
+
+Al crear una puerta de enlace NAT, debes elegir entre dos tipos de conectividad:
+
+- **Pública (predeterminada)**: conecta las instancias de las subredes privadas a Internet, pero impide las conexiones entrantes. Por ejemplo, cuando necesitas descargar actualizaciones, tu servidor envía una solicitud a Internet a través de una puerta de enlace pública.
+
+- **Privada**: permite que las instancias de las subredes privadas se conecten a su red local u otras VPC. Por ejemplo, cuando su base de datos privada necesita comunicarse con el centro de datos de su empresa, una puerta de enlace NAT privada permite una comunicación segura sin exponer los datos a la Internet pública.
+
+>**NAT Gateway** traduce direcciones: permite que un dispositivo privado use una dirección pública al salir, pero **oculta** la dirección interna frente a Internet.
+
+**¿Para qué sirve?**
+
+- Proporcionar **acceso saliente a Internet** a instancias privadas (actualizaciones, llamadas a APIs, etc.).
+- Sin NAT, una instancia privada **no podría alcanzar Internet**.
+- Mantener los recursos **protegidos** de conexiones entrantes no solicitadas.
+
+![NAT Gateway](/aws/redes/redes-componentes-principales-nat-gateway.jpg)
+
+:::warning Importante: NAT permite "salir" pero no "entrar"
+**NAT Gateway** permite el flujo **Private → Internet**. No debe describirse como un mecanismo que automáticamente permite **Internet → Private EC2**. La instancia privada **no queda directamente expuesta** a conexiones iniciadas desde Internet.
+
+- NAT permite: salida desde el recurso privado hacia Internet.
+- NAT no permite: acceso entrante directo desde Internet al recurso privado.
+
+:::
+
+**Tabla comparativa: Internet Gateway vs NAT Gateway**
+
+| Aspecto | Internet Gateway (IGW) | NAT Gateway |
+|---|---|---|
+| **Dirección del tráfico** | Bidireccional (entrada/salida) | Saliente (privado → Internet) |
+| **Usado para** | Subnets **públicas** | Subnets **privadas** |
+| **Permite acceso entrante desde Internet** | Sí | No |
+| **Mecanismo** | Puerta hacia Internet | Traducción de direcciones (NAT) |
+| **Gestionado por** | AWS | AWS (servicio gestionado) |
+| **¿Necesita estar en subnet pública?** | Se adjunta a la VPC | Sí |
+
+> En **producción**, AWS recomienda desplegar **un NAT Gateway en cada AZ activa** cuando se necesita resiliencia frente al fallo de una AZ. Si el NAT Gateway de la única AZ falla, los recursos de otras AZ podrían perder la salida a Internet.
+
+### 1.6 Security Groups
+
+Los **Security Groups (grupos de seguridad)** actúan como un **firewall virtual** que controla el tráfico **entrante y saliente** de los recursos a los que se asocian (instancias EC2, balanceadores de carga, etc.).
+
+**¿Para qué sirven?**
+
+- Controlar **qué tráfico puede entrar** a un recurso (inbound).
+- Controlar **qué tráfico puede salir** de un recurso (outbound).
+- Permitir o denegar el acceso por **puerto, protocolo y dirección IP/CIDR**.
+
+**¿Dónde se aplican?**
+
+Un Security Group se aplica a **nivel de instancia/interfaz (ENI)** — es decir, **por recurso**, no por subnet. Varias instancias pueden compartir un mismo Security Group, y una instancia puede tener varios.
+
+:::info Stateful
+Los Security Groups son **stateful (con estado)**: si permites tráfico entrante, la **respuesta de salida se permite automáticamente** (y viceversa). No necesitas crear una regla separada para el tráfico de retorno.
+
+> **Security Group = stateful.** Las respuestas al tráfico permitido se autorizan automáticamente.
+
+:::
+
+- **Inbound rules (reglas entrantes)**. Definen qué tráfico puede llegar al recurso. Ejemplo: `HTTP → 80`, `HTTPS → 443`, `SSH → 22`.
+
+- **Outbound rules (reglas salientes)**. Definen qué tráfico puede salir del recurso. Por defecto suelen permitir todo el tráfico saliente.
+
+:::warning Seguridad
+Abrir puertos innecesariamente **aumenta la superficie de ataque**. Debes aplicar el **principio de mínimo privilegio**: permitir solo los puertos/protocolos necesarios, y solo a las fuentes correctas. Por ejemplo, abrir SSH (22) a todo el mundo (`0.0.0.0/0`) es una mala práctica.
+:::
+
+### 1.7 Network ACL
+
+Una **lista de control de acceso a la red** (Network Access Control List - ACL / NACL) **es un firewall que controla el tráfico a nivel de subred** (subnet).
+
+**¿Para qué sirve?**
+
+- Controlar el tráfico **que entra y sale de una subnet** completa.
+- Aplicar **reglas de allow (permitir) y deny (denegar)**.
+
+**¿Dónde se aplica?**
+
+A nivel de **subnet**. Un NACL se asocia a una subnet y todo el tráfico que la atraviesa se evalúa contra sus reglas.
+
+:::info Stateless
+Los NACL son **stateless (sin estado)**: **no realizan seguimiento de conexiones**. Por lo tanto, **debes configurar reglas explícitas tanto para el tráfico entrante como para el saliente** (incluido el tráfico de respuesta). Si permites tráfico entrante en un puerto, debes **también** permitir el tráfico de **respuesta saliente** en el puerto de origen correspondiente.
+
+> **NACL = stateless.** Necesitas reglas para la entrada **y** para la salida (incluido el retorno).
+
+:::
+
+**Security Group vs Network ACL**
+
+| Característica | Security Group (SG) | Network ACL (NACL) |
+|---|---|---|
+| **Nivel** | Instancia / interfaz (ENI) | Subnet |
+| **Stateful / Stateless** | Stateful | Stateless |
+| **Inbound** | Reglas entrantes | Reglas entrantes |
+| **Outbound** | Reglas salientes | Reglas salientes |
+| **Allow** | Solo reglas **allow** | Reglas **allow** y **deny** |
+| **Deny** | No puede denegar explícitamente (por defecto todo denegado, se añaden allow) | Puede denegar explícitamente |
+| **Aplicación** | A recursos individuales | A toda la subnet |
+
+> Un NACL aplica **a toda la subnet**, afectando a todos los recursos dentro de ella (a diferencia del Security Group, que aplica a recursos individuales).
+
+---
+
+**Referencias recomendadas**:
+
+- [Amazon Virtual Private Cloud (VPC)](https://aws.amazon.com/vpc/)
+- [Subred (Subnet)](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html)
+- [Puerta de enlace de Internet (Internet Gateway)](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html)
+- [Puerta de enlace privada virtual (Virtual Private Gateway)](https://docs.aws.amazon.com/vpn/latest/s2svpn/SetUpVPNConnections.html)
+- [Lista de control de acceso de red (Network ACL)](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html)
+- [Grupos de seguridad (Security Groups)](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html)
+- [Puerta de enlace de NAT (NAT Gateway)](https://docs.aws.amazon.com/vpc/latest/userguide/)

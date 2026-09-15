@@ -1,0 +1,70 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Introducción a AWS
+
+**Amazon Web Services (`AWS`)** es la plataforma de computación en la nube más completa y adoptada del mundo, ofreciendo más de 200 servicios integrales desde centros de datos distribuidos globalmente. Lanzada en 2006, AWS transformó la manera en que las organizaciones acceden a la tecnología al permitirles **reemplazar los gastos de infraestructura física por costos variables** bajos que se escalan según las necesidades del negocio.
+
+![aws intro](/aws/aws-intro.png)
+
+## 1. ¿Qué es AWS?
+
+En términos fundamentales, **`AWS`** (Amazón Web Services) es un conjunto de servicios de infraestructura y software que las empresas utilizan a través de internet para ejecutar sus aplicaciones y guardar datos **sin necesidad de comprar ni mantener servidores propios**. Los servicios de **`AWS`** están disponibles bajo demanda y se facturan mediante un **modelo de precios de pago por uso**, lo que significa que el cliente solo paga por los recursos específicos que consume durante el tiempo que los utiliza.
+
+La plataforma se caracteriza por varios pilares clave:
+*   **Mayor Funcionalidad:** Ofrece una variedad de herramientas mucho más amplia que cualquier otro proveedor, incluyendo desde bases de datos diseñadas para aplicaciones específicas hasta tecnologías de vanguardia como **inteligencia artificial generativa** y aprendizaje automático.
+*   **Comunidad y Ecosistema:** Cuenta con millones de clientes activos y decenas de miles de socios globales que ayudan a las empresas a implementar soluciones de forma eficiente.
+*   **Seguridad y Fiabilidad:** Está diseñada para satisfacer los requisitos de seguridad de organizaciones de alta sensibilidad, como bancos mundiales y fuerzas armadas, ofreciendo más de **300 servicios y funciones de seguridad**.
+*   **Infraestructura Global:** Su red se extiende por decenas de **regiones geográficas y zonas de disponibilidad** en todo el mundo, lo que permite a las empresas reducir la latencia y garantizar la continuidad ante desastres.
+
+Gracias a su madurez y ritmo constante de innovación, **`AWS`** permite a startups, grandes empresas y organismos gubernamentales **aumentar su agilidad y reducir costos**, permitiéndoles centrarse en su negocio principal en lugar del "**trabajo pesado"** de gestionar centros de datos.
+
+
+## 2. ¿Qué problema resuelve AWS?
+
+El gran cambio es pasar de poseer infraestructura a consumirla bajo demanda. Eso resuelve varios dolores típicos:
+
+- **La inversión inicial deja de ser una barrera**. No hay que adivinar cuánto hardware comprar para los próximos años; se empieza pequeño y se crece según la demanda real.
+- **La capacidad se ajusta sola**. Si llega un pico de tráfico —una campaña, un cierre de mes—, los recursos escalan; cuando baja, también baja el gasto.
+- **El tiempo de salida al mercado se acorta**. Levantar un entorno nuevo toma minutos en lugar de semanas de compras y configuración.
+
+## 3. Principales Servicios de AWS
+
+![aws intro servicios](/aws/aws-intro-servicios.jpg)
+
+**`AWS`** ofrece cientos de servicios, pero casi toda solución se arma combinando unos pocos bloques fundamentales:
+
+- **Cómputo**: servidores virtuales bajo demanda y opciones sin servidor que ejecutan código sin administrar máquinas.
+- **Almacenamiento**: guardado de archivos y objetos de forma duradera y escalable, ideal para respaldos, contenido y datos de aplicaciones.
+- **Bases de datos**: motores gestionados —relacionales y no relacionales— donde **`AWS`** se ocupa de las copias de seguridad, los parches y la alta disponibilidad.
+- **Redes y seguridad**: redes privadas, control de acceso, cifrado y conexión segura entre los sistemas de la empresa y la nube.
+- **Datos e inteligencia artificial**: servicios para analizar información, construir un data lake y crear soluciones de IA generativa.
+
+## 4. Formas de Interactuar con los Servicios
+
+Todas las interacciones con los servicios están respaldadas por API. Puede acceder a estas API mediante tres métodos principales: la **Consola de administración de AWS**, la **AWS CLI** o el **AWS SDK**.
+
+<Tabs>
+  <Tab label="Consola de Administración AWS">
+    La **Consola de administración de AWS** es una interfaz web para administrar los servicios de AWS, que ofrece acceso rápido a servicios, funcionalidad de búsqueda y flujos de trabajo simplificados. Con la aplicación móvil, puede supervisar los recursos, ver las alarmas y consultar la facturación. Además, admite que varias identidades inicien sesión al mismo tiempo.
+
+    **Ideal para**: usuarios que prefieren una interfaz visual y fácil de usar para administrar y configurar los servicios de AWS.
+
+    ![aws console](/aws/aws-consola.png)
+  </Tab>
+  <Tab label="AWS CLI">
+    Con la **AWS CLI** (Interfaz de Línea de Comandos), puede administrar varios servicios de AWS directamente desde la línea de comandos en Windows, macOS y Linux. Puede automatizar las tareas mediante scripts, como lanzar instancias de EC2.
+
+    **Ideal para**: desarrolladores y usuarios avanzados que necesitan automatizar tareas, programar acciones mediante scripts y administrar los recursos de AWS de manera eficiente desde la línea de comandos.
+
+    ![aws cli](/aws/aws-cli.jpg)
+  </Tab>
+  <Tab label="AWS SDK">
+    El AWS SDK (Kit de Desarrollo de Software) simplifica la integración de los servicios de AWS en sus aplicaciones al proporcionar API para varios lenguajes de programación. AWS ofrece documentación y código de muestra para lenguajes como C++, Java y .NET para ayudarle a empezar.
+
+    **Ideal para**: desarrolladores que desean integrar los servicios de AWS en sus aplicaciones mediante API específicas para cada lenguaje.
+
+    ![aws intro](/aws/aws-sdk.jpg)
+  </Tab>
+</Tabs>
+
+

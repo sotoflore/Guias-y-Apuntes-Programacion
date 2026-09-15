@@ -18,6 +18,12 @@
       "sourceType": "github",
       "skillPath": "skills/rspress-docs-generator/SKILL.md",
       "computedHash": "3aa4ea8816931f9779f8455ac36907bccabd586f69895df2a23b2c616e228389"
+    },
+    "technical-writing": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "technical-writing/SKILL.md",
+      "computedHash": "84fa66851fa6618549bdd387bee0a1f8bcd911e1a77cec9f25f0c06b7d4b2749"
     }
   }
 }

@@ -1,0 +1,93 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Escalado de Amazon EC2
+
+Si alguna vez intentó acceder a un sitio web que no cargaba y se agotaba el tiempo de espera, es posible que el sitio estuviera recibiendo más solicitudes de las que podía procesar. En esta lección, analizará cómo la **escalabilidad** le ayuda a administrar la demanda cambiante mediante el ajuste de la capacidad de computación. 
+
+La **escalabilidad** es uno de los conceptos más importantes en Cloud Computing. Gracias a ella, las aplicaciones pueden adaptarse automáticamente al aumento o disminución de la demanda, utilizando más o menos recursos según sea necesario.
+
+## 1. Escalabilidad y Elasticidad
+
+La **escalabilidad** se refiere al potencial de un sistema para crecer con el tiempo, mientras que la **elasticidad** se refiere al ajuste dinámico y bajo demanda de los recursos.
+
+<Tabs>
+  <Tab label="Escalabilidad">
+    La **escalabilidad** se refiere a la capacidad de un sistema para manejar un aumento de carga mediante la **incorporación de recursos**. Puede escalar verticalmente al agregar más potencia a las máquinas existentes, o puede escalar horizontalmente al agregar más máquinas. La escalabilidad se centra en la planificación de la capacidad a largo plazo para garantizar que el sistema pueda crecer y adaptarse a más usuarios o cargas de trabajo según sea necesario.
+
+    ![Escalabilidad](/aws/compute/compute-escalabilidad-ec2.png)
+  </Tab>
+  <Tab label="Elasticidad">
+    La **elasticidad** es la capacidad de **escalar automáticamente** los recursos —**aumentándolos o reduciéndolos**— en respuesta a la demanda en tiempo real. De este modo, un sistema puede ajustar rápidamente sus recursos, escalando horizontalmente (scaling out) durante los periodos de alta demanda y reduciéndolos (scaling in) cuando la demanda disminuye. La elasticidad proporciona eficiencia de costes y un uso óptimo de los recursos en cualquier momento dado.
+
+    ![Elasticidad](/aws/compute/compute-escalabilidad-elasticidad-ec2.jpg)
+  </Tab>
+</Tabs>
+
+## 2. Amazon EC2 Auto Scaling
+
+![icono de amazon ec2 auto scaling](/icons/amazon-EC2-auto-scaling.svg)
+
+Amazon **EC2 Auto Scaling** ajusta automáticamente la cantidad de instancias de EC2 (denominados **grupos de Auto Scaling**) según los cambios en la demanda de las aplicaciones, lo que proporciona una mejor disponibilidad. Puedes especificar el número mínimo de instancias en cada grupo de Auto Scaling, y Amazon EC2 Auto Scaling se asegura de que tu grupo nunca sea inferior a ese tamaño. Puedes especificar el número máximo de instancias en cada grupo de Auto Scaling, y Amazon EC2 Auto Scaling se asegura de que tu grupo nunca supere este tamaño.
+
+Ofrece dos enfoques. El **escalado dinámico** se ajusta en tiempo real a los cambios en la demanda. El **escalado predictivo** programa de forma preventiva el número correcto de instancias según la demanda prevista.
+
+**Por ejemplo**: El siguiente grupo de Auto Scaling tiene un tamaño mínimo de cuatro instancias, una capacidad deseada de seis instancias y un tamaño máximo de doce instancias. Las políticas de escalado que definas ajustan el número de instancias, dentro de los límites mínimo y máximo, en función de los criterios que especifiques.
+
+![ejemplo de auto scaling](/aws/compute/ec2-auto-scaling-ejemplo.jpg)
+
+> Dado que **Amazon EC2 Auto Scaling** usa las **instancias de EC2**, usted paga solo por las instancias que utiliza, cuando lo hace. Esto le brinda una arquitectura rentable que proporciona la mejor experiencia a los clientes a la vez que se reducen los gastos.
+
+### 8.1 Beneficios
+
+- **Mejore la tolerancia a errores**. Mejore la tolerancia a errores a través de detección automática y sustitución de instancias en mal estado.
+
+- **Aumente la disponibilidad**. Aumente la disponibilidad mediante políticas de escalado predictivo o dinámico con la cantidad correcta de capacidad de computación.
+
+- **Optimice el rendimiento y el costo de las cargas de trabajo**. Optimice el rendimiento y el costo de las cargas de trabajo al combinar opciones de compra y tipos de instancia.
+
+- **Reducción de la complejidad**. Reduzca la complejidad de los cambios de configuración y las implementaciones de aplicaciones con la actualización de instancias.
+
+### 8.2 Configuración
+
+Con EC2 Auto Scaling, puede mantener la cantidad deseada de capacidad de computación para su aplicación al ajustar dinámicamente la cantidad de instancias de EC2 según la demanda. Puede crear **grupos de escalado** automático, que son conjuntos de instancias de EC2 que se pueden escalar o reducir horizontalmente para satisfacer las necesidades de su aplicación. 
+
+Un **grupo de escalado automático** se configura con los siguientes tres ajustes clave.
+
+<Tabs>
+  <Tab label="Capacidad Mínima">
+    La **capacidad mínima** define la cantidad mínima de instancias de EC2 necesarias para mantener la aplicación en ejecución. De esta forma, se garantiza que el sistema nunca escale por debajo de este umbral. Es el número de instancias de EC2 que se lanzan inmediatamente después de crear el grupo de escalado automático.
+
+    En este ejemplo, la capacidad mínima es de cuatro instancias de EC2.
+
+    ![Capacidad Mínima](/aws/compute/ec2-auto-scaling-minima.jpg)  
+  </Tab>
+  <Tab label="Capacidad Deseada">
+   La **capacidad deseada** es la cantidad ideal de instancias necesarias para gestionar la carga de trabajo actual, que Auto Scaling pretende mantener. Si no especifica el número deseado de instancias de EC2 en un grupo de escalado automático, la capacidad deseada se establece de forma predeterminada en su capacidad mínima.
+
+    En este ejemplo, la capacidad deseada es de seis instancias de EC2.
+
+    ![Capacidad Deseada](/aws/compute/ec2-auto-scaling-deseada.jpg)  
+  </Tab>
+  <Tab label="Capacidad Máxima">
+   La **capacidad máxima** establece un límite superior en la cantidad de instancias que se pueden lanzar, lo que evita el escalamiento excesivo y controla los costos. Por ejemplo, puede configurar el grupo de escalado automático para que escale horizontalmente en respuesta al aumento de la demanda.
+
+    En este ejemplo, se pueden lanzar un máximo de 12 instancias de EC2. Amazon EC2 Auto Scaling escalará entre el número mínimo y el número máximo de instancias.
+
+    ![Capacidad Máxima](/aws/compute/ec2-auto-scaling-maxima.jpg)  
+  </Tab>
+</Tabs>
+
+:::tip Escenario práctico
+Durante el día, una tienda online recibe miles de visitas. EC2 Auto Scaling detecta el aumento de tráfico y agrega instancias automáticamente. Durante la noche, cuando el tráfico disminuye, elimina las instancias innecesarias para reducir costos.
+- **Mínimo:** 2 instancias (siempre activas).
+- **Deseado:** Varía entre 2 y 10 según la demanda.
+- **Máximo:** 10 instancias (en horas pico).
+
+:::
+
+---
+
+**Referencias recomendadas:**
+
+- [Amazon EC2 Auto Scaling](https://aws.amazon.com/es/ec2/autoscaling/)
+- [Documentación Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html)
