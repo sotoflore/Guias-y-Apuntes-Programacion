@@ -1,6 +1,6 @@
 # AWS IAM (Identity and Access Management)
 
-![iam icono](/icons/iam.svg)
+![iam icono](/icons/amazon-iam.svg)
 
 **`AWS IAM`** (**Gestión de Identidad y Acceso**) es el servicio **gratuito** y **global** de **`AWS`** que permite administrar de forma centralizada **quién puede acceder** a los servicios y recursos de una cuenta (**autenticación**) y **qué acciones puede hacer** cada identidad una vez dentro (**autorización**).
 
