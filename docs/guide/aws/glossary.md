@@ -218,7 +218,7 @@ Cada entrada incluye:
 
 **Categoría:** Compute
 
-**Referencia:** [compute/amazon-ec2.mdx](./compute/amazon-ec2.mdx)
+**Referencia:** [amazon ec2](./compute/amazon-ec2.mdx)
 
 **Clave para el examen:** Las instancias EC2 se lanzan siempre a partir de una AMI; una misma AMI puede crear múltiples instancias.
 
@@ -230,7 +230,7 @@ Cada entrada incluye:
 
 **Categoría:** Application Integration / Serverless
 
-**Referencia:** [cloud-computing/api-gateway.md](./cloud-computing/api-gateway.md)
+**Referencia:** [api gateway](./cloud-computing/api-gateway.md)
 
 **Clave para el examen:** Es el endpoint público que conecta una interfaz (app web o móvil) con servicios como AWS Lambda. Se integra con Amazon Cognito y AWS IAM para la autenticación.
 
@@ -242,7 +242,7 @@ Cada entrada incluye:
 
 **Categoría:** Database
 
-**Referencia:** [data-base/base-de-datos-relacionales.md](./data-base/base-de-datos-relacionales.md)
+**Referencia:** [base de datos relacionales](./data-base/base-de-datos-relacionales.md)
 
 **Clave para el examen:** Hasta 5 veces más rápido que MySQL y 3 veces más que PostgreSQL; hasta 15 réplicas de lectura; recuperación a un punto en el tiempo (*point-in-time recovery*); escalabilidad automática de 10 GB a 128 TB; disponibilidad del 99,99 %.
 
