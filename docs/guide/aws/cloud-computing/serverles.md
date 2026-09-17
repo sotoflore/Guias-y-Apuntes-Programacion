@@ -4,17 +4,9 @@
 
 Cuando comenzó la computación, las empresas tenían que comprar sus propios servidores. Luego apareció la virtualización y las máquinas virtuales. Más adelante llegaron los contenedores.
 
-Finalmente apareció un modelo donde el desarrollador **ya no administra servidores**.Ese modelo se llama **Serverless Computing**. Pero aquí ocurre algo curioso: **los servidores siguen existiendo**. Lo que cambia es **quién los administra**.
+Finalmente apareció un modelo donde el desarrollador **ya no administra servidores**. Ese modelo se llama **Serverless Computing**. Pero aquí ocurre algo curioso: **los servidores siguen existiendo**. Lo que cambia es **quién los administra**.
 
 Toda la infraestructura subyacente es administrada por el proveedor de servicios en la nube (como AWS, Azure o Google Cloud). Tú solo te encargas de **escribir y desplegar el código**.
-
-:::tip Analogía: del restaurante al food truck
-- **Servidor físico**: comprar todo un restaurante (edificio, cocina, personal) aunque solo hagas dos platos al día.
-- **Máquina virtual**: alquilar una cocina completa y llevarte tus propios ingredientes.
-- **Contenedor**: llevar tus ingredientes, tus recetas y tu cocina portátil a una cocina prestada.
-- **Serverless**: llamar a un servicio de delivery que cocina tu receta cuando alguien hace un pedido, y solo pagas por cada plato servido. No tienes cocina: tienes **cocineros bajo demanda**.
-
-:::
 
 ## 1. ¿Qué es Serverless?
 
@@ -68,7 +60,6 @@ C --> D
 Serverless = **FaaS** (tu código ejecutado bajo demanda) + **BaaS** (servicios gestionados). El proveedor se encarga de servidores, escalado y parches; tú pagas por ejecución y por uso real.
 :::
 
----
 
 ## 2. ¿Por qué surgió Serverless?
 
@@ -98,7 +89,6 @@ El Serverless no nació por capricho: resolvió problemas reales que el modelo d
 Serverless surgió para eliminar los tres grandes males del modelo tradicional: **capacidad ociosa, escalado manual y gestión de servidores**. Su propuesta es simple: paga solo por lo que ejecutas y deja que el proveedor escale por ti.
 :::
 
----
 
 ## 3. Evolución de la infraestructura
 
@@ -162,10 +152,9 @@ flowchart LR
 | **Serverless** | **El proveedor** | **El proveedor** | **Función** | **Automático** |
 
 :::info Idea clave
-La evolución **físico → VM → contenedor → serverless** es una historia de **abstracción creciente**: cada etapa le quita al desarrollador responsabilidades de infraestructura hasta dejarlo con una sola tarea: escribir código.
+La evolución **Servidor físico → VM → contenedor → serverless** es una historia de **abstracción creciente**: cada etapa le quita al desarrollador responsabilidades de infraestructura hasta dejarlo con una sola tarea: escribir código.
 :::
 
----
 
 ## 4. ¿Qué significa realmente "Serverless"?
 
@@ -206,8 +195,6 @@ flowchart TB
 "Serverless" se refiere a la **experiencia** del desarrollador, no a la tecnología: los servidores existen, pero el proveedor los abstrae por completo. Tú escribes código; el proveedor se ocupa de **todo lo demás**.
 :::
 
----
-
 ## 5. Cómo funciona internamente una arquitectura Serverless
 
 Cuando ocurre un evento, el proveedor debe ejecutar tu función. El proceso interno, simplificado, es:
@@ -239,7 +226,6 @@ flowchart TD
 Internamente, una arquitectura serverless es un **orquestador de entornos de ejecución**: un evento llega → el proveedor encuentra o crea un contenedor → ejecuta tu función → devuelve el resultado → destruye o recicla el entorno → factura y registra todo. Tú solo ves la función.
 :::
 
----
 
 ## 6. Componentes principales
 
@@ -279,7 +265,6 @@ mindmap
 Serverless es un **ecosistema**, no una pieza suelta: funciones (FaaS) + disparadores + servicios gestionados (BaaS) + API Gateway + observabilidad. El valor está en cómo estas piezas se **conectan por eventos**.
 :::
 
----
 
 ## 7. Arquitectura general
 
@@ -322,7 +307,6 @@ sequenceDiagram
 La arquitectura serverless es **evento → función → servicios gestionados**: el API Gateway expone el HTTP, las funciones contienen la lógica y las bases de datos/colas/almacenamiento se consumen como servicios sin servidores propios.
 :::
 
----
 
 ## 8. Modelo de ejecución basado en eventos (Event-Driven)
 
@@ -385,8 +369,6 @@ Gracias a los eventos, los servicios **no se llaman directamente**: publican eve
 Serverless es **nativo de eventos**: tu código no "corre todo el tiempo", reacciona. Los eventos (HTTP, archivos, colas, cron, IoT) llegan, disparan funciones y el sistema se mantiene desacoplado y escalable.
 :::
 
----
-
 ## 9. Cómo escala una función
 
 Cada **invocación simultánea** crea una ejecución nueva. Si llegan 1.000 peticiones a la vez, el proveedor ejecuta tu función **1.000 veces en paralelo**, repartiendo la carga.
@@ -431,8 +413,6 @@ sequenceDiagram
 Serverless escala **de 0 a miles de ejecuciones en paralelo automáticamente**: cada petición simultánea genera una ejecución nueva. No hace falta prever la demanda ni dimensionar servidores: el proveedor lo hace en tiempo real.
 :::
 
----
-
 ## 10. Pago por uso (Pay-as-you-go)
 
 En un servicio FaaS típico (AWS Lambda), se factura:
@@ -451,8 +431,6 @@ Coste ≈ invocaciones × duración × memoria asignada + transferencia de datos
 :::info Idea clave
 Serverless introduce el modelo **pago por ejecución**: sin invocaciones = sin coste. Pero el coste total depende del volumen real, la duración y la memoria; para cargas altas y constantes conviene compararlo con VMs o contenedores antes de decidir.
 :::
-
----
 
 ## 11. Ciclo de vida de una función Serverless
 
@@ -482,8 +460,6 @@ flowchart TD
 :::info Idea clave
 El ciclo de vida de una función es **crear → ejecutar → responder → reciclar**. Los entornos se reutilizan mientras haya tráfico (warm) y se destruyen en reposo. Y recuerda: cada invocación tiene un **tiempo máximo** (15 min en Lambda).
 :::
-
----
 
 ## 12. Cold Start y Warm Start
 
@@ -534,8 +510,6 @@ graph TD
 El **cold start** es la latencia de "primera vez" que paga Serverless por no tener servidores siempre encendidos: el proveedor crea el entorno al vuelo. El **warm start** ocurre cuando el entorno ya está caliente y la ejecución es inmediata. Es la principal desventaja de rendimiento a gestionar.
 :::
 
----
-
 ## 13. Stateless vs Stateful
 
 ### 13.1 Stateless (sin estado)
@@ -566,8 +540,6 @@ Los sistemas **stateful** guardan estado entre llamadas: un servidor con sesione
 Las funciones serverless son **stateless por diseño**: no confían en memoria entre invocaciones. El estado se externaliza a bases de datos, cachés o almacenamiento. Esa es la clave para que el escalado automático funcione sin errores.
 :::
 
----
-
 ## 14. Ventajas y desventajas
 
 ### 14.1 Ventajas
@@ -597,8 +569,6 @@ Las funciones serverless son **stateless por diseño**: no confían en memoria e
 Serverless ofrece **agilidad, escala y coste bajo con poca carga**, a cambio de **control, límites de ejecución y riesgo de vendor lock-in**. La decisión de usarlo es un **análisis de compensaciones**, no una moda.
 :::
 
----
-
 ## 15. Casos de uso reales
 
 - **APIs y backends web/móvil**: REST API con API Gateway + funciones, ideal para arranques.
@@ -611,7 +581,6 @@ Serverless ofrece **agilidad, escala y coste bajo con poca carga**, a cambio de 
 - **ETL y transformación de datos**: mover y transformar datos entre servicios.
 - **Aplicaciones de comercio electrónico**: manejar picos estacionales sin sobreaprovisionar.
 
----
 
 ## 16. Cuándo utilizar Serverless
 
@@ -642,8 +611,6 @@ Serverless ofrece **agilidad, escala y coste bajo con poca carga**, a cambio de 
 Serverless brilla con **cargas variables, funciones cortas y eventos intermitentes**; sufre con **cargas constantes y altas, trabajos largos y requisitos estrictos de control o latencia**. Elegir cuándo usarlo es parte del diseño.
 :::
 
----
-
 ## 18. Buenas prácticas
 
 - **Diseña funciones stateless**: todo el estado en servicios externos.
@@ -658,8 +625,6 @@ Serverless brilla con **cargas variables, funciones cortas y eventos intermitent
 - **Monitoriza desde el día uno**: logs estructurados, métricas personalizadas y alarmas.
 - **Mide los cold starts** antes de optimizar: no los optimices si no son un problema real.
 
----
-
 ## 19. Errores comunes
 
 - **Guardar estado en variables de la función** (memoria entre invocaciones).
@@ -672,8 +637,6 @@ Serverless brilla con **cargas variables, funciones cortas y eventos intermitent
 - **Subir dependencias enormes** que alargan cada invocación.
 - **No probar localmente** y desplegar funciones que fallan en el entorno del proveedor.
 - **Escalar a ciegas**: no configurar límites de concurrencia para evitar facturas sorpresa.
-
----
 
 ## 20. Seguridad en arquitecturas Serverless
 
@@ -705,8 +668,6 @@ Aunque el proveedor gestiona la infraestructura, la seguridad **no desaparece**:
 :::info Idea clave
 Serverless no elimina la seguridad, la **reubica**: el proveedor protege la plataforma y tú proteges **código, datos, permisos y secretos**. El mínimo privilegio y la validación de eventos son tus defensas principales.
 :::
-
----
 
 ## 21. Monitoreo y observabilidad
 
@@ -740,8 +701,6 @@ Sin servidores visibles, **¿cómo sabes qué pasa?** La respuesta: observabilid
 :::info Idea clave
 En Serverless la observabilidad es **tu única ventana al sistema**: métricas, logs y trazas nativas del proveedor (CloudWatch, Application Insights, Cloud Logging). Si no monitorizas invocaciones, errores, duración y coste, estás operando a ciegas.
 :::
-
----
 
 ## 22. Implementaciones en la nube
 
@@ -807,27 +766,3 @@ Cloud Functions (HTTP trigger) → Cloud Firestore
 - **Cloud Functions**: función por evento (HTTP, Cloud Storage, Pub/Sub, Firestore, cron).
 - **Cloud Run**: contenedor "serverless": despliegas una imagen y el proveedor escala los contenedores automáticamente. Es el puente entre contenedores y serverless.
 - **Cloud Pub/Sub**: bus de mensajería que conecta servicios y funciones.
-
----
-
-## 23. Glosario de términos
-
-| Término | Definición |
-|---|---|
-| **Serverless** | Modelo donde el proveedor gestiona la infraestructura y solo se paga por uso. |
-| **FaaS** | Function as a Service: ejecución de funciones bajo demanda. |
-| **BaaS** | Backend as a Service: servicios backend gestionados listos para usar. |
-| **Función (Function)** | Bloque de código ejecutado en respuesta a un evento. |
-| **Trigger / Event source** | Evento que inicia la ejecución de una función. |
-| **Event-Driven** | Modelo donde el sistema reacciona a eventos. |
-| **Cold Start** | Latencia al aprovisionar el entorno la primera vez. |
-| **Warm Start** | Ejecución con entorno ya cargado (sin latencia extra). |
-| **Stateless** | Que no guarda estado entre invocaciones. |
-| **Stateful** | Que conserva estado entre llamadas. |
-| **Idempotencia** | Que repetir la operación produce el mismo resultado. |
-| **Provisioned Concurrency** | Entornos "siempre encendidos" para evitar cold starts. |
-| **Concurrencia** | Número de ejecuciones simultáneas de una función. |
-| **API Gateway** | Servicio que expone funciones como APIs HTTP. |
-| **Vendor lock-in** | Dependencia difícil de migrar de un proveedor. |
-| **Modelo de responsabilidad compartida** | El proveedor asegura la plataforma; tú el código y los datos. |
-| **Observabilidad** | Métricas, logs y trazas para entender el sistema. |

@@ -62,8 +62,6 @@ Sí, un pequeño coste por el salto adicional. Se compensa con caché, agregaci�
 Un API Gateway es la **puerta de enlace de las APIs**: un único componente que recibe todas las peticiones HTTP, las valida, las enruta al servicio correcto y aplica políticas transversales de seguridad, tráfico y observabilidad.
 :::
 
----
-
 ## 2. ¿Por qué surgió la necesidad de un API Gateway?
 
 ### 2.1 La evolución: del monolito a los microservicios
@@ -90,7 +88,7 @@ De repente, el cliente tenía que saber **dónde** estaba cada servicio, **auten
 
 ### 2.2 El problema de exponer servicios "al desnudo"
 
-Exponer cada microservicio directamente a los clientes genera una serie de problemas graves (desarrollados en la siguiente sección): complejidad para el cliente, lógica de seguridad duplicada, falta de control del tráfico, y acoplamiento total entre el frontend y la topología interna.
+Exponer cada microservicio directamente a los clientes genera una serie de problemas graves: complejidad para el cliente, lógica de seguridad duplicada, falta de control del tráfico, y acoplamiento total entre el frontend y la topología interna.
 
 ### 2.3 La solución: un único punto de entrada
 
@@ -104,8 +102,6 @@ El **API Gateway** nació como el componente que **absorbe toda esa complejidad*
 :::info Idea clave
 El API Gateway surge de la necesidad de **unificar la entrada a muchos servicios** y de trasladar la complejidad (seguridad, enrutamiento, control de tráfico) fuera de los clientes y fuera de cada microservicio.
 :::
-
----
 
 ## 3. Problemas de una arquitectura sin API Gateway
 
@@ -152,9 +148,7 @@ flowchart LR
 Sin un API Gateway, cada cliente debe gestionar **por sí mismo** la localización, la autenticación, los formatos y las políticas de cada servicio. Esto multiplica la complejidad, debilita la seguridad y acopla el frontend a la topología interna.
 :::
 
----
-
-## 4. ¿Cómo funciona un API Gateway? Paso a paso
+## 4. ¿Cómo funciona un API Gateway?
 
 El Gateway actúa como un **intermediario inteligente**. Su funcionamiento puede resumirse así:
 
@@ -195,8 +189,6 @@ flowchart TD
 :::info Idea clave
 El API Gateway es un **paso intermedio completo**: no solo reenvía peticiones, sino que ejecuta un **pipeline** de verificación (autenticación → autorización → validación → control de tráfico → enrutamiento → transformación → observabilidad) antes y después de tocar el backend.
 :::
-
----
 
 ## 5. Arquitectura general
 
@@ -279,8 +271,6 @@ flowchart LR
 Con un API Gateway, la topología interna del sistema queda **oculta** detrás de un único punto de entrada. El Gateway habla con todos los microservicios internamente y le presenta al cliente una sola cara: una API unificada.
 :::
 
----
-
 ## 6. Componentes principales
 
 Un API Gateway, por dentro, se compone de varios bloques funcionales:
@@ -315,7 +305,6 @@ flowchart TB
 Un API Gateway no es "una caja mágica": es un **conjunto de componentes** (enrutador, autenticador, controlador de tráfico, caché, terminador TLS, transformador, agregador y observabilidad) que trabajan en cadena sobre cada petición.
 :::
 
----
 
 ## 7. Funciones principales
 
@@ -568,8 +557,6 @@ Access-Control-Allow-Headers: Content-Type, Authorization
 El API Gateway concentra **16 o más responsabilidades transversales**: enrutamiento, proxy, balanceo, autenticación, autorización, rate limiting, throttling, caché, TLS, logging, monitoreo, observabilidad, transformación, versionado, validación y CORS. Al centralizarlas, los microservicios se mantienen simples y enfocados en su lógica de negocio.
 :::
 
----
-
 ## 8. Ventajas y desventajas
 
 ### 8.1 Ventajas
@@ -600,8 +587,6 @@ El API Gateway concentra **16 o más responsabilidades transversales**: enrutami
 El API Gateway resuelve **complejidad de comunicación**, pero introduce **complejidad operativa**. La clave está en centralizar solo lo transversal y mantenerlo escalable y redundante para no convertirlo en el punto débil del sistema.
 :::
 
----
-
 ## 9. Casos de uso reales
 
 | Caso de uso | Cómo ayuda el API Gateway |
@@ -614,8 +599,6 @@ El API Gateway resuelve **complejidad de comunicación**, pero introduce **compl
 | **Backend para apps móviles** | Agregación de respuestas para minimizar llamadas en redes lentas. |
 | **IoT** | Millones de dispositivos con autenticación y rate limiting masivo. |
 | **Estrategia de evolución de APIs** | Versionado y deprecación sin romper clientes. |
-
----
 
 ## 10. API Gateway vs Load Balancer
 
@@ -665,25 +648,7 @@ Cliente → API Gateway (decide QUÉ servicio) → Load Balancer (decide QUÉ in
 Por eso no compiten entre sí: el balanceador resuelve "¿a cuál réplica envío esto?", mientras que el Gateway resuelve "¿a qué servicio pertenece esto, y tiene permiso para acceder?".
 :::
 
-## 11. API Gateway en arquitecturas de microservicios
-
-- Es el **punto de entrada único** al conjunto de microservicios.
-- Los microservicios quedan en la **red interna**, sin exponer puertos al exterior.
-- El Gateway implementa **enrutamiento, agregación, seguridad y observabilidad** para que los servicios sean simples.
-- Se combina con **Service Mesh** para la comunicación interna y con **BFF** para la experiencia de cada cliente.
-
-```mermaid
-flowchart TB
-    C["Clientes (web, móvil, IoT)"] --> GW["API Gateway"]
-    GW --> US["Servicio Usuarios"]
-    GW --> PD["Servicio Pedidos"]
-    GW --> PG["Servicio Pagos"]
-    GW --> NF["Servicio Notificaciones"]
-```
-
----
-
-## 12. API Gateway en arquitecturas Serverless
+## 11. API Gateway en arquitecturas Serverless
 
 En un modelo serverless (AWS Lambda, Azure Functions), el API Gateway es **todavía más importante**, porque no existe un servidor físico que reciba las peticiones:
 
@@ -708,9 +673,7 @@ flowchart LR
 El API Gateway **no es un load balancer, ni un proxy simple**: es una **capa de gestión de APIs en el borde**. Entiende cuándo usar cada concepto: balancea instancias, actúa de proxy, se complementa con el mesh (este-oeste) y puede convivir con BFFs por tipo de cliente.
 :::
 
----
-
-## 13. Buenas prácticas
+## 12. Buenas prácticas
 
 - **Nunca expongas los microservicios directamente**: todo el tráfico debe pasar por el Gateway.
 - **Autentica y autoriza en el borde**: centraliza JWT/OAuth2 y no dupliques la lógica en cada servicio.
@@ -724,35 +687,3 @@ El API Gateway **no es un load balancer, ni un proxy simple**: es una **capa de 
 - **Documenta el contrato** con OpenAPI/Swagger y valida las peticiones contra el esquema.
 - **Usa plantillas/Infrastructure as Code** (Terraform, CloudFormation, Bicep) para definir el Gateway.
 - **Centraliza el manejo de errores**: responde con un formato JSON de error uniforme.
-
----
-
-## 14. Glosario de términos
-
-| Término | Definición |
-|---|---|
-| **API** | Interfaz de programación que permite a dos sistemas comunicarse. |
-| **API Gateway** | Punto de entrada único que enruta, protege y observa las peticiones a los backends. |
-| **Autenticación** | Verificar **quién** es el cliente. |
-| **Autorización** | Verificar **qué** puede hacer el cliente. |
-| **Balanceador de carga** | Componente que reparte tráfico entre instancias del mismo servicio. |
-| **BFF (Backend for Frontend)** | API dedicada a las necesidades de un tipo de cliente. |
-| **Caché** | Almacenamiento temporal de respuestas para evitar consultar el backend. |
-| **CORS** | Cabeceras HTTP que controlan qué orígenes web pueden llamar a la API. |
-| **JWT** | Token firmado que transporta la identidad del usuario. |
-| **Load Balancer** | Ver *Balanceador de carga*. |
-| **Microservicios** | Arquitectura donde cada funcionalidad es un servicio independiente. |
-| **mTLS** | TLS mutuo: ambos extremos se autentican con certificados. |
-| **Norte-sur** | Tráfico entre clientes externos y el sistema. |
-| **Este-oeste** | Tráfico entre servicios internos. |
-| **Observabilidad** | Capacidad de entender el estado interno mediante métricas, logs y trazas. |
-| **OAuth2 / OIDC** | Estándares para autorización y autenticación delegadas. |
-| **Rate limiting** | Límite de peticiones por cliente en un periodo. |
-| **Reverse proxy** | Intermediario que reenvía peticiones ocultando el backend. |
-| **REST** | Estilo de arquitectura de APIs basado en HTTP y recursos. |
-| **Serverless** | Modelo donde el proveedor gestiona los servidores (ej. Lambda). |
-| **Service Mesh** | Capa de comunicación interna entre microservicios (sidecar). |
-| **SPOF** | Single Point of Failure: punto único que, al fallar, tumba el sistema. |
-| **SSL/TLS termination** | Descifrado del tráfico HTTPS en el borde del sistema. |
-| **Throttling** | Ralentización del tráfico para proteger el sistema de sobrecarga. |
-| **TTL (Time To Live)** | Tiempo de validez de una entrada en caché. |

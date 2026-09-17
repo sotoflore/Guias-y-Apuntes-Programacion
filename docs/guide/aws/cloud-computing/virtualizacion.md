@@ -97,65 +97,9 @@ flowchart TD
 La virtualización separa el **hardware físico** del **software** mediante una capa intermedia (el hipervisor). Esto permite ejecutar múltiples sistemas operativos aislados en un solo servidor, aprovechando mejor la infraestructura.
 :::
 
----
+## 2. ¿Cómo funciona la virtualización?
 
-## 2. Historia de la virtualización
-
-### 2.1 ¿Cuándo y por qué nació?
-
-La virtualización **no es un invento reciente del Cloud Computing**. Nació en la década de **1960**, cuando las computadoras eran mainframes extremadamente caros (millones de dólares). Con un coste tan alto, dejarlos inactivos era un desperdicio inaceptable.
-
-- **1965**: IBM lanza **CP-40**, y poco después **CP-67**, que permitían dividir el tiempo de un mainframe entre varios usuarios.
-- **1972**: IBM **VM/370** populariza el concepto: un mainframe que ejecuta varios "sistemas virtuales" a la vez.
-- **Décadas de 1980-1990**: al abaratarse los PC, la virtualización quedó en segundo plano; cada PC corría su propio sistema.
-- **1998-2001**: **VMware** resucita la virtualización para los servidores x86 con VMware Workstation (Tipo 2) y luego ESX (Tipo 1).
-- **2003**: aparece **Xen**, que introduce la **paravirtualización** y se convierte en la base de muchas nubes.
-- **2005-2006**: Intel (**VT-x**) y AMD (**AMD-V**) añaden **extensiones de virtualización al hardware**, eliminando los cuellos de botella de las primeras técnicas.
-- **2007**: **KVM** se integra en el kernel de Linux y se vuelve el estándar abierto para virtualizar.
-- **2008**: Microsoft lanza **Hyper-V**.
-- **2013-2014**: nacen **Docker** (contenedores) y **Kubernetes** (orquestación), una forma más ligera de virtualizar.
-- **2006 en adelante**: los proveedores de nube (AWS EC2 en 2006, Azure en 2010, GCP en 2011) comercializan la virtualización como un servicio bajo demanda: el **Cloud Computing**.
-
-```mermaid
-flowchart LR
-    subgraph Era1["Década de 1960"]
-        A1["Mainframes IBM<br/>CP-67 · VM/370"]
-    end
-    subgraph Era2["2000 - 2005"]
-        B1["VMware ESX"]
-        B2["Xen (paravirtualización)"]
-    end
-    subgraph Era3["2005 - 2010"]
-        C1["Intel VT-x / AMD-V"]
-        C2["KVM en Linux"]
-        C3["Hyper-V"]
-    end
-    subgraph Era4["2013 - hoy"]
-        D1["Docker · Kubernetes"]
-        D2["Cloud público<br/>EC2 · Azure · GCP"]
-    end
-
-    Era1 --> Era2 --> Era3 --> Era4
-```
-
-### 2.2 Problemas que resolvió
-
-| Problema | Solución de la virtualización |
-|---|---|
-| Hardware subutilizado (desperdicio de capacidad) | Consolidación: muchas VM en un solo servidor. |
-| Costes altos de hardware, energía y refrigeración | Menos servidores físicos = menos gasto. |
-| Aprovisionamiento lento (semanas) | Crear una VM en minutos desde plantillas. |
-| Falta de aislamiento entre aplicaciones | Cada VM es un entorno aislado con su propio SO. |
-| Migración y recuperación complejas | Las VM son archivos: fáciles de copiar, mover y restaurar. |
-| Imposibilidad de escalar sin comprar hardware | Agregar vCPU/vRAM o nuevas VM al instante. |
-
-> **Importante**: sin la **virtualización** no existiría el modelo de negocio del cloud. El *multi-tenancy* (muchos clientes compartiendo infraestructura) solo es viable porque cada cliente vive en una VM aislada.
-
----
-
-## 3. ¿Cómo funciona la virtualización?
-
-### 3.1 La capa del hipervisor
+### 2.1 La capa del hipervisor
 
 La virtualización funciona con una pieza de software llamada **hipervisor** (o *Virtual Machine Monitor*, VMM), que se coloca **entre el hardware físico y los sistemas operativos guest**.
 
@@ -166,7 +110,7 @@ Su trabajo es:
 - **Aislar** cada VM para que ninguna interfiera con las demás.
 - **Traducir** las peticiones de hardware de las VM al hardware real.
 
-### 3.2 El problema que resuelve: las instrucciones privilegiadas
+### 2.2 El problema que resuelve: las instrucciones privilegiadas
 
 Los sistemas operativos están diseñados para ejecutarse con **privilegios totales sobre el hardware**. Para hacer posible que varios SO compartan una misma CPU, las arquitecturas modernas definen **niveles de privilegio (anillos)**:
 
@@ -196,7 +140,7 @@ flowchart TD
     style D fill:#FFE082
 ```
 
-### 3.3 Ciclo de vida de una máquina virtual
+### 2.3 Ciclo de vida de una máquina virtual
 
 ```mermaid
 flowchart LR
@@ -223,7 +167,6 @@ Cada VM cree que tiene su propio hardware. En realidad, el hipervisor va **inter
 El **hipervisor** se sitúa entre el hardware y las VM. Intercepta las instrucciones privilegiadas de cada guest, las emula sobre el hardware real y reparte los recursos físicos, manteniendo a todas las VM **aisladas** entre sí.
 :::
 
----
 
 ## 4. Funcionamiento interno: cómo se virtualiza cada recurso
 
@@ -298,8 +241,6 @@ flowchart TD
 El passthrough da el mejor rendimiento, pero **impide** migrar la VM en caliente (live migration), porque la VM queda "pegada" al hardware físico concreto. Se usa solo cuando el rendimiento lo justifica (GPU, HPC, bases de datos de alto rendimiento).
 :::
 
----
-
 ## 5. Técnicas de virtualización de CPU
 
 Existen tres grandes técnicas para virtualizar la CPU. Es un tema clásico de certificaciones:
@@ -335,8 +276,6 @@ Existen tres grandes técnicas para virtualizar la CPU. Es un tema clásico de c
 | Ejemplo histórico | VMware Workstation (BT) | Xen | KVM, Hyper-V |
 
 > **Nota**: en la práctica, los hipervisores modernos **combinan** estas técnicas: asistencia por hardware para CPU y memoria, más drivers paravirtualizados (virtio) para discos y red.
-
----
 
 ## 6. Hipervisores: tipos y funcionamiento interno
 
@@ -419,8 +358,6 @@ flowchart TD
 
 > **Importante**: el hipervisor **no es un sistema operativo completo** (no instala aplicaciones de usuario ni dispone de una interfaz gráfica al uso). Es un software minimalista cuyo único propósito es virtualizar y administrar recursos.
 
----
-
 ## 7. Tipos de virtualización
 
 La virtualización no se limita a los servidores: se puede virtualizar casi cualquier recurso de TI.
@@ -496,8 +433,6 @@ mindmap
 | Aplicaciones | Aplicaciones individuales | App-V, ThinApp |
 | Contenedores | Procesos del SO | Docker, Kubernetes |
 
----
-
 ## 8. Máquinas virtuales vs Contenedores
 
 Los **contenedores** son una forma de virtualización a nivel de sistema operativo: comparten el **kernel del host**, pero aíslan los procesos y el sistema de archivos de cada aplicación.
@@ -547,8 +482,6 @@ flowchart TB
     VMHost --> HV["Hipervisor (ESXi / Hyper-V / KVM)"]
     HV --> HW["Servidor físico"]
 ```
-
----
 
 ## 9. Características operativas de las máquinas virtuales
 
@@ -624,8 +557,6 @@ Distribuye las VMs y sus cargas para **evitar hosts saturados** y hosts ociosos:
 - **Escalado vertical (scale up)**: aumentar los recursos de una VM (más vCPU, más RAM). Requiere reiniciar en muchos casos.
 - **Escalado horizontal (scale out)**: agregar más VMs y repartir el tráfico entre ellas. Es el enfoque preferido en cloud por su elasticidad y tolerancia a fallos.
 
----
-
 ## 10. Ejemplos reales: quién usa cada tecnología
 
 | Tecnología | Tipo | Categoría | ¿Por qué pertenece a esa categoría? |
@@ -668,8 +599,6 @@ mindmap
 
 > **Consejo para estudiar**: instala **VirtualBox** o **VMware Workstation** en tu PC y crea una VM Ubuntu. Luego levanta **Docker** dentro. Habrás tocado personalmente las dos grandes familias: hipervisores y contenedores.
 
----
-
 ## 11. Ventajas y desventajas de la virtualización
 
 ### Ventajas
@@ -692,47 +621,13 @@ mindmap
 - **Licenciamiento**: el software de virtualización empresarial (VMware, etc.) y los SO guest añaden costes.
 - **Sprawl (proliferación)**: es tan fácil crear VMs que sin control se generan "zombis" que consumen recursos de forma invisible.
 
----
-
-## 12. Casos de uso empresariales
-
-### 12.1 Consolidación de centros de datos
-
-Sustituir decenas de servidores físicos semivacíos por unas pocas máquinas potentes que alojan todas las VM. Reduce el footprint del centro de datos y el coste de operación.
-
-### 12.2 Escritorios virtuales y trabajo remoto (VDI)
-
-Los empleados acceden a su escritorio desde cualquier dispositivo y ubicación; la información permanece centralizada y protegida. Ideal para cumplimiento normativo y fuerzas de ventas o soporte.
-
-### 12.3 Entornos de desarrollo y pruebas
-
-Los desarrolladores crean VMs aisladas que reproducen el entorno de producción, prueban versiones, y las destruyen al terminar. Reduce conflictos entre proyectos y acelera la entrega.
-
-### 12.4 Recuperación ante desastres (DR)
-
-Las VM se replican a un sitio secundario y se pueden levantar en minutos. El RTO/RPO se reduce drásticamente frente a la restauración de servidores físicos.
-
-### 12.5 Aplicaciones heredadas (legacy)
-
-Ejecutar sistemas antiguos (Windows XP, bases de datos obsoletas) en hardware moderno dentro de una VM, sin reescribirlos ni mantener hardware viejo.
-
-### 12.6 Multi-tenancy en la nube
-
-El proveedor aísla a millones de clientes sobre su infraestructura compartida usando VMs (la base del negocio de AWS, Azure y GCP).
-
-### 12.7 Plataformas como servicio (PaaS)
-
-Servicios como OpenShift o AKS despliegan contenedores sobre VMs gestionadas, combinando el aislamiento de ambas capas.
-
----
-
-## 13. Virtualización vs Cloud Computing
+## 12. Virtualización vs Cloud Computing
 
 Es la confusión más común entre estudiantes. Vamos a separarlo con claridad:
 
 > **La virtualización es una tecnología.** La **nube (cloud) es un modelo de servicio y negocio** que usa esa tecnología (y otras) como base.
 
-### Relación
+### 12.1 Relación
 
 El Cloud Computing **se apoya en la virtualización**: cuando alquilas una instancia en AWS, Azure o GCP, en realidad recibes una VM creada sobre un servidor físico mucho más grande que comparte sus recursos con otras VMs de forma segura y aislada.
 
@@ -750,7 +645,7 @@ flowchart TB
 
 Cada cliente siente que tiene su propio servidor, aunque todos compartan el mismo hardware físico.
 
-### Diferencias clave
+### 12.2 Diferencias clave
 
 | Criterio | Virtualización | Cloud Computing |
 |---|---|---|
@@ -766,9 +661,8 @@ Cada cliente siente que tiene su propio servidor, aunque todos compartan el mism
 
 > **Importante**: puedes tener **virtualización sin cloud** (un servidor ESXi en tu empresa) y **cloud sin ver la virtualización** (usar una función serverless como AWS Lambda). El cloud añade a la virtualización el autoservicio, la elasticidad, la medición y el pago por uso.
 
----
 
-## 14. Buenas prácticas
+## 13. Buenas prácticas
 
 - **Dimensiona correctamente**: asigna a cada VM solo los recursos que necesita; sobreaprovisionar es tan malo como quedarse corto.
 - **Usa plantillas**: centraliza la configuración del SO, los parches y las herramientas en imágenes maestras.
@@ -782,9 +676,8 @@ Cada cliente siente que tiene su propio servidor, aunque todos compartan el mism
 - **Usa etiquetas y nomenclatura**: identifica propietario, entorno (prod/test/dev) y coste de cada VM para evitar el sprawl.
 - **Considera contenedores** para cargas que no necesiten un SO completo: mayor densidad y menor coste.
 
----
 
-## 15. Errores comunes
+## 14. Errores comunes
 
 - **Pensar que una máquina virtual es un servidor físico.**
 
@@ -818,8 +711,6 @@ Sin monitorización, se llega al *thrashing* y todas las VMs del host se degrada
 
 Es un punto único de fallo. Hay que usar clústeres con HA y reglas de anti-affinity.
 
----
-
 :::info Resumen
 
 - La **virtualización** crea versiones lógicas de recursos físicos y permite ejecutar múltiples sistemas operativos aislados sobre un mismo servidor.
@@ -832,19 +723,3 @@ Es un punto único de fallo. Hay que usar clústeres con HA y reglas de anti-aff
 - La **virtualización es la base tecnológica del Cloud Computing**, pero el cloud es mucho más: autoservicio, elasticidad, medición y pago por uso.
 
 :::
-
-### Glosario rápido
-
-| Término | Definición corta |
-|---|---|
-| **Host** | Servidor físico que aporta los recursos. |
-| **VM (Guest)** | Máquina virtual que corre sobre el host. |
-| **Hipervisor (VMM)** | Software que crea y administra las VMs. |
-| **vCPU / vRAM / vDisk** | Recursos virtuales que ve una VM. |
-| **Full virtualization** | VM sin modificar, con ayuda del hardware. |
-| **Paravirtualización** | SO guest modificado con hypercalls. |
-| **Snapshot** | Estado congelado de una VM para poder revertir. |
-| **Live migration** | Mover una VM sin apagarla (vMotion, Live Migration). |
-| **Overcommitment** | Asignar más recursos virtuales que físicos. |
-| **VDI** | Escritorios virtuales entregados de forma remota. |
-| **Container** | Aislamiento por procesos sobre el kernel del host. |

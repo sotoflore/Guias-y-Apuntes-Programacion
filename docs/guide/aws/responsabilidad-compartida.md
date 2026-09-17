@@ -1,6 +1,6 @@
 ﻿# Modelo de Responsabilidad Compartida de AWS
 
-El **Modelo de Responsabilidad Compartida** (Shared Responsibility Model) es un principio fundamental en el cloud computing que define claramente qué aspectos de la seguridad y la gestión operativa están a cargo del proveedor de servicios en la nube (como AWS, Microsoft Azure o Google Cloud Platform) y cuáles son responsabilidad exclusiva del cliente (la organización o el usuario que utiliza el servicio).
+El **Modelo de Responsabilidad Compartida** (Shared Responsibility Model) es un principio fundamental en el cloud computing que define claramente qué aspectos de la seguridad y la gestión operativa están a cargo del proveedor de servicios en la nube y cuáles son responsabilidad exclusiva del cliente (la organización o el usuario que utiliza el servicio).
 
 En otras palabras:
 
@@ -352,12 +352,12 @@ Base de datos en RDS
 │  Datos                          │ ← Cliente
 │  Configuración de BD            │ ← Cliente
 │  Usuarios de BD                 │ ← Cliente
-│  Parches del motor de BD        │ ← AWS ***
-│  Parches del SO                 │ ← AWS ***
-│  SO (Linux/Windows)             │ ← AWS ***
-│  Copias de seguridad            │ ← AWS ***
-│  Replicación                    │ ← AWS ***
-│  Alta disponibilidad            │ ← AWS ***
+│  Parches del motor de BD        │ ← AWS
+│  Parches del SO                 │ ← AWS
+│  SO (Linux/Windows)             │ ← AWS
+│  Copias de seguridad            │ ← AWS
+│  Replicación                    │ ← AWS
+│  Alta disponibilidad            │ ← AWS
 │  Virtualización + Hardware      │ ← AWS
 └─────────────────────────────────┘
 ```

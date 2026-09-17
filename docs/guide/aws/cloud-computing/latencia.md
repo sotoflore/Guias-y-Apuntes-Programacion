@@ -2,7 +2,7 @@
 
 La latencia es uno de los conceptos más importantes en redes y Cloud Computing. Si la entiendes bien, comprenderás por qué unas aplicaciones responden instantáneamente y otras tardan varios segundos.
 
-## ¿Qué es la latencia?
+## 1. ¿Qué es la latencia?
 
 La **latencia** es el tiempo que tarda un dato en viajar desde un punto de origen hasta un punto de destino y regresar con una respuesta.
 
@@ -21,16 +21,14 @@ Se mide normalmente en **milisegundos (`ms`)** y un **`1`** segundo equivale a *
 - 1000 ms = 1 segundo → Muy lenta
 
 :::tip Ejemplo sencillo
-Supongamos que abres YouTube. Tu computadora envía esta petición: **"Quiero abrir youtube.com"**.
-
-La solicitud viaja por Internet hasta un servidor. El servidor responde: **"Aquí está la página."**
+Supongamos que abres YouTube. Tu computadora envía esta petición: **"Quiero abrir youtube.com"**. La solicitud viaja por Internet hasta un servidor. El servidor responde: **"Aquí está la página."**
 
 ![ejemplo de latencia](/cloud-img/latencia-ejemplo.png)
 
 Todo ese recorrido tiene un tiempo. Ese tiempo es la latencia. Todo ese recorrido se mide en milisegundos.
 :::
 
-### ¿Qué significa una latencia alta?
+### 1.1 ¿Qué significa una latencia alta?
 
 Una **latencia alta** significa que existe un mayor tiempo de espera entre el momento en que un usuario envía una solicitud y el momento en que recibe la respuesta del servidor. 
 
@@ -51,7 +49,7 @@ Desde la perspectiva del usuario, la aplicación puede sentirse lenta, poco flui
 
 > **Ejemplo:** Si una aplicación tiene una latencia de **800 ms (0.8 segundos)**, cada acción del usuario tendrá un retraso perceptible antes de recibir una respuesta.
 
-### ¿Qué significa una latencia baja?
+### 1.2 ¿Qué significa una latencia baja?
 
 Una **latencia baja** significa que el tiempo que tarda una solicitud en llegar al servidor y regresar con una respuesta es muy pequeño. Esto permite que la comunicación entre el usuario y el sistema sea rápida y eficiente.
 
@@ -77,13 +75,13 @@ Desde la perspectiva del usuario, la aplicación se siente **ágil**, **fluida**
 
 > **Ejemplo:** Si una aplicación tiene una latencia de **20 ms**, el usuario percibe que las acciones ocurren prácticamente al instante, proporcionando una experiencia mucho más fluida.
 
-## ¿De qué depende la latencia?
+## 2. ¿De qué depende la latencia?
 
 La latencia no depende únicamente de la velocidad de Internet. El tiempo que tarda una solicitud en viajar desde un dispositivo hasta un servidor y regresar está influenciado por diversos factores físicos y tecnológicos.
 
 Comprender estos factores permite identificar por qué una aplicación puede responder rápidamente en algunos casos y presentar retrasos en otros.
 
-### 1. Distancia entre el usuario y el servidor
+### 2.1 Distancia entre el usuario y el servidor
 
 La **distancia física** es uno de los factores que más influye en la latencia. Cuanto mayor sea la distancia que deben recorrer los datos, mayor será el tiempo de viaje.
 
@@ -99,7 +97,7 @@ Menor distancia = Menor latencia
 * Usuario en Bogotá → Servidor en Bogotá → Latencia baja.
 * Usuario en Bogotá → Servidor en Tokio → Latencia considerablemente mayor.
 
-### 2. Cantidad de saltos (Network Hops)
+### 2.2 Cantidad de saltos (Network Hops)
 
 Los datos no viajan directamente desde el dispositivo del usuario hasta el servidor. En su recorrido pasan por múltiples equipos de red, como **routers**, **switches** y otros dispositivos de comunicación.
 
@@ -115,11 +113,9 @@ Más saltos = Mayor tiempo de recorrido = Mayor latencia
 
 Un paquete que atraviesa 5 routers llegará más rápido que otro que debe atravesar 20 routers para alcanzar el mismo destino.
 
-### 3. Calidad y congestión de la red
+### 2.3 Calidad y congestión de la red
 
-La infraestructura de red también influye significativamente en la latencia.
-
-Cuando una red se encuentra congestionada debido a un gran volumen de tráfico, los paquetes de datos deben esperar antes de ser transmitidos, aumentando el tiempo de respuesta.
+La infraestructura de red también influye significativamente en la latencia. Cuando una red se encuentra congestionada debido a un gran volumen de tráfico, los paquetes de datos deben esperar antes de ser transmitidos, aumentando el tiempo de respuesta.
 
 Una buena analogía es una autopista:
 
@@ -135,7 +131,7 @@ Lo mismo ocurre con los paquetes de datos en una red.
 * Equipos de red sobrecargados.
 * Enlaces de comunicación con poco ancho de banda.
 
-### 4. Tiempo de procesamiento del servidor
+### 2.4 Tiempo de procesamiento del servidor
 
 La latencia no solo depende del tiempo que tardan los datos en viajar por la red. Una vez que la solicitud llega al servidor, este debe procesarla antes de enviar una respuesta.
 
@@ -146,11 +142,9 @@ Si el servidor dispone de suficientes recursos (CPU, memoria y almacenamiento), 
 * Un servidor con baja carga puede responder en pocos milisegundos.
 * Un servidor sobrecargado puede tardar cientos de milisegundos o incluso varios segundos en responder.
 
-### 5. Tipo de conexión de red
+### 2.5 Tipo de conexión de red
 
-No todas las tecnologías de conexión ofrecen la misma latencia.
-
-Algunas están diseñadas para proporcionar respuestas muy rápidas, mientras que otras priorizan la cobertura o el ancho de banda, sacrificando el tiempo de respuesta.
+No todas las tecnologías de conexión ofrecen la misma latencia. Algunas están diseñadas para proporcionar respuestas muy rápidas, mientras que otras priorizan la cobertura o el ancho de banda, sacrificando el tiempo de respuesta.
 
 En términos generales, el comportamiento suele ser el siguiente:
 
@@ -175,7 +169,7 @@ La latencia está determinada por la combinación de varios factores:
 En entornos de **Cloud Computing**, reducir la latencia es uno de los principales objetivos. Por esta razón, los proveedores de servicios en la nube distribuyen sus centros de datos en diferentes regiones del mundo, acercando los recursos a los usuarios y disminuyendo el tiempo de respuesta.
 :::
 
-## ¿Cómo se mide la latencia?
+## 3. ¿Cómo se mide la latencia?
 
 Una vez comprendido qué es la latencia y cuáles son los factores que la afectan, surge una pregunta importante:
 
@@ -185,7 +179,7 @@ Para responder esta pregunta existen diversas herramientas de diagnóstico de re
 
 El objetivo de estas herramientas es medir cuánto tiempo tarda una solicitud en llegar a su destino y cuánto tarda la respuesta en regresar al origen.
 
-### ¿Qué mide realmente la latencia?
+### 3.1 ¿Qué mide realmente la latencia?
 
 Cuando un dispositivo se comunica con un servidor, ocurre el siguiente proceso:
 
@@ -199,7 +193,7 @@ El tiempo total que transcurre desde que se envía la solicitud hasta que se rec
 
 ![mide realmente la latencia](/cloud-img/latencia-medicion.png)
 
-### El Ping
+### 3.2 El Ping
 
 El **ping** es una herramienta de diagnóstico de red utilizada para comprobar si un dispositivo o servidor es accesible y para medir el tiempo que tarda una comunicación en realizar un recorrido de ida y vuelta (Round-Trip Time o RTT). **Ping** envía un pequeño paquete de datos al servidor y espera que este responda. Cuando la respuesta regresa, calcula el tiempo total que tardó el recorrido.
 
@@ -230,7 +224,7 @@ ping google.com
 El **ping** no mide la velocidad de internet ni el ancho de banda. Solo mide el tiempo de respuesta (latencia) entre dos dispositivos.
 :::
 
-### ¿Qué es el RTT (Round-Trip Time)?
+### 3.3 ¿Qué es el RTT (Round-Trip Time)?
 
 El tiempo que muestra Ping recibe el nombre de **Round-Trip Time (RTT)** o **Tiempo de Ida y Vuelta**.
 
@@ -250,7 +244,7 @@ Por esta razón, cuando Ping muestra **18 ms**, significa que **todo el recorrid
 El RTT puede variar en cada medición debido a la congestión de la red, la distancia, la carga del servidor y otros factores.
 :::
 
-### ¿Cómo interpretar el resultado?
+### 3.4 ¿Cómo interpretar el resultado?
 
 No existe un valor universal que determine si una latencia es buena o mala, ya que depende del tipo de aplicación y de la distancia al servidor. Sin embargo, como referencia general:
 
@@ -262,7 +256,7 @@ No existe un valor universal que determine si una latencia es buena o mala, ya q
 |  **100 - 200 ms** | Aceptable. Puede comenzar a percibirse un pequeño retraso.                      |
 | **Más de 200 ms** | Alta. La lentitud puede ser evidente para el usuario.                           |
 
-### Otras herramientas para medir la latencia
+### 3.5 Otras herramientas para medir la latencia
 
 Aunque Ping es la herramienta más utilizada, existen otras utilidades que proporcionan información adicional sobre la comunicación en la red.
 
@@ -273,7 +267,7 @@ Aunque Ping es la herramienta más utilizada, existen otras utilidades que propo
 | **MTR (My Traceroute)**       | Combina Ping y Traceroute para monitorear continuamente la ruta y la latencia.           |
 | **Herramientas de monitoreo** | Permiten medir la latencia de forma continua en servidores y aplicaciones en producción. |
 
-##  Latencia vs Velocidad
+## 4. Latencia vs Velocidad
 
 Es común confundir los conceptos de **velocidad** y **latencia**, ya que ambos están relacionados con el rendimiento de una red. Sin embargo, representan aspectos completamente distintos de la comunicación.
 
@@ -313,7 +307,7 @@ Supongamos que deseas descargar un archivo de **5 GB**.
 ![ejemplo de latencia vs velocidad](/cloud-img/latencia-vs-velocidad-ejemplo_v2.png)
 :::
 
-## ¿Qué aplicaciones necesitan baja latencia?
+## 5. ¿Qué aplicaciones necesitan baja latencia?
 
 Las aplicaciones interactivas requieren una latencia reducida para ofrecer una buena experiencia de usuario, por ejemplo:
 
@@ -326,7 +320,7 @@ Las aplicaciones interactivas requieren una latencia reducida para ofrecer una b
 
 En estos casos, una diferencia de apenas unos pocos milisegundos puede ser perceptible para el usuario.
 
-## ¿Qué aplicaciones necesitan mayor velocidad?
+## 6. ¿Qué aplicaciones necesitan mayor velocidad?
 
 Las aplicaciones que transfieren grandes volúmenes de datos dependen principalmente de una alta velocidad de transmisión, por ejemplo:
 
@@ -338,7 +332,7 @@ Las aplicaciones que transfieren grandes volúmenes de datos dependen principalm
 
 En estos escenarios, una mayor velocidad reduce significativamente el tiempo total de transferencia.
 
-## Tabla Comparativa
+## 7. Tabla Comparativa
 
 | Velocidad                                                        | Latencia                                                          |
 | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
