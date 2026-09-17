@@ -20,7 +20,7 @@ La **infraestructura global de AWS** consta de ubicaciones físicas en todo el m
 
 La **infraestructura de AWS** está diseñada teniendo en cuenta la **alta disponibilidad** y la **tolerancia a errores**. Las zonas de disponibilidad (AZ) se configuran como recursos aislados y cada una de ellas está equipada con alimentación, redes y conectividad.
 
-Se recomienda distribuir los recursos en varias AZ. De este modo, si una AZ sufre una interrupción, sus aplicaciones empresariales seguirán funcionando con normalidad. Con este enfoque de redundancia y aislamiento de recursos, los clientes de AWS pueden obtener los beneficios de la alta disponibilidad y la tolerancia a errores.
+Se recomienda distribuir los recursos en varias zonas de disponibilidad (AZ). De este modo, si una zona de disponibilidad (AZ) sufre una interrupción, sus aplicaciones empresariales seguirán funcionando con normalidad. Con este enfoque de redundancia y aislamiento de recursos, los clientes de AWS pueden obtener los beneficios de la alta disponibilidad y la tolerancia a errores.
 
 ---
 

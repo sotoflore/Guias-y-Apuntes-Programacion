@@ -32,9 +32,7 @@ flowchart LR
     class F success;
 ```
 
-**Ejemplo**
-
-En **`AWS`** puedes crear un servidor EC2 en menos de cinco minutos desde la consola o mediante una API.
+**Por ejemplo**: En **`AWS`** puedes crear un servidor EC2 en menos de cinco minutos desde la consola o mediante una API.
 
 **Beneficios**:
 
@@ -121,9 +119,7 @@ Los recursos pueden aumentar o disminuir automáticamente según la demanda. El 
 
 Todo ocurre en minutos o incluso segundos.
 
-**Ejemplo**
-
-Una tienda en línea recibe:
+**Por ejemplo**: Una tienda en línea recibe:
 
 - 500 usuarios normalmente.
 - 100 000 usuarios durante el Black Friday.
@@ -188,9 +184,7 @@ El proveedor mide continuamente aspectos como:
 
 Con base en estas métricas genera la facturación.
 
-**Ejemplo**
-
-Si utilizas un servidor durante 10 horas, solo pagas esas 10 horas.
+**Por jemplo**: Si utilizas un servidor durante 10 horas, solo pagas esas 10 horas.
 
 **Beneficios**:
 

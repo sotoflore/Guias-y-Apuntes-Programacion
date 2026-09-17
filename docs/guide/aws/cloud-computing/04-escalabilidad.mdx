@@ -1,8 +1,10 @@
+import { Tab, Tabs } from '@rspress/core/theme';
+
 # Escalabilidad en Cloud Computing
 
 La **escalabilidad** es uno de los conceptos más importantes en Cloud Computing. Gracias a ella, las aplicaciones pueden adaptarse automáticamente al aumento o disminución de la demanda, utilizando más o menos recursos según sea necesario.
 
-## ¿Qué es la escalabilidad?
+## 1. ¿Qué es la escalabilidad?
 
 La **escalabilidad** es la capacidad que tiene un sistema, una aplicación o una infraestructura para adaptarse a cambios en la demanda, aumentando o disminuyendo sus recursos sin perder rendimiento, disponibilidad o estabilidad.
 
@@ -12,7 +14,7 @@ En otras palabras, un sistema escalable puede atender a más usuarios, procesar 
 La **escalabilidad** es la capacidad de un sistema para incrementar o reducir su capacidad de procesamiento mediante la incorporación o mejora de recursos computacionales (CPU, memoria, almacenamiento o servidores), con el objetivo de mantener un rendimiento adecuado frente a variaciones en la carga de trabajo.
 :::
 
-### ¿Qué significa "escalar"?
+### 1.1 ¿Qué significa "escalar"?
 
 Escalar significa aumentar o reducir la capacidad de un sistema según la cantidad de trabajo que debe realizar.
 
@@ -37,7 +39,7 @@ La escalabilidad busca que un sistema pueda:
 - Adaptarse al crecimiento del negocio.
 - Optimizar el uso de recursos y los costos.
 
-### ¿Qué recursos se pueden escalar?
+### 1.2 ¿Qué recursos se pueden escalar?
 
 La escalabilidad no solo consiste en agregar servidores. También puede implicar aumentar otros recursos del sistema, como:
 
@@ -47,7 +49,7 @@ La escalabilidad no solo consiste en agregar servidores. También puede implicar
 - **Ancho de banda de red**: para soportar más tráfico.
 - **Número de servidores**: para distribuir la carga de trabajo.
 
-### ¿Qué ocurre si un sistema no es escalable?
+### 1.3 ¿Qué ocurre si un sistema no es escalable?
 
 Cuando un sistema no puede crecer junto con la demanda, suelen aparecer problemas como:
 
@@ -60,13 +62,13 @@ Cuando un sistema no puede crecer junto con la demanda, suelen aparecer problema
 
 **Por ejemplo**, una tienda en línea durante un evento como Black Friday podría perder miles de ventas si su infraestructura no soporta el incremento de visitantes.
 
-## Tipos de escalabilidad
+## 2. Tipos de escalabilidad
 
 Existen dos tipos principales.
 
 ![tipos de escalabilidad](/cloud-img/escalabilidad-tipos.png)
 
-### 1. Escalabilidad Vertical
+### 2.1 Escalabilidad Vertical
 
 Consiste en **incrementar** o **reducir** la capacidad de un único servidor o máquina, agregando o quitando recursos de hardware como: **`CPU`**, Memoria **`RAM`**, Almacenamiento (**`SSD/HDD`**), Potencia de procesamiento, Tarjetas especializadas (**`GPU`**)
 
@@ -75,35 +77,36 @@ En otras palabras:
 
 Por eso se conoce como **Scale Up** (escalar hacia arriba) cuando aumentan los recursos y **Scale Down** (escalar hacia abajo) cuando se reducen.
 
-#### ¿Cómo funciona?
+#### 2.1.1 ¿Cómo funciona?
 
-##### Scale Up
+<Tabs>
+  <Tab label="Scale Up">
+    ![escalabilidad vertical up](/cloud-img/escalabilidad-vertical-up.png)
 
-![escalabilidad vertical up](/cloud-img/escalabilidad-vertical-up.png)
+    Supongamos que tienes un servidor con:
 
-Supongamos que tienes un servidor con:
+    - 2 **`CPU`**
+    - 4 **`GB RAM`**
 
-- 2 **`CPU`**
-- 4 **`GB RAM`**
+    Cuando la aplicación comienza a recibir más usuarios, decides mejorar ese mismo servidor. Después de la actualización tendrá:
 
-Cuando la aplicación comienza a recibir más usuarios, decides mejorar ese mismo servidor. Después de la actualización tendrá:
+    - 8 **`CPU`**
+    - 32 **`GB RAM`**
 
-- 8 **`CPU`**
-- 32 **`GB RAM`**
+    La aplicación sigue siendo exactamente la misma. Lo único que cambió fue la potencia del servidor.
 
-La aplicación sigue siendo exactamente la misma. Lo único que cambió fue la potencia del servidor.
+    ![escalabilidad vertical up](/cloud-img/escalabilidad-vertical-up_v2.png)
+  </Tab>
+  <Tab label="Scale Down">
+    ![escalabilidad vertical down](/cloud-img/escalabilidad-vertical-down.png)
 
-![escalabilidad vertical up](/cloud-img/escalabilidad-vertical-up_v2.png)
+    También es posible reducir los recursos cuando la demanda disminuye.
 
-##### Scale Down
+    ![escalabilidad vertical down](/cloud-img/escalabilidad-vertical-down_v2.png)
+  </Tab>
+</Tabs>
 
-![escalabilidad vertical down](/cloud-img/escalabilidad-vertical-down.png)
-
-También es posible reducir los recursos cuando la demanda disminuye.
-
-![escalabilidad vertical down](/cloud-img/escalabilidad-vertical-down_v2.png)
-
-#### Ventajas y Desventajas
+#### 2.1.2 Ventajas y Desventajas
 
 **Ventajas**
 
@@ -127,7 +130,7 @@ También es posible reducir los recursos cuando la demanda disminuye.
 
 - **Algunas ampliaciones requieren reiniciar**. En determinados entornos es necesario detener la máquina para aumentar memoria o **`CPU`**. Aunque los proveedores cloud permiten hacerlo con menos interrupciones, no siempre es transparente.
 
-#### Casos de uso
+#### 2.1.3 Casos de uso
 
 La escalabilidad vertical suele ser adecuada para:
 
@@ -137,7 +140,7 @@ La escalabilidad vertical suele ser adecuada para:
 - Servidores con baja o media concurrencia.
 - Aplicaciones heredadas (Legacy).
 
-#### ¿Cuándo utilizarla?
+#### 2.1.4 ¿Cuándo utilizarla?
 
 Cuando:
 
@@ -146,7 +149,7 @@ Cuando:
 - se necesita una solución rápida y sencilla,
 - el costo adicional es aceptable.
 
-### 2. Escalabilidad Horizontal
+### 2.2 Escalabilidad Horizontal
 
 Consiste en **aumentar** o **disminuir** el número de servidores que ejecutan la misma aplicación, en lugar de incrementar la potencia de un único servidor. Cada servidor mantiene especificaciones similares, pero el trabajo se reparte entre todos ellos mediante un **balanceador de carga** (Load Balancer).
 
@@ -158,27 +161,28 @@ Este enfoque es la base de la arquitectura de la mayoría de aplicaciones modern
 Consiste en di­s­tri­buir las consultas de los usuarios entre varios se­r­vi­do­res de forma tra­n­s­pa­re­n­te. 
 :::
 
-#### ¿Cómo funciona?
+#### 2.2.1 ¿Cómo funciona?
 
-##### Scale Out
+<Tabs>
+  <Tab label="Scale Out">
+    ![escalabilidad horizontal out](/cloud-img/escalabilidad-horizontal-out.png)
 
-![escalabilidad horizontal out](/cloud-img/escalabilidad-horizontal-out.png)
+    Supongamos que una aplicación comienza con un único servidor. Si la cantidad de usuarios aumenta, en lugar de reemplazar el servidor por uno más potente, se agregan nuevos servidores que ejecutan exactamente la misma aplicación.
 
-Supongamos que una aplicación comienza con un único servidor. Si la cantidad de usuarios aumenta, en lugar de reemplazar el servidor por uno más potente, se agregan nuevos servidores que ejecutan exactamente la misma aplicación.
+    Un **Load Balancer** distribuye automáticamente las solicitudes entre todos los servidores disponibles, evitando que uno solo se sobrecargue. De esta forma, la capacidad total del sistema aumenta gracias al trabajo conjunto de varios servidores.
 
-Un **Load Balancer** distribuye automáticamente las solicitudes entre todos los servidores disponibles, evitando que uno solo se sobrecargue. De esta forma, la capacidad total del sistema aumenta gracias al trabajo conjunto de varios servidores.
+    ![escalabilidad horizontal out](/cloud-img/escalabilidad-horizontal-out_v2.png)
+  </Tab>
+  <Tab label="Scale In">
+    ![escalabilidad horizontal in](/cloud-img/escalabilidad-horizontal-in.png)
 
-![escalabilidad horizontal out](/cloud-img/escalabilidad-horizontal-out_v2.png)
+    Cuando disminuye la demanda, es posible retirar servidores para reducir costes sin afectar el funcionamiento de la aplicación.
 
-##### Scale In
+    ![escalabilidad horizontal in](/cloud-img/escalabilidad-horizontal-in_v2.png)
+  </Tab>
+</Tabs>
 
-![escalabilidad horizontal in](/cloud-img/escalabilidad-horizontal-in.png)
-
-Cuando disminuye la demanda, es posible retirar servidores para reducir costes sin afectar el funcionamiento de la aplicación.
-
-![escalabilidad horizontal in](/cloud-img/escalabilidad-horizontal-in_v2.png)
-
-#### Ventajas y Desventajas
+#### 2.2.2 Ventajas y Desventajas
 
 **Ventajas**
 
@@ -202,7 +206,7 @@ Cuando disminuye la demanda, es posible retirar servidores para reducir costes s
 
 - **Sincronización de datos**. Cuando varios servidores acceden a los mismos datos, es necesario garantizar la consistencia y evitar conflictos.
 
-#### Casos de uso
+#### 2.2.3 Casos de uso
 
 La escalabilidad horizontal es la opción preferida para:
 
@@ -214,7 +218,7 @@ La escalabilidad horizontal es la opción preferida para:
 - Aplicaciones SaaS.
 - Plataformas de videojuegos en línea.
 
-#### ¿Cuándo utilizarla?
+#### 2.2.4 ¿Cuándo utilizarla?
 
 Es recomendable cuando:
 
@@ -223,7 +227,7 @@ Es recomendable cuando:
 - el servicio debe seguir funcionando incluso si un servidor falla,
 - se desea aprovechar la elasticidad y el pago por uso del cloud.
 
-## Escalabilidad Vertical vs Horizontal
+## 3. Escalabilidad Vertical vs Horizontal
 
 | Característica        | Escalabilidad Vertical                            | Escalabilidad Horizontal                       |
 | --------------------- | ------------------------------------------------- | ---------------------------------------------- |
@@ -239,7 +243,7 @@ Es recomendable cuando:
 | Escalado automático   | Limitado                                          | Muy común                                      |
 | Casos de uso          | Monolitos, bases de datos, aplicaciones heredadas | Microservicios, aplicaciones cloud, APIs, SaaS |
 
-## Escalado automático
+## 4. Escalado automático
 
 Una de las mayores ventajas del Cloud Computing es que la escalabilidad puede ser automática.
 
@@ -263,3 +267,118 @@ El sistema ajusta automáticamente la capacidad segun la demanda en tiempo real.
 - Respuesta automática y rápida ente cambios en la demanda
 - Flexibilidad y adaptación continuas
 - Mayor resiliencia y estabilidad del sistema
+
+## 5. Escalabilidad vs Elasticidad
+
+La **escalabilidad** y **elasticidad** están relacionadas, pero no significan exactamente lo mismo.
+
+<Tabs>
+  <Tab label="Escalabilidad (Scalability)">
+    La **escalabilidad** es la capacidad de un sistema para **aumentar o disminuir sus recursos para soportar cambios en la carga de trabajo**.
+
+    La idea principal es:
+
+    > **"Mi aplicación necesita más capacidad → agrego recursos."**
+
+    Puede hacerse de dos formas:
+
+    - **Escalabilidad vertical**. Consiste en aumentar la capacidad de un recurso existente. Es como **hacer más potente una máquina**.
+
+    - **Escalabilidad horizontal**. Consiste en agregar más instancias o recursos. En lugar de hacer una máquina más potente, **agregas más máquinas**.
+  </Tab>
+  <Tab label="Elasticidad (Elasticity)">
+    La **elasticidad** va un paso más allá. Es la capacidad de un sistema para **ajustar automáticamente sus recursos hacia arriba o hacia abajo según la demanda**.
+
+    La palabra clave es:
+
+    > **AUTOMÁTICAMENTE**
+
+    Por ejemplo:
+
+    ```text
+            Demanda
+                ↑
+                │
+            █████████
+            █████████
+            █████████
+                │
+        + instancias
+                ↓
+        ┌────┐ ┌────┐ ┌────┐
+        │ EC2│ │ EC2│ │ EC2│
+        └────┘ └────┘ └────┘
+
+
+            Demanda baja
+                ↓
+
+            ┌────┐
+            │ EC2│
+            └────┘
+    ```
+
+    - Cuando aumenta el tráfico: **AWS agrega recursos.**
+    - Cuando disminuye: **AWS elimina recursos que ya no necesita.**
+
+    Esto permite utilizar los recursos de manera más eficiente.
+  </Tab>
+</Tabs>
+
+:::info Diferencia principal
+
+Puedes verlo así:
+
+| Concepto          | ¿Qué significa?                                   | Palabra clave  |
+| ----------------- | ------------------------------------------------- | -------------- |
+| **Escalabilidad** | Capacidad de aumentar/disminuir recursos          | **Capacidad**  |
+| **Elasticidad**   | Ajustar recursos automáticamente según la demanda | **Automático** |
+
+:::
+
+**Ejemplo sencillo**
+
+Imagina una tienda online. Normalmente tienes:
+
+```text
+10.000 usuarios
+       ↓
+   2 servidores
+```
+
+Durante el Black Friday:
+
+```text
+500.000 usuarios
+       ↓
+   20 servidores
+```
+
+El sistema tiene **escalabilidad**, porque puede aumentar su capacidad. Ahora imagina que AWS detecta automáticamente el aumento:
+
+```text
+Demanda aumenta
+       ↓
+Auto Scaling detecta el aumento
+       ↓
+Agrega servidores
+       ↓
+20 servidores
+```
+
+Después del Black Friday:
+
+```text
+Demanda disminuye
+       ↓
+Auto Scaling detecta la disminución
+       ↓
+Elimina servidores innecesarios
+       ↓
+2 servidores
+```
+
+Eso es **elasticidad**.
+
+
+
