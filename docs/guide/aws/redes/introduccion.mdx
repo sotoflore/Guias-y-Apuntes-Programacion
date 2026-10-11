@@ -51,7 +51,7 @@ Este diagrama representa la estructura de red fundamental de una aplicación des
 
     2. **Región**: Las regiones de AWS son áreas geográficas independientes. Usted elige su región en función de la ubicación geográfica de sus usuarios (a fin de reducir la latencia), los requisitos de cumplimiento y residencia de datos, los servicios disponibles y el costo.
 
-    3. **Amazon VPC**: Representa su virtual aislada y segmentada de forma lógica dentro de AWS donde despliegas tus recursos. Una VPC le ayuda a controlar los recursos y la seguridad de su red.
+    3. **Amazon VPC**: Representa su red virtual aislada y segmentada de forma lógica dentro de AWS donde despliegas tus recursos. Una VPC le ayuda a controlar los recursos y la seguridad de su red.
 
     4. **Zona de Disponibilidad (AZ A y AZ B)**: Son ubicaciones aisladas que constan de uno o varios centros de datos independientes, dentro de una región de AWS que proporcionan redundancia y tolerancia a fallos. Utilizar varias AZ puede proteger sus aplicaciones contra el error de una sola ubicación en la región.
 
@@ -66,7 +66,7 @@ Este diagrama representa la estructura de red fundamental de una aplicación des
   <Tab label="Subredes públicas">
     ![Subredes públicas](/aws/redes/vpc-subredes-publicas.png)
 
-    Las **subredes públicas** están diseñadas para brindar acceso directo a través de internet a los recursos que se encuentran dentro de ellas. Para permitir el acceso, se conectan a una puerta de enlace de internet. Aprenderá más sobre las puertas de enlace de internet en otra lección. En los diagramas, las subredes públicas se representan con cuadros de líneas discontinuas.
+    Las **subredes públicas** están diseñadas para brindar acceso directo a través de internet a los recursos que se encuentran dentro de ellas. Para permitir el acceso, se conectan a una puerta de enlace de internet (internet gateway). En los diagramas, las subredes públicas se representan con cuadros de líneas discontinuas.
   </Tab>
 </Tabs>
 
@@ -76,7 +76,7 @@ Una vez configurados los componentes, los recursos se comunican según las rutas
 
 **Puntos clave**
 
->- Una **VPC tiene alcance regional**: pertenece a una AWS Region y puede contener recursos distribuidos en varias Availability Zones (AZ) de esa Región.
->- Una **subnet tiene alcance de una sola Availability Zone**: cada subnet está asociada a una única AZ y no puede extenderse entre varias AZ.
+>- Una **VPC tiene alcance regional**: pertenece a una AWS Region y puede contener recursos distribuidos en varias zonas de disponibilidad (Availability Zones - AZ) de esa Región.
+>- Una **subnet (subred) tiene alcance de una sola zona de disponibilidad (Availability Zone)**: cada subnet está asociada a una única AZ y no puede extenderse entre varias AZ.
 >- Por lo tanto, una misma VPC puede contener múltiples subnets, distribuidas entre diferentes AZ.
 >- Para diseñar arquitecturas altamente disponibles, normalmente se crean subnets en varias AZ dentro de la misma VPC.

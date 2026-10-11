@@ -110,7 +110,7 @@
     },
     {
         "type": "file",
-        "name": "glossary",
-        "label": "Glosario"
+        "name": "resumen",
+        "label": "Resumen"
     }
 ]

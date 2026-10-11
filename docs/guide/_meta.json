@@ -23,5 +23,10 @@
         "type": "dir-section-header",
         "name": "nestjs",
         "label": "NestJS"
+    },
+    {
+        "type": "dir-section-header",
+        "name": "git",
+        "label": "Git"
     }
 ]

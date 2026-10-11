@@ -76,7 +76,7 @@ Con EC2 (servidores virtuales), el desarrollador debía:
 - La invocación se marca como **fallida** (se genera un error).
 - Según el modelo de invocación:
   - **Síncrono:** El cliente recibe un error (por ejemplo, HTTP 502 de API Gateway).
-  - **Asíncrono:** Lambda puede reintentar (si está configurado) o mover el evento a la dead-letter queue.
+  - **Asíncrono:** Lambda puede reintentar (si está configurado) o mover el evento a la dead-letter queue (cola de mensajes no entregados).
 
 > Si una función tarda demasiado y Lambda la detiene, es porque **superó el timeout configurado**. La solución es aumentar el timeout o optimizar el código.
 
@@ -149,7 +149,7 @@ Con EC2 (servidores virtuales), el desarrollador debía:
     - El almacenamiento efímero.
     - El sistema operativo gestionado por AWS.
 
-    AWS crea el execution environment cuando es necesario y lo reutiliza si es posible (para ejecuciones cercanas en el tiempo). Cuando ya no se necesita, se elimina.
+    AWS crea el execution environment (entorno de ejecución) cuando es necesario y lo reutiliza si es posible (para ejecuciones cercanas en el tiempo). Cuando ya no se necesita, se elimina.
    </Tab>
 </Tabs>
 
@@ -165,7 +165,7 @@ Con EC2 (servidores virtuales), el desarrollador debía:
 Porque Lambda **no mantiene estado entre invocaciones**. Cada invocación es independiente:
 - No puedes guardar variables en memoria y esperar que existan en la siguiente ejecución.
 - No hay una sesión persistente.
-- El execution environment puede reutilizarse, pero no debes asumirlo.
+- El execution environment (entorno de ejecución) puede reutilizarse, pero no debes asumirlo.
 
 **Implicación de arquitectura:** Si necesitas preservar estado (por ejemplo, el contador de visitas, una sesión de usuario), debes guardarlo en un servicio externo: **DynamoDB, S3, ElastiCache, etc.**
 :::
@@ -246,9 +246,9 @@ Porque Lambda **no mantiene estado entre invocaciones**. Cada invocación es ind
 
 - **Fuente de eventos:** El servicio o sistema donde ocurre el evento. Puede ser S3, API Gateway, SNS, SQS, DynamoDB Streams, EventBridge, Cron, etc.
 
-- **Trigger:** El conector que vincula la fuente de eventos con tu función Lambda.
+- **Trigger (Disparador):** El conector que vincula la fuente de eventos con tu función Lambda.
 
-- **Lambda Function:** Tu código ejecutable. Define qué pasa cuando recibe un evento.
+- **Lambda Function (entorno de ejecución):** Tu código ejecutable. Define qué pasa cuando recibe un evento.
 
 - **Execution Environment:** El entorno aislado donde Lambda ejecuta tu código. AWS lo crea y gestiona.
 
@@ -466,9 +466,9 @@ Una función que redimensiona imágenes se invoca asíncronamente (S3). Si la im
 
 AWS Lambda está diseñado para ejecutar funciones de manera **automática y altamente escalable**.
 
-Cuando aumenta la cantidad de eventos, Lambda puede crear más **execution environments** para procesar múltiples invocaciones al mismo tiempo.
+Cuando aumenta la cantidad de eventos, Lambda puede crear más **entornos de ejecución (execution environments)** para procesar múltiples invocaciones al mismo tiempo.
 
-![](/aws/compute/lambda-escalabilidad.jpg)
+![escabilidad](/aws/compute/lambda-escalabilidad.jpg)
 
 Los conceptos más importantes que debes dominar son:
 
@@ -564,7 +564,7 @@ Los conceptos más importantes que debes dominar son:
     **¿Por qué ocurre?** 
     
     Cuando Lambda no ha ejecutado tu función recientemente, debe:
-    1. Crear un nuevo execution environment.
+    1. Crear un nuevo entorno de ejecución (execution environment).
     2. Descargar el runtime.
     3. Cargar tu código.
     4. Inicializar variables y conexiones.
@@ -607,7 +607,7 @@ No debes asumir que un environment permanecerá caliente indefinidamente. Lambda
 :::
 
 Recuerda: 
->Warm = **Lambda reutiliza un execution environment que ya fue inicializado**.
+>Warm = **Lambda reutiliza un entorno de ejecución (execution environment) que ya fue inicializado**.
 
 ## 9. Seguridad de AWS Lambda
 

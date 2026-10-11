@@ -16,7 +16,7 @@ Con **Amazon VPC**, puede aprovisionar una sección aislada de la nube de AWS. E
 
 ### 1.2 Subredes
 
-Dentro de una **Amazon VPC**, puede organizar sus recursos en subsecciones o subredes. Una subred es una sección de una Amazon VPC que puede contener recursos, como instancias de Amazon EC2. Encontrará más información sobre las subredes en la lección siguiente.
+Dentro de una **Amazon VPC**, puede organizar sus recursos en subsecciones o subredes. Una subred es una sección de una Amazon VPC que puede contener recursos, como instancias de Amazon EC2.
 
 **Conectar sus recursos con una puerta de enlace de internet**
 

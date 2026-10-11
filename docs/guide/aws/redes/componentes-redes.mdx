@@ -62,7 +62,7 @@ La **VPC sería la urbanización**. Dentro de ella podemos crear:
 - **Definir el espacio de direcciones IP.**
 - **Segmentar** la red en subnets públicas y privadas.
 - **Controlar** la conectividad hacia/desde Internet y entre redes.
-- **Controlar el acceso** mediante grupos de seguridad y ACLs de red.
+- **Controlar el acceso** mediante grupos de seguridad y ACLs (lista de ontrol de acceso) de red.
 - **Conectar** la red de AWS con redes empresariales (on-premises).
 
 #### 1.1.2 ¿Por qué necesitamos una VPC?
@@ -186,7 +186,7 @@ El tipo de subred viene determinado por cómo configure el enrutamiento para sus
     **Casos de uso**: backends, servidores de aplicación, bases de datos, recursos internos que no deben ser accesibles desde Internet directamente.
   </Tab>
   <Tab label="Solo VPN">
-    estas subredes no tienen conexión directa a Internet, pero se comunican con otras redes y recursos a través de una puerta de enlace privada virtual. Puedes configurar estas subredes para aplicaciones que tú y tu equipo utilicéis internamente y que no deban estar disponibles para el público en general.
+    estas subredes no tienen conexión directa a Internet, pero se comunican con otras redes y recursos a través de una puerta de enlace privada virtual (virtual private gateway). Puedes configurar estas subredes para aplicaciones que tú y tu equipo utilicéis internamente y que no deban estar disponibles para el público en general.
   </Tab>
   <Tab label="Aisladas">
     Las subredes aisladas no están conectadas a nada fuera de su VPC. Solo interactúan con recursos dentro de la misma VPC, por lo que son adecuadas para cargas de trabajo confidenciales.
@@ -201,9 +201,9 @@ En una VPC, las subredes pueden comunicarse entre sí. Por ejemplo, podrías ten
 
 **¿Cómo se determina si una subnet es pública o privada?**
 
-> Una subnet **no es pública** simplemente porque tenga una IP pública disponible. Su carácter público o privado depende principalmente de su **ruta hacia un Internet Gateway (IGW)**.
+> Una subnet **no es pública** simplemente porque tenga una IP pública disponible. Su carácter público o privado depende principalmente de su **ruta hacia una Puerta de enlace a Internet (Internet Gateway - IGW)**.
 >
->AWS define una subnet como **pública** cuando su **tabla de rutas** contiene una **ruta hacia un Internet Gateway**. Una subnet **privada** no tiene dicha ruta directa.
+>AWS define una subnet como **pública** cuando su **tabla de rutas** contiene una **ruta hacia una Puerta de enlace a Internet (Internet Gateway - IGW)**. Una subnet **privada** no tiene dicha ruta directa.
 
 
 **Tabla comparativa**
@@ -221,7 +221,7 @@ En una VPC, las subredes pueden comunicarse entre sí. Por ejemplo, podrías ten
 
 ### 1.3 Tablas de Enrutamiento
 
-Una **Tabla de rutas (Route Table)** es una lista de **rutas** que determinan **hacia dónde debe dirigirse el tráfico** que sale de una subnet. Cada subnet debe estar asociada a una tabla de rutas.
+Una **Tabla de rutas (Route Table)** es una lista de **rutas** que determinan **hacia dónde debe dirigirse el tráfico** que sale de una subred (subnet). Cada subred (subnet) debe estar asociada a una tabla de rutas.
 
 >Las **tablas de enrutamiento** dirigen el tráfico de red mediante reglas específicas, de forma similar a los mapas, para determinar las mejores rutas por las que deben circular los datos.
 
