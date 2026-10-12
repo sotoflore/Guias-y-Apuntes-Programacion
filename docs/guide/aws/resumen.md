@@ -214,7 +214,7 @@ Es un servicio administrado que ***permite ejecutar trabajos de procesamiento po
 
 Es un servicio de nube que ofrece ***servidores privados virtuales (virtual private servers, VPS), almacenamiento, bases de datos y redes*** a un precio mensual predecible. Está orientado especialmente a usuarios que quieren una experiencia más sencilla que trabajar directamente con EC2
 
-**Categoría:**Computación / VPS (servidores virtuales)
+**Categoría:** Computación / VPS (servidores virtuales)
 
 **Clave para el examen:**
 
@@ -860,7 +860,7 @@ Es un servicio administrado que permite ***crear, publicar, proteger, monitorear
 | **Amazon Route 53**         | DNS, dominios y enrutamiento                              | DNS + Routing             |
 | **Amazon CloudFront**       | Distribuir contenido globalmente                          | CDN + Edge                |
 | **AWS Global Accelerator**  | Acelerar tráfico hacia aplicaciones                       | Mejor ruta                |
-| **Amazon Transit Gateway**  | Conectar múltiples VPC y redes                            | Hub de redes*             |
+| **Amazon Transit Gateway**  | Conectar múltiples VPC y redes                            | Hub de redes             |
 | **NAT Gateway**             | Permitir salida a Internet desde subredes privadas        | Privada → Internet        |
 | **Amazon API Gateway**      | Crear y administrar APIs                                  | Puerta de entrada de APIs |
 
@@ -1158,7 +1158,7 @@ Es un servicio de ***almacenamiento en la nube híbrida*** que permite conectar 
 **FSx Windows vs FSx Lustre**
 
 > **FSx Windows** = Windows + SMB + Active Directory.
-> **FSx Lustre** = HPC + Machine Learning + alto rendimiento*.
+> **FSx Lustre** = HPC + Machine Learning + alto rendimiento.
 
 **Storage Gateway vs S3**
 
@@ -1804,7 +1804,7 @@ Servicio que permite ***controlar quién puede acceder a recursos AWS y  qué ac
 La forma más fácil de entender IAM en AWS es pensar que hay 4 piezas diferentes:
 
 - **Usuario** = quién eres. Un **usuario IAM** representa a una persona o identidad específica. **Ejemplo típico de examen**: "Necesitas crear una identidad para un empleado específico."
-- **Grupo** = dónde te clasifican. Un **grupo IAM** sirve para juntar varios usuarios que necesitan permisos similares. Un grupo contiene usuarios. Un grupo no contiene roles ni otros grupos. **Ejemplo típico de examen**: "Una empresa tiene 20 desarrolladores y todos necesitan los mismos permisos."**
+- **Grupo** = dónde te clasifican. Un **grupo IAM** sirve para juntar varios usuarios que necesitan permisos similares. Un grupo contiene usuarios. Un grupo no contiene roles ni otros grupos. **Ejemplo típico de examen**: "Una empresa tiene 20 desarrolladores y todos necesitan los mismos permisos."
 - **Política** = qué puedes hacer. Una **política** es un documento json que define qué acciones están permitidas o denegadas. **Ejemplo típico de examen**: "¿Dónde se especifica que un usuario puede leer objetos de S3?"
 - **Rol** = qué identidad/permiso puedes asumir temporalmente. El **rol IAM** es diferente porque no representa necesariamente a una persona permanente. Un rol es una identidad que puede ser asumida por alguien o algo. **Ejemplo típico de examen**: "Una aplicación ejecutándose en EC2 necesita acceder a S3 sin almacenar credenciales."
 
@@ -3276,7 +3276,7 @@ Es un conjunto de herramientas y servicios de AWS que permite a los desarrollado
 
 ### 11. Amazon Connect
 
-Es un servicio de **centro de contacto en la nube basado en IA que permite a las empresas gestionar la comunicación con sus clientes mediante llamadas telefónicas, chat y otros canales digitales***, sin necesidad de construir y mantener toda la infraestructura tradicional de un centro de llamadas. En palabras sencillas, es como una central de atención al cliente virtual que funciona en la nube y permite gestionar llamadas, atender consultas, crear menús automáticos y utilizar inteligencia artificial para mejorar la experiencia del cliente.
+Es un servicio de ***centro de contacto en la nube basado en IA que permite a las empresas gestionar la comunicación con sus clientes mediante llamadas telefónicas, chat y otros canales digitales***, sin necesidad de construir y mantener toda la infraestructura tradicional de un centro de llamadas. En palabras sencillas, es como una central de atención al cliente virtual que funciona en la nube y permite gestionar llamadas, atender consultas, crear menús automáticos y utilizar inteligencia artificial para mejorar la experiencia del cliente.
 
 **Categoría**: Atención al cliente / Centro de contacto en la nube.
 
