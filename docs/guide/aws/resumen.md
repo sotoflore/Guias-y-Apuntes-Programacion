@@ -2944,13 +2944,55 @@ es una ***familia de dispositivos físicos (Snowcone, Snowball, Snowmobile)*** d
 >
 > **Truco de examen**: Si la pregunta habla de transferir grandes volúmenes de datos mediante dispositivos físicos, piensa en AWS Snow Family.
 
+### 12. AWS Data Transfer Terminal
+
+Es un servicio que ofrece ***ubicaciones físicas seguras (instalaciones de AWS) a las que puedes llevar tus propios dispositivos de almacenamiento*** y conectarlos a una ***red de alta velocidad (hasta 100 Gbps)*** para subir grandes volúmenes de datos a AWS rápidamente. En lugar de esperar días o semanas a que los datos viajen por Internet desde tu oficina, llevas los discos a la terminal, reservas un espacio y cargas la información directamente a servicios como Amazon S3 o Amazon EFS.
+
+>**¿Cómo funciona?**
+>
+>Imagina una productora de cine que acaba de grabar 200 TB de video en discos duros y necesita subirlos a Amazon S3 para editarlos.
+>1. **Reserva**. Desde la consola de AWS reserva una fecha y hora en una Data Transfer Terminal cercana (por ejemplo, en Los Ángeles o Nueva York).
+>2. **Traslado**. Un empleado lleva los discos en persona a la instalación.
+>3. **Conexión**. Conecta sus dispositivos a la red de alta velocidad de la terminal.
+>4. **Carga**. Los datos se suben a Amazon S3 en pocas horas.
+>
+>Los dispositivos son del cliente y vuelven con él; AWS no los envía ni los recibe por mensajería.
+
+**Categoría**: Migración física de datos / Transferencia de datos de alta velocidad
+
+**Clave para el examen**:
+
+- Son ubicaciones físicas de AWS con conexión de red de alta velocidad.
+- El cliente lleva sus propios dispositivos de almacenamiento.
+- Se reserva un horario y se paga por el tiempo de uso del puerto.
+- Permite cargar datos a servicios como Amazon S3 y Amazon EFS.
+- Útil cuando se generan grandes volúmenes de datos fuera de la nube (video, sensores, investigación, vehículos autónomos) y se necesitan en AWS con rapidez.
+
+> **RECUERDA**: AWS Data Transfer Terminal = **llevas tus discos a una instalación de AWS y los subes por una red muy rápida**.
+>
+> **Por ejemplo**: Un equipo de investigación recopila cientos de terabytes de datos en campo y, en lugar de enviarlos por Internet o esperar un dispositivo Snowball, los lleva a una Data Transfer Terminal y los carga en Amazon S3 el mismo día.
+>
+> **Truco de examen**: Si la pregunta menciona llevar tus propios dispositivos de almacenamiento a una ubicación física de AWS para cargar datos a alta velocidad, piensa en AWS Data Transfer Terminal.
+
+**AWS Data Transfer Terminal vs AWS Snow Family vs AWS DataSync**
+
+| Característica           | AWS Data Transfer Terminal                         | AWS Snow Family                                          | AWS DataSync                                  |
+| ------------------------ | -------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------- |
+| ¿Quién pone el hardware? | El cliente (sus propios discos)                    | AWS (envía el dispositivo Snowball)                       | No hay hardware físico, solo red              |
+| ¿Cómo viajan los datos?  | El cliente lleva los discos a una instalación AWS  | El dispositivo se envía por mensajería ida y vuelta      | A través de Internet o Direct Connect         |
+| ¿Dónde se cargan?        | En la terminal, con red de alta velocidad          | En un centro de datos de AWS, cuando llega el dispositivo | Desde tu ubicación, de forma continua         |
+| Velocidad                | Muy rápida (horas)                                 | Lenta por el envío (días)                                | Depende del ancho de banda de tu red          |
+| Procesamiento local      | No                                                 | Sí (Snowball Edge)                                       | No                                            |
+| Ideal para...            | Grandes volúmenes y necesitas subirlos ya          | Grandes volúmenes en lugares remotos o sin conectividad   | Transferencias y sincronizaciones recurrentes |
+
 **Clave para el examen AWS Cloud Practitioner**
 
-| Servicio            | ¿Qué debes recordar?                                                                                             |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| AWS Snow Family     | Dispositivos físicos para transferir grandes volúmenes de datos y realizar procesamiento en ubicaciones remotas. |
-| AWS DataSync        | Transferencia y sincronización automatizada mediante la red.                                                     |
-| AWS Transfer Family | Transferencia de archivos mediante protocolos como SFTP.                                                         |
+| Servicio                   | ¿Qué debes recordar?                                                                                             |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| AWS Snow Family            | Dispositivos físicos para transferir grandes volúmenes de datos y realizar procesamiento en ubicaciones remotas. |
+| AWS Data Transfer Terminal | Ubicaciones físicas de AWS donde llevas tus propios discos para cargar datos a alta velocidad.                   |
+| AWS DataSync               | Transferencia y sincronización automatizada mediante la red.                                                     |
+| AWS Transfer Family        | Transferencia de archivos mediante protocolos como SFTP.                                                         |
 
 # Tabla rápida para el examen
 
@@ -2969,6 +3011,7 @@ es una ***familia de dispositivos físicos (Snowcone, Snowball, Snowmobile)*** d
 | AWS DataSync                        | Transferir y sincronizar archivos y objetos                                         | Mover archivos                            |
 | AWS Transfer Family                 | Transferir archivos mediante SFTP, FTPS, FTP y AS2                                  | Protocolos de transferencia               |
 | AWS Snow Family                     | Transferir datos mediante dispositivos físicos y realizar ciertas tareas en el edge | Grandes volúmenes / conectividad limitada |
+| AWS Data Transfer Terminal          | Cargar datos desde tus propios discos en una ubicación física de AWS                | Llevar tus discos / red de alta velocidad |
 
 **Las diferencias que más conviene memorizar**
 
@@ -2992,6 +3035,11 @@ es una ***familia de dispositivos físicos (Snowcone, Snowball, Snowmobile)*** d
 > **DataSync** = transferencia de datos mediante conectividad de red. 
 >**Snow Family** = dispositivos físicos para transferir grandes volúmenes de datos y, según el dispositivo, ejecutar procesamiento local.
 
+**AWS Snow Family vs AWS Data Transfer Terminal**
+
+> **Snow Family** = AWS te envía un dispositivo, lo llenas con tus datos y lo devuelves por mensajería. 
+>**Data Transfer Terminal** = tú llevas tus propios discos a una instalación de AWS y los cargas en el momento por una red de alta velocidad.
+
 **Palabras clave que debes reconocer en el examen**
 
 | Si la pregunta dice...                                              | Piensa en...                  |
@@ -3006,6 +3054,7 @@ es una ***familia de dispositivos físicos (Snowcone, Snowball, Snowmobile)*** d
 | Transferir archivos automáticamente entre almacenamiento            | AWS DataSync                  |
 | Transferir archivos por SFTP                                        | AWS Transfer Family           |
 | Mover terabytes de datos sin suficiente conectividad                | AWS Snow Family               |
+| Llevar tus propios discos a una ubicación de AWS para cargar datos  | AWS Data Transfer Terminal    |
 | Trasladar una aplicación con cambios mínimos                        | Rehost                        |
 | Optimizar una aplicación sin rediseñarla por completo               | Replatform                    |
 | Rediseñar una aplicación para aprovechar la nube                    | Refactor                      |

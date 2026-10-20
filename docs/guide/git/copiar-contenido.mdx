@@ -1,14 +1,6 @@
 import { Steps } from '@rspress/core/theme';
 
-# Copiar archivos entre repositorios
-
-- git clone https://github.com/AYTECOL/co-hdi-financis-front-app.git
-- cd 'co-hdi-financis-front-app'
-- git checkout feature/EP00-HU00_HU03-UI_Parametrizaciones
-- git remote add origen-demo https://github.com/AYTECOL/hdi-financis-frontend.git
-- git fetch origen-demo feature/demo
-- git checkout origen-demo/feature/demo -- .
-
+# Copiar Archivos Entre Repositorios
 
 Git permite trabajar con repositorios locales y remotos, administrar ramas y transferir cambios entre diferentes versiones de un proyecto.
 
@@ -16,538 +8,128 @@ En ocasiones necesitamos copiar archivos de una rama que pertenece a otro reposi
 
 ## Pasos a seguir
 
+El objetivo es copiar los archivos de la rama `feature/login`, ubicada en el repositorio `frontend`, hacia la rama `feature/H001-login` del repositorio `front-app`, sin realizar una fusión (merge) entre las ramas. Para este procedimiento utilizaremos los siguientes datos:
+
+| Elemento | Valor |
+|---|---|
+| Repositorio de destino | `front-app` |
+| Repositorio de origen | `frontend` |
+| Rama origen de la que se copiarán los archivos | `feature/login` |
+| Rama destino donde se copiarán los archivos | `feature/H001-login` |
+| Nombre del remoto adicional | `origen-app` |
+
+:::warning Importante
+Estos pasos solo copian el contenido de los archivos, pero no fusionan las ramas ni incorporan automáticamente el historial de commits de la rama `feature/login`.
+:::
+
 <Steps>
 
-### Step 1
+### Clonar el repositorio de destino
 
-Content for step 1.
+Primero, debemos clonar el repositorio en el que queremos incorporar los archivos. En este ejemplo, el repositorio de destino es `front-app`. Ejecuta el siguiente comando en la terminal:
 
-### Step 2
+```bash
+# git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/username/front-app.git
+```
 
-> Content for step 2.
+- `git clone` descarga una copia del repositorio remoto a tu equipo.
 
+### Ingresar al directorio del proyecto
+
+Una vez clonado el repositorio, debemos ubicarnos en su directorio para ejecutar comandos de Git. Ejecuta el siguiente comando en la terminal:
+
+```bash
+# cd <NOMBRE_DE_LA_CARPETA>
+cd front-app
+```
+
+- `cd` es un comando de la terminal, no un comando de Git. Permite cambiar el directorio actual para ejecutar comandos dentro de la carpeta del proyecto.
+
+:::warning Importante
+Ejecutar `cd` no modifica archivos ni ramas; únicamente cambia la ubicación desde la que trabajas en la terminal.
+:::
+
+### Cambiar a la rama de destino
+
+Ahora debemos situarnos en la rama donde queremos copiar los archivos: `feature/H001-login`. Para ello ejecutamos el siguiente comando:
+
+```bash
+# git checkout <NOMBRE_DE_LA_RAMA>
+git checkout feature/H001-login
+```
+
+- `git checkout` cambia tu directorio de trabajo a la rama `feature/H001-login`.
+
+:::warning Importante
+La rama debe existir en tu repositorio local. Si todavía no existe, puedes crearla a partir de la rama remota correspondiente o desde la rama base que necesites.
+:::
+
+### Agregar el repositorio de origen como remoto
+
+Para acceder a los archivos del repositorio `frontend`, debemos agregarlo a la configuración de nuestro repositorio local como un remoto adicional. Ejecuta el siguiente comando:
+
+```bash
+# git remote add <ALIAS> <URL_DEL_REPOSITORIO>
+git remote add origin-app https://github.com/username/frontend.git
+```
+
+- `git remote add` agrega un repositorio remoto a la configuración local de Git.
+- `origin-app` es el alias que utilizaremos para identificar el repositorio de origen. `origin-<NAME_ALIAS>` es una convención habitual.
+
+:::info
+El alias puede tener cualquier nombre válido. En este ejemplo utilizamos `origen-app` para distinguirlo del remoto origin, que normalmente corresponde al repositorio `front-app`.
+:::
+
+### Descargar la información de la rama de origen
+
+Una vez configurado el remoto, debemos descargar la información de la rama `feature/login` del repositorio `frontend` ejecutando el siguiente comando:
+
+```bash
+# git fetch <ALIAS_REMOTO> <NOMBRE_DE_LA_RAMA>
+git fetch origin-app feature/login
+```
+
+- `git fetch` descarga información del repositorio remoto sin fusionar sus cambios con tu rama actual.
+- `origen-app` identifica el repositorio del que queremos obtener la información.
+- `feature/login` indica la rama de origen que necesitamos consultar.
+
+### Copiar los archivos de la rama de origen
+
+Este es el paso más importante de todo el procedimiento. Después de ejecutar el siguiente comando, los archivos se copiarán de la rama remota (`feature/login`) a la rama actual (`feature/H001-login`), tomando como referencia el estado de los archivos que existen en `origen-app/feature/login`, sin cambiarte de rama.
+
+```bash
+# git checkout <referencia> -- .
+# git checkout <ALIAS_REMOTE>/<NAME_BRANCH_REMOTE> -- .
+git checkout origin-app/feature/login -- .
+```
+
+- `git checkout` permite recuperar archivos a partir de una referencia de Git.
+- `origen-app/feature/login` identifica la referencia de origen cuyo contenido queremos recuperar.
+- **`--`** separa la referencia de las rutas de archivos.
+- **`.`** indica que queremos recuperar los archivos del directorio actual y sus subdirectorios.
+
+:::warning Importante
+`git checkout <referencia> -- .` El comando puede sobrescribir cambios locales en los archivos seleccionados. Antes de ejecutarlo, revisa el estado del repositorio y guarda o confirma los cambios que quieras conservar.
+
+Además, este comando no elimina necesariamente los archivos que existen únicamente en la rama de destino. Su objetivo es recuperar las rutas seleccionadas desde la referencia de origen, no hacer que ambas ramas queden idénticas.
+:::
+
+### Revisar los cambios realizados
+
+Después de copiar los archivos, debemos comprobar qué cambios se han producido en nuestro repositorio local. Ejecuta el siguiente comando:
+
+```bash
+git status
+```
+
+- `git status` muestra el estado del directorio de trabajo y del área de preparación de Git (*staging area*).
+
+:::warning ¿Cuándo se utiliza?
+Es recomendable ejecutarlo antes y después de copiar archivos, antes de hacer un commit y siempre que quieras saber qué cambios tienes pendientes.
+:::
 </Steps>
 
-## 2. `git clone`: clonar un repositorio
+Los archivos no quedan sincronizados automáticamente: si después se modifica `feature/login`, tendrás que repetir el procedimiento o utilizar otra estrategia para incorporar los cambios nuevos.
 
-### ¿Para qué sirve?
-
-Permite descargar una copia de un repositorio remoto a nuestro equipo para trabajar localmente con el proyecto.
-
-### Sintaxis
-
-```bash
-git clone <URL_DEL_REPOSITORIO>
-```
-
-### Ejemplo
-
-```bash
-git clone https://github.com/usuario/proyecto.git
-```
-
-### ¿Qué hace?
-
-1. Se conecta al repositorio remoto.
-2. Descarga los archivos y el historial de Git necesario para trabajar con el repositorio.
-3. Crea una carpeta local con el nombre del repositorio, salvo que se indique otro.
-4. Configura un remoto llamado `origin` que apunta al repositorio clonado.
-5. Selecciona una rama inicial, normalmente la rama predeterminada del repositorio.
-
-### ¿Cuándo se utiliza?
-
-* Cuando vas a comenzar a trabajar en un proyecto existente.
-* Cuando necesitas una copia local de un repositorio de GitHub.
-* Cuando todavía no tienes el repositorio descargado en tu equipo.
-
----
-
-## 3. `cd`: ingresar a una carpeta
-
-### ¿Para qué sirve?
-
-`cd` es un comando de la terminal, no un comando de Git. Permite cambiar el directorio actual para ejecutar comandos dentro de la carpeta del proyecto.
-
-### Sintaxis
-
-```bash
-cd <NOMBRE_DE_LA_CARPETA>
-```
-
-### Ejemplo
-
-```bash
-cd proyecto
-```
-
-Si la carpeta tiene espacios en su nombre, puedes utilizar comillas:
-
-```bash
-cd "mi proyecto"
-```
-
-### ¿Cuándo se utiliza?
-
-Después de clonar un repositorio, normalmente debes ingresar a su carpeta para ejecutar comandos como `git status`, `git branch` o `git checkout`.
-
-**Importante:** ejecutar `cd` no modifica archivos ni ramas; únicamente cambia la ubicación desde la que trabajas en la terminal.
-
----
-
-## 4. `git checkout`: cambiar de rama o restaurar archivos
-
-`git checkout` tiene diferentes usos. Es importante distinguirlos porque el resultado depende de los argumentos que se utilicen.
-
-### A. Cambiar de rama
-
-#### Sintaxis
-
-```bash
-git checkout <NOMBRE_DE_LA_RAMA>
-```
-
-#### Ejemplo
-
-```bash
-git checkout feature/nueva-funcionalidad
-```
-
-Este comando cambia la rama activa a `feature/nueva-funcionalidad` si la rama existe localmente o puede resolverse según las referencias disponibles.
-
-Al cambiar de rama, Git actualiza los archivos del directorio de trabajo para que correspondan con la versión de esa rama.
-
-Una alternativa moderna para cambiar de rama es:
-
-```bash
-git switch <NOMBRE_DE_LA_RAMA>
-```
-
-### B. Restaurar archivos desde otra rama
-
-#### Sintaxis
-
-```bash
-git checkout <REFERENCIA> -- <RUTA>
-```
-
-#### Ejemplo
-
-```bash
-git checkout otra-rama -- .
-```
-
-Este uso permite restaurar archivos desde `otra-rama` al directorio de trabajo actual.
-
-En el ejemplo:
-
-* `otra-rama` es la rama o referencia de origen.
-* `--` separa la referencia de la ruta.
-* `.` representa el directorio actual y sus archivos versionados correspondientes.
-
-**¿Qué resultado produce?**
-
-Los archivos seleccionados se actualizan en el directorio de trabajo, pero la rama activa no cambia.
-
-Esta operación no crea un commit automáticamente y no integra el historial de la otra rama.
-
-### ¿Cuándo se utiliza?
-
-* Para cambiar de una rama a otra.
-* Para recuperar una versión anterior de un archivo.
-* Para copiar archivos desde otra rama a la rama actual.
-
-> Precaución: si ya tienes modificaciones locales, revisa su estado antes de ejecutar estos comandos. Una operación que sobrescriba cambios locales puede ser rechazada por Git.
-
----
-
-## 5. `git remote add`: agregar un repositorio remoto
-
-### ¿Para qué sirve?
-
-Permite registrar una dirección remota adicional en el repositorio local.
-
-Un repositorio puede tener varios remotos, cada uno identificado por un nombre.
-
-Por ejemplo:
-
-* `origin`: suele representar el repositorio desde el que clonaste.
-* `origen-secundario`: puede representar otro repositorio del que necesitas obtener archivos.
-
-Estos nombres son alias configurables; `origin` es una convención habitual.
-
-### Sintaxis
-
-```bash
-git remote add <ALIAS> <URL_DEL_REPOSITORIO>
-```
-
-### Ejemplo
-
-```bash
-git remote add origen-secundario https://github.com/usuario/otro-proyecto.git
-```
-
-### ¿Qué hace?
-
-Registra la URL del segundo repositorio bajo el alias `origen-secundario`.
-
-Esto permite que, posteriormente, puedas ejecutar comandos como:
-
-```bash
-git fetch origen-secundario
-```
-
-### ¿Qué NO hace?
-
-* No descarga automáticamente los archivos.
-* No fusiona ramas.
-* No cambia la rama actual.
-* No sube cambios al nuevo repositorio.
-
-### ¿Cuándo se utiliza?
-
-Cuando necesitas trabajar desde un repositorio local y consultar información de otro repositorio remoto sin clonar todo el segundo repositorio en otra carpeta.
-
-### Ver los remotos configurados
-
-```bash
-git remote -v
-```
-
-Muestra los alias y sus respectivas direcciones para operaciones de descarga (*fetch*) y publicación (*push*).
-
----
-
-## 6. `git fetch`: obtener información de un repositorio remoto
-
-### ¿Para qué sirve?
-
-Permite descargar objetos y referencias de un repositorio remoto sin integrar automáticamente sus cambios en la rama actual.
-
-### Sintaxis
-
-```bash
-git fetch <ALIAS_REMOTO>
-```
-
-Para solicitar una rama específica:
-
-```bash
-git fetch <ALIAS_REMOTO> <NOMBRE_DE_LA_RAMA>
-```
-
-### Ejemplo
-
-```bash
-git fetch origen-secundario feature/demo
-```
-
-### ¿Qué hace?
-
-1. Contacta con el repositorio remoto identificado por el alias.
-2. Descarga los objetos necesarios para obtener los commits y archivos solicitados.
-3. Actualiza la información de referencias que corresponda a la operación.
-
-Cuando se solicita una rama específica, la referencia `FETCH_HEAD` permite acceder al commit obtenido. Según cómo se invoque `git fetch` y cómo esté configurado el repositorio, puede que no se cree o actualice una referencia remota persistente con el nombre esperado.
-
-Si quieres crear explícitamente una referencia remota para reutilizarla:
-
-```bash
-git fetch origen-secundario feature/demo:refs/remotes/origen-secundario/feature/demo
-```
-
-### ¿Qué NO hace?
-
-* No cambia automáticamente la rama activa.
-* No fusiona los cambios con tu rama actual.
-* No modifica automáticamente los archivos de trabajo.
-* No publica cambios en GitHub.
-
-### ¿Cuándo se utiliza?
-
-* Para consultar las últimas actualizaciones de otro repositorio.
-* Para obtener los commits de una rama remota.
-* Antes de comparar, fusionar o copiar archivos desde una rama remota.
-
-### Diferencia entre `fetch` y `pull`
-
-| Comando     | Función                                                                                                                                |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `git fetch` | Descarga información del remoto sin integrar automáticamente sus cambios en la rama actual.                                            |
-| `git pull`  | Descarga información y luego integra los cambios en la rama actual mediante la estrategia configurada, normalmente *merge* o *rebase*. |
-
----
-
-## 7. `git checkout <referencia> -- .`: copiar archivos desde otra referencia
-
-### ¿Para qué sirve?
-
-Permite restaurar archivos de una rama o referencia específica sobre el directorio de trabajo de la rama actual.
-
-Es útil cuando necesitas copiar contenido de otra rama sin cambiar de rama y sin realizar una fusión.
-
-### Sintaxis
-
-```bash
-git checkout <REFERENCIA> -- <RUTA>
-```
-
-### Ejemplo: copiar todos los archivos seleccionados
-
-```bash
-git checkout origen-secundario/feature/demo -- .
-```
-
-### ¿Qué significa cada parte?
-
-| Elemento                         | Significado                                                                              |
-| -------------------------------- | ---------------------------------------------------------------------------------------- |
-| `git checkout`                   | Ejecuta la operación de restauración de archivos.                                        |
-| `origen-secundario/feature/demo` | Especifica la referencia desde la que se obtendrá el contenido.                          |
-| `--`                             | Separa la referencia de las rutas de archivos.                                           |
-| `.`                              | Selecciona las rutas del directorio actual y sus subdirectorios que Git puede restaurar. |
-
-### ¿Qué sucede después de ejecutarlo?
-
-* Los archivos seleccionados se actualizan con el contenido de la referencia de origen.
-* La rama actual sigue siendo la misma.
-* Los cambios quedan en el directorio de trabajo.
-* No se crea automáticamente un commit.
-* No se integra el historial de commits de la rama de origen.
-
-**Importante:** este comando no equivale a sincronizar completamente dos directorios. Los archivos que existen únicamente en la rama de destino no se eliminan automáticamente solo porque no existan en la referencia de origen.
-
-Además, para que la operación funcione, la referencia indicada debe existir localmente. Puedes verificar las referencias remotas con:
-
-```bash
-git branch -r
-```
-
-### ¿Cuándo se utiliza?
-
-* Para copiar componentes desde otra rama.
-* Para recuperar archivos de otra versión del proyecto.
-* Para traer archivos desde otro repositorio registrado como remoto.
-* Cuando no necesitas fusionar las ramas ni incorporar sus historiales.
-
----
-
-## 8. `git status`: consultar el estado del repositorio
-
-### ¿Para qué sirve?
-
-Muestra el estado del directorio de trabajo y del área de preparación de Git (*staging area*).
-
-### Sintaxis
-
-```bash
-git status
-```
-
-### ¿Qué información muestra?
-
-* La rama en la que estás trabajando.
-* Los archivos modificados.
-* Los archivos nuevos que Git detecta como no rastreados.
-* Los cambios preparados para el próximo commit.
-* Información sobre diferencias con la rama remota de seguimiento, cuando corresponde.
-
-### ¿Cuándo se utiliza?
-
-Es recomendable ejecutarlo antes y después de copiar archivos, antes de hacer un commit y siempre que quieras saber qué cambios tienes pendientes.
-
----
-
-## 9. `git diff`: revisar diferencias
-
-### ¿Para qué sirve?
-
-Permite visualizar qué contenido ha cambiado entre las versiones comparadas.
-
-### Comandos principales
-
-Ver las modificaciones que todavía no están preparadas para el commit:
-
-```bash
-git diff
-```
-
-Ver los cambios que ya están preparados:
-
-```bash
-git diff --cached
-```
-
-Mostrar un resumen de los archivos modificados:
-
-```bash
-git diff --stat
-```
-
-### ¿Cuándo se utiliza?
-
-* Para verificar qué archivos cambiaron después de copiar contenido.
-* Para revisar modificaciones antes de guardar un commit.
-* Para detectar cambios inesperados.
-
----
-
-## 10. `git add`: preparar los cambios
-
-### ¿Para qué sirve?
-
-Añade cambios al área de preparación (*staging area*), que contiene los cambios que se incluirán en el próximo commit.
-
-### Sintaxis
-
-```bash
-git add <RUTA>
-```
-
-Para preparar todos los cambios detectados bajo el directorio actual:
-
-```bash
-git add .
-```
-
-### ¿Qué hace?
-
-Marca los cambios seleccionados para que puedan incluirse en el próximo commit.
-
-`git add` no crea un commit ni sube los archivos al repositorio remoto.
-
-### ¿Cuándo se utiliza?
-
-Después de revisar los cambios y decidir cuáles quieres incluir en el siguiente commit.
-
----
-
-## 11. `git commit`: guardar los cambios en el historial
-
-### ¿Para qué sirve?
-
-Crea un commit en el repositorio local, registrando los cambios que previamente se prepararon con `git add`.
-
-### Sintaxis
-
-```bash
-git commit -m "mensaje del commit"
-```
-
-### Ejemplo
-
-```bash
-git commit -m "feat: agregar nuevos componentes"
-```
-
-### ¿Qué hace?
-
-* Registra los cambios preparados.
-* Crea un punto en el historial del repositorio.
-* Asocia el commit con un mensaje descriptivo.
-
-### ¿Qué NO hace?
-
-No publica los cambios en GitHub. Para eso se utiliza `git push`.
-
----
-
-## 12. `git push`: publicar cambios en un repositorio remoto
-
-### ¿Para qué sirve?
-
-Envía commits locales a un repositorio remoto, actualizando la rama remota de destino si las condiciones lo permiten.
-
-### Sintaxis
-
-```bash
-git push <ALIAS_REMOTO> <RAMA>
-```
-
-### Ejemplo
-
-```bash
-git push origin feature/nueva-funcionalidad
-```
-
-### ¿Qué hace?
-
-Intenta publicar los commits de la rama local indicada en la rama correspondiente del repositorio remoto.
-
-Necesitas permisos de escritura y debes tener en cuenta las políticas de protección de ramas y los posibles conflictos de historial.
-
-### ¿Cuándo se utiliza?
-
-Después de crear uno o varios commits que quieres compartir con el equipo o publicar en GitHub.
-
----
-
-## 13. Flujo general para copiar archivos entre repositorios
-
-Este es un ejemplo genérico del procedimiento completo:
-
-```bash
-# 1. Clonar el repositorio principal
-git clone <URL_REPOSITORIO_PRINCIPAL>
-
-# 2. Entrar a la carpeta del proyecto
-cd <CARPETA_DEL_PROYECTO>
-
-# 3. Cambiar a la rama de trabajo
-git checkout <RAMA_DESTINO>
-
-# 4. Agregar el segundo repositorio remoto
-git remote add <ALIAS_REMOTO> <URL_SEGUNDO_REPOSITORIO>
-
-# 5. Descargar una rama del segundo repositorio
-git fetch <ALIAS_REMOTO> <RAMA_ORIGEN>:refs/remotes/<ALIAS_REMOTO>/<RAMA_ORIGEN>
-
-# 6. Copiar los archivos desde la rama de origen
-git checkout <ALIAS_REMOTO>/<RAMA_ORIGEN> -- .
-
-# 7. Revisar los cambios
-git status
-git diff
-
-# 8. Preparar los cambios que quieres guardar
-git add .
-
-# 9. Crear un commit
-git commit -m "chore: copiar archivos desde otra rama"
-```
-
-Los valores entre `< >` son marcadores de posición: debes sustituirlos por las URL, ramas, alias y carpetas reales. El paso 5 utiliza una especificación explícita para crear una referencia remota que pueda utilizarse en el paso 6.
-
-El último paso, `git commit`, es opcional si solo necesitas copiar y revisar los archivos.
-
----
-
-## 14. Resumen rápido de los comandos
-
-| Comando                               | Función principal                                                                     |
-| ------------------------------------- | ------------------------------------------------------------------------------------- |
-| `git clone`                           | Clona un repositorio remoto en el equipo local.                                       |
-| `cd`                                  | Cambia el directorio actual de la terminal.                                           |
-| `git checkout <rama>`                 | Cambia a una rama.                                                                    |
-| `git checkout <referencia> -- <ruta>` | Restaura archivos desde una referencia.                                               |
-| `git remote add`                      | Registra un repositorio remoto adicional.                                             |
-| `git remote -v`                       | Muestra los remotos configurados.                                                     |
-| `git fetch`                           | Descarga información del repositorio remoto sin integrar automáticamente sus cambios. |
-| `git branch -r`                       | Muestra las ramas remotas conocidas localmente.                                       |
-| `git status`                          | Muestra el estado de los cambios.                                                     |
-| `git diff`                            | Muestra diferencias entre archivos.                                                   |
-| `git add`                             | Prepara cambios para el próximo commit.                                               |
-| `git commit`                          | Registra los cambios preparados en el historial local.                                |
-| `git push`                            | Publica commits en un repositorio remoto.                                             |
-| `git pull`                            | Descarga e integra cambios de un remoto en la rama actual.                            |
-
-## 15. Concepto clave para recordar
-
-La diferencia más importante es que **descargar, copiar, guardar y publicar son operaciones distintas**:
-
-1. `git fetch`: obtiene información del remoto.
-2. `git checkout <referencia> -- .`: restaura archivos desde una referencia.
-3. `git add` y `git commit`: preparan y guardan los cambios en el historial local.
-4. `git push`: publica los commits en un repositorio remoto.
-
-Entender estas diferencias te permite trabajar con varios repositorios sin confundir la copia de archivos con la integración de ramas o la publicación de cambios.
+Este procedimiento es útil cuando necesitas reutilizar archivos de otra rama o repositorio sin fusionar sus ramas ni incorporar directamente sus cambios al historial mediante un merge.
