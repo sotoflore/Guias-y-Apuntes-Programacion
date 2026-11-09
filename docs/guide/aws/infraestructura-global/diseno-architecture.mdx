@@ -1,0 +1,29 @@
+# Diseño de arquitecturas de alta disponibilidad
+
+## 1. Implementación de recursos multirregionales y multi-AZ
+
+Aprendió cómo la implementación de sus recursos de nube en varias regiones puede lograr una alta disponibilidad. Además de implementar en varias regiones, también se recomienda implementar recursos en varias zonas de disponibilidad. Al crear arquitecturas redundantes o replicar sus recursos en varios niveles de la infraestructura de AWS, puede mejorar la fiabilidad de las aplicaciones para que los usuarios tengan acceso a su contenido cuando lo necesiten.
+
+Además de la alta disponibilidad, la infraestructura global de AWS también le ayuda a conseguir agilidad y elasticidad para su empresa. Analicemos la diferencia entre estas ventajas:
+
+- **Alta disponibilidad**: la alta disponibilidad se refiere a la capacidad de un sistema para funcionar de forma continua sin fallar. En el contexto de la infraestructura de AWS, esto significa que sus aplicaciones pueden gestionar los errores de los componentes individuales sin un tiempo de inactividad significativo.
+
+- **Agilidad**: la agilidad se refiere a la capacidad de adaptarse rápidamente a los requisitos cambiantes o a las condiciones del mercado. Al implementar la infraestructura de AWS, puede modificar e implementar los servicios rápidamente.
+
+- **Elasticidad**: la elasticidad se refiere a la capacidad de un sistema para reducir o escalar verticalmente los recursos de forma automática en respuesta a los cambios en la demanda. La infraestructura de AWS está configurada para que pueda reducir o escalar verticalmente los recursos según la demanda.
+
+## 2. Ubicaciones periféricas
+
+Además de las regiones de AWS que contienen zonas de disponibilidad, AWS cuenta con una red periférica global que proporciona un acceso más rápido al contenido a los usuarios que se encuentran fuera de las regiones estándar. Estas ubicaciones periféricas están ubicadas estratégicamente en áreas como Atlanta (Georgia, EE. UU.) o Shanghái (China) para proporcionar un acceso de baja latencia a los servicios de AWS y la entrega de contenido. Las ubicaciones periféricas ofrecen varios servicios para trabajar más cerca de los usuarios finales, incluidos los servicios de redes de AWS, como Amazon CloudFront. CloudFront es una red de entrega de contenido (content delivery network, CDN) y un sistema de almacenamiento en caché. Obtendrá más información al respecto más adelante en esta formación.
+
+## 3. Elementos clave de la infraestructura global de AWS
+
+La relación entre las regiones, las zonas de disponibilidad y las ubicaciones periféricas.
+
+![elementos-clave-infraestructura-global](/aws/elementos-clave-infraestructura-global.png)
+
+1. **Regiones de AWS**. Las regiones son áreas geográficas de todo el mundo que se componen de varios centros de datos. Estos centros de datos proporcionan una infraestructura escalable y redundante para alojar servicios en la nube. Cada región se compone de varias ubicaciones aisladas conocidas como zonas de disponibilidad. Cada región tiene tres o más zonas de disponibilidad.
+
+2. **Zonas de disponibilidad**. Las zonas de disponibilidad son ubicaciones distintas dentro de una región, cada una diseñada como una zona independiente con su propia alimentación, red y conectividad. Las zonas de disponibilidad mantienen una alta disponibilidad y tolerancia a errores para las aplicaciones. Cada zona de disponibilidad consta de uno o más centros de datos.
+
+3. **Ubicaciones periféricas**. Las ubicaciones periféricas son sitios ubicados estratégicamente en todo el mundo que almacenan contenido en caché para entregar datos, videos y aplicaciones con una latencia más baja y velocidades de transferencia más altas. Estas ubicaciones se consideran una parte vital de la red de entrega de contenido (CDN) de AWS y utilizan servicios como CloudFront para distribuir los datos de manera eficiente a los usuarios finales.

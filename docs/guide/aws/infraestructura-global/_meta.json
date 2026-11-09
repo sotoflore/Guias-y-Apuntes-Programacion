@@ -16,6 +16,11 @@
     },
     {
         "type": "file",
+        "name": "diseno-architecture",
+        "label": "Diseño de Arquitecturas"
+    },
+    {
+        "type": "file",
         "name": "infraestructura-automatizaciom",
         "label": "Infraestructura y automatización"
     }

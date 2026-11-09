@@ -231,6 +231,8 @@ Aunque no es un modelo de implementación física, el enfoque multi-nube implica
 
 ![multi-nube](/aws/cloud-img/modelos-despliegue-multi-cloud.jpg)
 
+>Las implementaciones multinube también se pueden considerar implementaciones híbridas.
+
 ## 4. Comparación entre modelos de despliegue
 
 | Criterio | Pública | Privada | Híbrida | Comunitaria |
