@@ -3,5 +3,10 @@
         "type": "file",
         "name": "copiar-contenido",
         "label": "Copiar archivos entre repositorios"
+    },
+    {
+        "type": "file",
+        "name": "configurar-cuentas",
+        "label": "Configuar cuentas con SSH"
     }
 ]

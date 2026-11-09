@@ -1,0 +1,273 @@
+import { Steps } from '@rspress/core/theme';
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Configurar Cuentas de GitHub en una misma PC
+
+**GitHub** permite trabajar con múltiples cuentas desde una misma computadora. Por ejemplo, podemos tener una cuenta de GitHub empresarial para desarrollar proyectos de una compañía y otra cuenta personal para administrar nuestros propios repositorios.
+
+El problema aparece cuando queremos utilizar ambas cuentas en una misma PC, ya que Git necesita saber con qué credenciales debe autenticarse y qué identidad debe utilizar al registrar los commits.
+
+Para solucionar esto, podemos configurar dos cuentas de GitHub utilizando **claves SSH independientes**, de manera que podamos trabajar con ambas sin cerrar sesión, cambiar de usuario o modificar constantemente nuestras credenciales.
+
+En este tutorial aprenderemos a configurar ambas cuentas paso a paso, utilizando Git Bash en Windows.
+
+## Pasos a seguir
+
+Nuestro objetivo será conseguir que GitHub identifique automáticamente qué cuenta debe utilizar dependiendo del repositorio en el que estemos trabajando. Imaginemos que tenemos dos cuentas de GitHub:
+
+| Característica | Cuenta empresarial       | Cuenta personal       |
+| -------------- | ------------------------ | --------------------- |
+| Usuario        | `usuario-empresa`        | `usuario-personal`    |
+| Correo         | `dev@empresa.com`        | `personal@gmail.com`  |
+| Clave SSH      | `id_ed25519_empresa`     | `id_ed25519_personal` |
+| Alias SSH      | `github-empresa`         | `github-personal`     |
+| Proyectos      | Proyectos de la compañía | Proyectos propios     |
+
+Por ejemplo:
+
+- Si trabajamos en un proyecto empresarial, utilizaremos la cuenta de la empresa.
+- Si trabajamos en un proyecto personal, utilizaremos nuestra cuenta personal.
+
+Así quedará nuestra configuración:
+
+```txt
+MI PC
+│
+├── Cuenta empresarial
+│   ├── Usuario: usuario-empresa
+│   ├── Correo: dev@empresa.com
+│   ├── Clave: id_ed25519_empresa
+│   └── Alias: github-empresa
+│
+└── Cuenta personal
+    ├── Usuario: usuario-personal
+    ├── Correo: personal@gmail.com
+    ├── Clave: id_ed25519_personal
+    └── Alias: github-personal
+```
+
+<Steps>
+
+### Verificar la configuración actual
+
+Primero debemos identificar qué configuración tenemos actualmente. Abrimos Git Bash y ejecutamos:
+
+```bash
+git config --global user.name
+git config --global user.email
+```
+
+Después verificamos las claves SSH existentes:
+
+```bash
+ls -la ~/.ssh
+```
+:::warning Importante
+Si ya tienes una clave SSH empresarial, no la elimines ni la sobrescribas. Vamos a conservarla.
+:::
+
+### Crear una clave SSH
+
+Generamos una nueva clave SSH para nuestra cuenta personal y nuestra cuenta empresarial. Abre una terminal (en Windows, usa Git Bash) y ejecuta:
+
+<Tabs groupId="claves">
+  <Tab label="Clave SSH personal">
+    ```bash
+    ssh-keygen -t ed25519 -C "personal@gmail.com" -f ~/.ssh/id_ed25519_personal
+    ```
+    Con esto crearemos dos archivos:
+
+    - `id_ed25519_personal`: clave privada.
+    - `id_ed25519_personal.pub`: clave pública.
+ </Tab>
+  <Tab label="Clave SSH empresarial">
+    ```bash
+    ssh-keygen -t ed25519 -C "dev@empresa.com" -f ~/.ssh/id_ed25519_empresa
+    ```
+    Con esto crearemos dos archivos:
+
+    - `id_ed25519_empresa`: clave privada.
+    - `id_ed25519_empresa.pub`: clave pública.
+  </Tab>
+</Tabs>
+
+### Agregar la clave pública a GitHub
+
+Copia el contenido de la llave públicas para las diferentes cuentas de GitHub. Para ello ejeucta el siguiente comando, que mostrara la información correspondiente para copiar.
+
+<Tabs groupId="claves">
+  <Tab label="Clave personal">
+    ```bash
+    cat ~/.ssh/id_ed25519_personal.pub
+    ```
+ </Tab>
+  <Tab label="Clave empresarial">
+     ```bash
+    cat ~/.ssh/id_ed25519_empresa.pub
+    ```
+  </Tab>
+</Tabs>
+
+Ahora ingresamos a nuestra cuentas de GitHub:
+
+1. Vamos a **Settings**.
+2. Seleccionamos **SSH and GPG keys**.
+3. Presionamos **New SSH key**.
+4. En **Title** escribimos `PC Personal` para cuenta personal y `PC empresa` para cuenta empresarial.
+5. En **Key type** seleccionamos `Authentication Key`.
+6. Pegamos nuestra clave pública.
+7. Presionamos **Add SSH key**.
+
+### Configura el archivo config
+
+Ahora configuraremos la cuenta para que SSH sepa qué clave utilizar. Creamos el archivo de configuración si todavía no existe, si en caso existe solo abre y editalo (en Windows está en `C:\Users\TuUsuario\.ssh\config`).
+
+```bash
+touch ~/.ssh/config
+```
+
+Lo abrimos:
+
+```bash
+notepad ~/.ssh/config
+```
+
+Agregamos lo siguiente:
+
+```txt
+# Cuenta personal
+Host github-personal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_personal
+    IdentitiesOnly yes
+
+# Cuenta empresarial
+Host github-empresa
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_empresa
+    IdentitiesOnly yes
+```
+
+¿Qué significa cada propiedad?
+
+- `Host`. Es el alias que nosotros inventamos para identificar la cuenta.
+- `HostName`. Es el servidor real al que nos conectaremos. En este caso, GitHub.
+- `User`. Es el usuario SSH que utiliza GitHub. Siempre es git, no nuestro nombre de usuario.
+- `IdentityFile`. Indica qué clave privada debe utilizar SSH para autenticarse.
+- `IdentitiesOnly yes`. Obliga a SSH a utilizar la clave especificada para ese alias, evitando que pruebe otras claves disponibles.
+
+:::info Nota
+Si tu clave empresarial tiene otro nombre, reemplaza `id_ed25519_empresa` por el nombre real de tu clave privada.
+:::
+
+### Verificar las conexiones
+
+Comprobamos que ambas cuentas funcionan correctamente, cada una debería saludarte con el nombre de usuario correcto.
+
+<Tabs groupId="claves">
+  <Tab label="Cuenta personal">
+    ```bash
+    ssh -T git@github-personal
+    ```
+    Si todo está configurado correctamente, GitHub responderá con un mensaje similar a este:
+    ```txt
+    Hi usuario-personal! You've successfully authenticated,
+    but GitHub does not provide shell access.
+    ```
+ </Tab>
+  <Tab label="Cuenta empresarial">
+     ```bash
+    ssh -T git@github-empresa
+    ```
+    Si todo está configurado correctamente, GitHub responderá con un mensaje similar a este:
+    ```txt
+    Hi usuario-empresa! You've successfully authenticated,
+    but GitHub does not provide shell access.
+    ```
+  </Tab>
+</Tabs>
+
+:::warning Importante
+El mensaje `GitHub does not provide shell access` no significa que exista un error. GitHub permite autenticarse mediante SSH para operaciones Git, pero no proporciona una terminal interactiva en sus servidores.
+:::
+
+### Configurar la identidad de Git por proyecto
+
+Hasta ahora hemos configurado la autenticación SSH. Es decir, ya sabemos cómo conectarnos a GitHub utilizando nuestra cuenta personal o empresarial. Ahora debemos configurar el nombre y correo que aparecerán en los commits.
+
+<Tabs groupId="claves">
+  <Tab label="Proyecto personal">
+    Ingresamos a la carpeta del proyecto:
+        ```bash
+        cd proyecto-personal
+        ```
+
+        Configuramos el nombre y correo electrónico:
+        ```bash
+        git config user.name "usuario-personal"
+        git config user.email "personal@gmail.com"
+        ```
+  </Tab>
+  <Tab label="Proyecto empresarial">
+  Ingresamos a la carpeta del proyecto:
+    ```bash
+    cd proyecto-empresa
+    ```
+
+    Configuramos el nombre y correo electrónico:
+    ```bash
+    git config user.name "usuario-empresa"
+    git config user.email "dev@empresa.com"
+    ```
+  </Tab>
+</Tabs>
+
+De esta manera, cada repositorio tendrá su propia identidad. Git permite configurar el nombre y correo electrónico en diferentes niveles:
+
+| Nivel | Comando | Alcance |
+|---|---|---|
+| Sistema | `git config --system` | Todos los usuarios del sistema. |
+| Global | `git config --global` | Todos los repositorios del usuario actual. |
+| Local | `git config` | Únicamente el repositorio actual. |
+
+En nuestro caso utilizaremos la configuración local, porque queremos que cada proyecto tenga una identidad diferente.
+
+### Clonar repositorios con la cuenta correspondiente
+
+Ahora que tenemos las dos cuentas configuradas, debemos aprender a clonar los repositorios utilizando el alias SSH correspondiente. Normalmente, cuando copiamos la URL SSH de un repositorio en GitHub, obtenemos algo parecido a esto: `git@github.com:usuario/repositorio.git` Sin embargo, en nuestro caso no utilizaremos directamente `github.com`. Porque necesitamos indicarle a SSH qué alias debe utilizar para seleccionar la clave privada correcta.
+
+<Tabs groupId="claves">
+  <Tab label="Repositorio personal">
+  Si queremos clonar un repositorio perteneciente a nuestra cuenta personal, ejecutamos:
+   ```bash
+   # git clone git@<ALIAS>:<URL_REPOSITORIO>
+    git clone git@github-personal:usuario-personal/proyecto.git
+    ```
+  </Tab>
+  <Tab label="Repositorio empresarial">
+   Si queremos clonar un repositorio empresarial, ejecutamos:
+   ```bash
+   #git clone git@<ALIAS>:<URL_REPOSITORIO>
+    git clone git@github-empresa:empresa-dev/proyecto.git
+    ```
+  </Tab>
+</Tabs>
+
+:::warning Importante
+Si el repositorio ya existe en tu computadora, no necesitas clonarlo nuevamente. Puedes actualizar su URL remota para utilizar el alias correspondiente. Por ejemplo, dentro del repositorio personal:
+```bash
+git remote set-url origin git@github-personal:usuario-personal/proyecto.git
+```
+
+:::
+</Steps>
+
+Al finalizar este tutorial tendremos dos cuentas de GitHub configuradas en una misma computadora, cada una con su propia clave SSH, identidad y repositorios.
+
+La principal ventaja es que podremos trabajar en proyectos empresariales y personales simultáneamente, sin tener que cerrar sesión o cambiar constantemente de cuenta.
+
+:::info Recuerda 
+SSH determina con qué cuenta te autenticas, mientras que `git config user.name` y `git config user.email` determinan la identidad del autor de los commits. Son configuraciones independientes.
+:::
