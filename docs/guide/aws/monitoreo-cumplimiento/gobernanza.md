@@ -8,13 +8,15 @@ Los siguientes tres servicios de AWS pueden ayudar a administrar y controlar los
 - AWS Service Catalog
 - AWS License Manager
 
-Si desea aplicar y administrar las reglas de seguridad en todas las organizaciones y cuentas, puede usar AWS Control Tower.
+Si desea aplicar y administrar las reglas de seguridad en todas las organizaciones y cuentas, puede usar **AWS Control Tower**.
 
 ## 1. AWS Control Tower
 
 ![AWS Control Tower](/icons/aws-control-tower.svg)
 
 **AWS Control Tower** es un servicio que puede usar con el fin de aplicar y administrar las reglas de gobernanza para la seguridad, las operaciones y el cumplimiento a escala en todas sus organizaciones y cuentas en la nube de AWS.
+
+![AWS Control Tower](/aws/monitoreo/monitoreo-aws-control-tower.jpg)
 
 **Beneficios**
 

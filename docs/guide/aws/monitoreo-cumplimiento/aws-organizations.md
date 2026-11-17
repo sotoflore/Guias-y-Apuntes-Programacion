@@ -8,9 +8,13 @@ A medida que las empresas crecen y escalan, la administración y la gobernanza d
 
 Este servicio ayuda a administrar y controlar su entorno de forma centralizada a medida que crece y escala sus recursos de AWS. Le permite administrar las políticas de los grupos de cuentas y automatizar la creación de cuentas.
 
+![AWS Organizations](/aws/monitoreo/monitoreo-aws-organizations.jpg)
+
 ### 1.1 Beneficios
 
-Organizations ofrece varios beneficios, como escalar rápidamente su entorno mediante la creación programática de nuevas cuentas de AWS para los recursos y los equipos. También ayuda al simplificar la administración de permisos a través de las políticas de control de servicios (service control policies, SCP) y a administrar y optimizar los costos en sus cuentas y recursos de AWS.
+Organizations ofrece varios beneficios, como:
+- Escalar rápidamente su entorno mediante la creación programática de nuevas cuentas de AWS para los recursos y los equipos.
+- También ayuda al simplificar la administración de permisos a través de las políticas de control de servicios (service control policies, SCP) y a administrar y optimizar los costos en sus cuentas y recursos de AWS.
 
 ### 1.2 Casos de uso
 

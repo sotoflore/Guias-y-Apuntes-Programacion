@@ -1,10 +1,10 @@
 # AWS Storage Gateway
 
-![AWS Storage Gateway](/icons/aws-storage-gateway.svg)
-
 **AWS Storage Gateway** cierra la brecha entre la infraestructura tradicional y la nube. Es un servicio de almacenamiento en la nube híbrida que le brinda acceso en las instalaciones al almacenamiento en la nube casi ilimitado. En esta lección, aprenderá a implementar un entorno de almacenamiento híbrido con Storage Gateway.
 
 ## 1. Qué es AWS Storage Gateway
+
+![AWS Storage Gateway](/icons/aws-storage-gateway.svg)
 
 **Storage Gateway** es un servicio de **almacenamiento en la nube híbrida** que permite integrar sin problemas los entornos en las instalaciones con el almacenamiento en la nube de AWS. Con él, puede ampliar su **almacenamiento local a la nube** y, al mismo tiempo, mantener un acceso de baja latencia a los datos de uso frecuente.
 
@@ -42,7 +42,7 @@ Con **Volume Gateway**, puede crear volúmenes de almacenamiento virtual y, al m
 
 - El **modo de volumen en caché** almacena los datos principales en la nube, mientras que los datos de acceso frecuente se almacenan en caché de forma local para lograr un acceso de baja latencia.
 
-- El **modo de volumen almacenado** conserva de forma local el conjunto de datos completo y, al mismo tiempo, lo respalda de forma asincrónica en la nube como instantáneas de EBS.
+- El **modo de volumen almacenado** conserva de forma local el conjunto de datos completo y, al mismo tiempo, lo respalda de forma asincrónica en la nube como instantáneas (snapshopts) de EBS.
 
 ### 3.3 Tape Gateway
 

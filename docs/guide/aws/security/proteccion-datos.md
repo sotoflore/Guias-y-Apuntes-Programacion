@@ -50,7 +50,7 @@ Todos los **buckets** de S3 nuevos tienen cifrado configurado y todos los **obje
 
 ![Amazon EBS](/icons/elastic-block-store.svg)
 
-Los **volúmenes** y las **instantáneas** de Amazon EBS se pueden cifrar en reposo, incluidos los volúmenes de arranque y de datos de una instancia de Amazon EC2.
+Los **volúmenes** y las **instantáneas** (snapshots) de Amazon EBS se pueden cifrar en reposo, incluidos los volúmenes de arranque y de datos de una instancia de Amazon EC2.
 
 #### 2.1.3 Amazon DynamoDB
 
@@ -68,7 +68,7 @@ AWS también ofrece los siguientes servicios que ayudan a proteger sus datos.
 
 Puede utilizar **AWS KMS** para crear y administrar claves criptográficas. Luego, estas claves se pueden utilizar para cifrar y descifrar sus datos. También puede controlar el uso de claves en una amplia gama de servicios y en sus aplicaciones. **Por ejemplo**, puede especificar qué usuarios y roles de IAM tienen permitido administrar las claves. Sus claves nunca salen de AWS KMS, y puede deshabilitarlas temporalmente para que no se puedan utilizar.
 
->Una clave criptográfica es una cadena aleatoria de dígitos que se usa para bloquear (cifrar) y desbloquear (descifrar) datos.
+>Una **clave criptográfica** es una cadena aleatoria de dígitos que se usa para bloquear (cifrar) y desbloquear (descifrar) datos.
 
 #### 2.2.2 Amazon Macie
 
@@ -82,7 +82,7 @@ Con **Amazon Macie**, puede supervisar su información confidencial en reposo y 
 
 **ACM** centraliza la administración de los **certificados SSL/TLS** que proporcionan el cifrado de datos en tránsito. Se puede utilizar para proteger varios servicios de AWS y sus recursos conectados en las instalaciones.
 
->Los certificados SSL/TLS se usan para establecer conexiones de red cifradas de un sistema a otro.
+>Los **certificados SSL/TLS** se usan para establecer conexiones de red cifradas de un sistema a otro.
 
 ---
 

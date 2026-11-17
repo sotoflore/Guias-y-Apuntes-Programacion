@@ -10,11 +10,11 @@ El servicio principal utilizado para administrar identidades y permisos es **AWS
 
 ![iam](/icons/amazon-iam.svg)
 
-Administre de forma segura las identidades y el acceso a los servicios y recursos de AWS.
+**Administre de forma segura las identidades y el acceso a los servicios y recursos de AWS**.
 
 Una de las mejores formas de prevenir incidentes relacionados con la seguridad antes de que ocurran es administrar los permisos y el acceso de manera adecuada. Con **IAM**, todas las acciones están denegadas de forma predeterminada. Se debe conceder permiso explícito a alguien antes de que esa persona pueda realizar cualquier acción en su cuenta.
 
-Al conceder permisos, debe dar acceso únicamente cuando sea necesario. Este concepto se denomina principio de mínimo privilegio.
+Al conceder permisos, debe dar acceso únicamente cuando sea necesario. Este concepto se denomina **principio de mínimo privilegio**.
 
 >El **principio de mínimo privilegio** dicta que las personas y los sistemas deben tener acceso a lo que necesitan y nada más.
 

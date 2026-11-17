@@ -22,9 +22,7 @@ El estado de los recursos puede ayudarnos a identificar:
 
 AWS Health es el origen de datos de referencia para los eventos y cambios que afectan al estado de sus recursos en la nube de AWS. Le notifica sobre los eventos de servicio, los cambios planificados y las notificaciones de la cuenta para ayudarle a administrar y tomar medidas.
 
->Notificaciones sobre eventos de servicio
-
-A diferencia de una herramienta de monitoreo tradicional, que normalmente observa métricas como CPU, memoria o tráfico, AWS Health informa sobre eventos relacionados con la infraestructura y los servicios de AWS que pueden afectar al entorno del cliente. Por ejemplo, puede informar sobre una interrupción de un servicio, mantenimiento programado o cambios que requieren alguna acción por parte del usuario.
+A diferencia de una herramienta de monitoreo tradicional, que normalmente observa métricas como CPU, memoria o tráfico, AWS Health informa sobre eventos relacionados con la infraestructura y los servicios de AWS que pueden afectar al entorno del cliente. **Por ejemplo**, puede informar sobre una interrupción de un servicio, mantenimiento programado o cambios que requieren alguna acción por parte del usuario.
 
 AWS Health proporciona información a través de diferentes tipos de eventos, entre ellos:
 

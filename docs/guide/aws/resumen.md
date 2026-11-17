@@ -2687,7 +2687,7 @@ Las diferencias que más suelen confundirse en el examen:
 
 ### 3. AWS Migration Evaluator
 
-Es un servicio de AWS que ayuda a las empresas a ***analizar sus costos actuales de infraestructura y estimar cuánto podrían costar sus operaciones después de migrar a AWS***. Su objetivo principal es ayudar a la empresa a tomar una decisión informada antes de realizar la migración, mediante un ***análisis basado en datos*** y una ***estimación de los costos potenciales***. AWS Migration Evaluator ayuda a responder la pregunta: “¿Cuánto nos cuesta mantener nuestros servidores actuales y cuánto podríamos ahorrar o gastar si migramos a AWS?”.
+Es un servicio de AWS que ayuda a las empresas a ***analizar sus costos actuales de infraestructura y estimar cuánto podrían costar sus operaciones después de migrar a AWS*** (ayuda a la empresa a crear un caso empresarial para la planificación y la migración a la nube de AWS). Su objetivo principal es ayudar a la empresa a tomar una decisión informada antes de realizar la migración, mediante un ***análisis basado en datos*** y una ***estimación de los costos potenciales***. AWS Migration Evaluator ayuda a responder la pregunta: “¿Cuánto nos cuesta mantener nuestros servidores actuales y cuánto podríamos ahorrar o gastar si migramos a AWS?”.
 
 >**¿Cómo funciona?**
 >
@@ -2743,7 +2743,7 @@ Es un servicio de AWS que ayuda a las empresas a ***descubrir y recopilar inform
 
 ### 5. AWS Application Migration Service
 
-Es un servicio de AWS que ***permite migrar servidores desde entornos físicos, máquinas virtuales y servidores alojados en otras nubes hacia AWS***, automatizando gran parte del proceso de migración y reduciendo la necesidad de realizar cambios en las aplicaciones. Su enfoque es conocido como ***rehost*** o migración de tipo lift and shift, porque permite ***trasladar aplicaciones con cambios mínimos***. Su nombre abreviado es AWS MGN (AWS Application Migration Service).
+Es un servicio de AWS que ***permite migrar servidores desde entornos físicos, máquinas virtuales y servidores alojados en otras nubes hacia AWS***, automatizando gran parte del proceso de migración y reduciendo la necesidad de realizar cambios en las aplicaciones. Su enfoque es conocido como ***rehost*** o migración de tipo lift and shift, porque permite ***trasladar aplicaciones con cambios mínimos***. Su nombre abreviado es AWS MGN (AWS Application Migration Service). Herramienta para migrar y mejorar las aplicaciones en las instalaciones y basadas en la nube. Ayuda a la agencia a simplificar, acelerar y reducir el costo de la migración y modernización de las aplicaciones.
 
 >**¿Cómo funciona?**
 >
@@ -3297,7 +3297,7 @@ Es un servicio de ***GraphQL*** completamente administrado. Con AWS AppSync, los
 
 ### 10. AWS Amplify
 
-Es un conjunto de herramientas y servicios de AWS que permite a los desarrolladores ***crear, configurar y desplegar aplicaciones web y móviles conectándolas fácilmente con servicios de backend***, como autenticación, API, almacenamiento y bases de datos. En palabras sencillas, AWS Amplify facilita el desarrollo de aplicaciones porque proporciona herramientas para construir tanto el frontend como las funciones de backend que necesita una aplicación, sin tener que configurar manualmente toda la infraestructura desde cero.
+Es un conjunto de herramientas y servicios de AWS que permite a los desarrolladores ***crear, configurar y desplegar aplicaciones web y móviles conectándolas fácilmente con servicios de backend***, como autenticación, API, almacenamiento y bases de datos. En palabras sencillas, AWS Amplify facilita el desarrollo de aplicaciones porque proporciona herramientas para construir tanto el frontend como las funciones de backend que necesita una aplicación, sin tener que configurar manualmente toda la infraestructura desde cero (Full-stack applications).
 
 **Categoría**: Desarrollo de aplicaciones web y móviles / Herramientas para desarrolladores.
 

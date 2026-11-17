@@ -6,7 +6,21 @@ En una arquitectura de red, la seguridad se implementa mediante diferentes **cap
 
 Además, AWS utiliza **IAM (Identity and Access Management)** para controlar el acceso a los servicios y recursos mediante **usuarios, roles y políticas**. Esto permite aplicar el principio de **mínimo privilegio**, otorgando únicamente los permisos necesarios para realizar una tarea.
 
-## 1. Tráfico de red en una VPC
+## 1. Subredes
+
+**Una sección de una VPC para agrupar los recursos según las necesidades operativas o de seguridad**.
+
+Una subred es una sección de una VPC en la que se pueden agrupar recursos en función de las necesidades operativas o de seguridad. Las subredes pueden ser públicas o privadas.
+
+Las subredes públicas contienen recursos a los que el público debe poder acceder, como el sitio web de una tienda en línea.
+
+Las subredes privadas contienen recursos a los que se debería poder acceder solo a través de una red privada, como una base de datos que contiene la información personal de los clientes y los historiales de pedidos.
+
+En una VPC, puede definir reglas para permitir que los recursos de subredes diferentes se comuniquen entre sí. Por ejemplo, podría tener una aplicación que utilice instancias de Amazon EC2 en una subred pública, que se comunique con las bases de datos ubicadas en una subred privada.
+
+![redes-seguridad-control-acceso-subredes](/aws/redes/redes-seguridad-control-acceso-subredes.png)
+
+## 2. Tráfico de red en una VPC
 
 **El movimiento de los paquetes de datos que se trasladan a través de una red**
 
@@ -18,7 +32,7 @@ Entra en una VPC a través de una puerta de enlace de internet. Antes de que un 
 
 El componente de VPC que revisa los permisos de paquetes para las subredes es una ACL de red.
 
-## 2. ACL de red
+## 3. ACL de red
 
 **Firewall virtual que controla el tráfico**
 
@@ -44,7 +58,7 @@ Recuerde el ejemplo anterior de un viajero que quiere ingresar a un país difere
 
 Cuando un paquete de respuesta para esa solicitud vuelve a la subred, la ACL de red no recuerda la solicitud anterior. La ACL de red comprueba la respuesta del paquete con la lista de reglas para determinar si se permite o se deniega.
 
-## 3. Grupos de seguridad
+## 4. Grupos de seguridad
 
 **Controle el tráfico entrante y saliente al nivel de los recursos**
 
@@ -68,7 +82,7 @@ Considere el mismo ejemplo de enviar una solicitud desde una instancia de Amazon
 
 ![Filtrado de paquetes con estado](/aws/redes/redes-seguridad-control-acceso-grupo-seguridad-filtro-paquetes.png)
 
-## 4. Grupos de seguridad vs ACL de red
+## 5. Grupos de seguridad vs ACL de red
 
 Tanto con las ACL de red como con los grupos de seguridad, puede configurar reglas personalizadas para el tráfico de la VPC. A medida que obtenga más información sobre la seguridad y las redes de AWS, es importante que comprenda las diferencias entre ellas. La tabla siguiente le ayudará a entender cuál debe usar.
 

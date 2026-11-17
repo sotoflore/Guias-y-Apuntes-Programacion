@@ -8,7 +8,7 @@ Una **migración** puede involucrar grandes cantidades de datos, servidores fís
 
 ## 1. Servicios y Herramientas
 
-Entre los servicios más importantes se encuentran **AWS Application Migration Service**, para migrar servidores; **AWS Database Migration Service** (AWS DMS), para migrar bases de datos; **AWS DataSync**, para transferir datos entre almacenamiento local y AWS; y AWS Snow Family, para transferencias de grandes cantidades de datos cuando utilizar una conexión de red no resulta práctico.
+Entre los servicios más importantes se encuentran **AWS Application Migration Service**, para migrar servidores; **AWS Database Migration Service** (AWS DMS), para migrar bases de datos; **AWS DataSync**, para transferir datos entre almacenamiento local y AWS; y **AWS Snow Family**, para transferencias de grandes cantidades de datos cuando utilizar una conexión de red no resulta práctico.
 
 También existen herramientas para evaluar y planificar una migración, como **Migration Evaluator** y **AWS Migration Hub**, que ayudan a analizar el entorno y realizar un seguimiento centralizado de las migraciones.
 
@@ -39,7 +39,7 @@ También existen herramientas para evaluar y planificar una migración, como **M
 
     Descubre el inventario y las conexiones de los servidores en las instalaciones. Reúne los detalles de configuración, rendimiento y conexión de los servidores y las bases de datos para crear un plan de migración detallado.
 
-    **Beneficios**. Obtiene una instantánea completa de su inventario en las instalaciones. También puede integrar los datos de descubrimiento con otros servicios, como Migration Hub, y proteger los datos que recopila Application Discovery Service.
+    **Beneficios**. con Application Discovery Service, obtiene una instantánea (snapshot) completa de su inventario en las instalaciones. También puede integrar los datos de descubrimiento con otros servicios, como Migration Hub, y proteger los datos que recopila Application Discovery Service.
 
     **Casos de uso**. Puede usar AWS Application Discovery Service para realizar el descubrimiento y el inventario, mapear las conexiones y las dependencias, y generar un plan de migración.
 
@@ -51,7 +51,7 @@ También existen herramientas para evaluar y planificar una migración, como **M
 
     Es un centro unificado que le ofrece una guía durante las fases de descubrimiento, evaluación, planificación y ejecución de la migración. Proporciona herramientas, orientación y recomendaciones automatizadas para colaborar con su equipo y realizar un seguimiento de la migración.
 
-    **Beneficios**: Tiene un solo lugar al que acudir para realizar la migración con orientación de expertos en forma de plantillas prescriptivas del recorrido. Otro beneficio es el ahorro de costos, ya que Migration Hub es gratuito.
+    **Beneficios**:  con Migration Hub, tiene un solo lugar al que acudir para realizar la migración con orientación de expertos en forma de plantillas prescriptivas del recorrido. Otro beneficio es el ahorro de costos, ya que Migration Hub es gratuito.
 
     **Casos de uso**: puede usar Migration Hub para evaluar y planificar la migración, completarla y colaborar con los equipos. También puede usarlo para iniciativas de modernización, como la refactorización rápida de aplicaciones.
 
@@ -78,8 +78,6 @@ También existen herramientas para evaluar y planificar una migración, como **M
 
 La **migración de la base de datos** a la nube puede brindar la oportunidad de rediseñar y mejorar la arquitectura de la base de datos. Dado que los requisitos y los sistemas heredados cambian con el tiempo, también puede considerar la posibilidad de migrar a un servicio de base de datos administrada por AWS o a una base de datos de código abierto para reducir los costos de licencias. Es bastante sencillo migrar datos de un servidor a otro cuando ambos utilizan el mismo motor de base de datos, lo que se conoce como migración homogénea. Pasar a un motor diferente, o realizar una migración heterogénea, es más complejo y puede requerir cambios en la aplicación. La buena noticia es que, independientemente de que su migración sea homogénea (entre bases de datos del mismo tipo) o heterogénea (entre bases de datos de distintos tipos), existen servicios de AWS que le ayudarán.
 
->Servicios para planificar, migrar y, si es necesario, convertir.
-
 ### 2.1 AWS Database Migration Service
 
 ![AWS Database Migration Service](/icons/aws-dms.svg)
@@ -102,7 +100,7 @@ Si desea cambiar de una base de datos comercial a una de código abierto durante
 
 ![AWS SCT](/icons/aws-sct.png)
 
-**AWS SCT** permite convertir esquemas de bases de datos y objetos de código (como procedimientos, vistas y funciones almacenados) de un motor de base de datos a otro. AWS SCT puede incluso proporcionarle estimaciones del esfuerzo que supone una conversión, lo que ayuda a planificar.
+**AWS SCT** (Schema Conversion Tool) permite convertir esquemas de bases de datos y objetos de código (como procedimientos, vistas y funciones almacenados) de un motor de base de datos a otro. AWS SCT puede incluso proporcionarle estimaciones del esfuerzo que supone una conversión, lo que ayuda a planificar.
 
 **Beneficios**
 
@@ -114,11 +112,13 @@ Puede usar AWS SCT para pasar de bases de datos comerciales a bases de datos de 
 
 ## 3. Servicios Migraciones de Datos
 
+**Transferencia de datos hacia y desde la nube de AWS**
+
 ### 3.1 Transferencia de datos en línea
 
-Varios servicios de AWS facilitan la transferencia de datos en línea a la nube de AWS (**Transferencia de datos hacia y desde la nube de AWS**). En la última lección, aprendió que AWS Database Migration Service (AWS DMS) transfiere la base de datos y sus datos a la nube de AWS. En esta lección, identificará los servicios que pueden ayudar con las consideraciones de la transferencia en línea de otros tipos de datos y archivos.
+Varios servicios de AWS facilitan la transferencia de datos en línea a la nube de AWS. En la última lección, aprendió que AWS Database Migration Service (AWS DMS) transfiere la base de datos y sus datos a la nube de AWS. En esta lección, identificará los servicios que pueden ayudar con las consideraciones de la transferencia en línea de otros tipos de datos y archivos.
 
-Cuando migra datos a la nube de AWS, hay algunas consideraciones que debe tener en cuenta. Debe garantizar la seguridad (si llegarán allí de forma segura), la validación de los datos (si llegarán completos) y la programación (cuándo es el mejor momento). También debe confirmar los requisitos de ancho de banda. Para la mayoría de las cargas de trabajo de migración de datos, AWS DataSync hará el trabajo.
+Cuando migra datos a la nube de AWS, hay algunas consideraciones que debe tener en cuenta. Debe garantizar la seguridad (si llegarán allí de forma segura), la validación de los datos (si llegarán completos) y la programación (cuándo es el mejor momento). También debe confirmar los requisitos de ancho de banda. Para la mayoría de las cargas de trabajo de migración de datos, **AWS DataSync** hará el trabajo.
 
 #### 3.1.1 AWS DataSync
 

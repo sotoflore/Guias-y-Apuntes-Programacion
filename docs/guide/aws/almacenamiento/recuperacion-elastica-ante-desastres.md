@@ -1,10 +1,10 @@
 # Recuperación elástica ante desastres de AWS
 
-![Recuperación elástica ante desastres de AWS](/icons/recuperacion-elastica.svg)
-
 La **Recuperación elástica ante desastres** replica las cargas de trabajo esenciales en AWS con un tiempo de inactividad mínimo. Los datos a nivel de bloques de sus servidores se replican de forma constante en AWS, lo que es ideal para los usos que requieren soluciones sólidas de recuperación de desastres. Admite servidores físicos y virtuales para permitir una recuperación rápida durante las interrupciones, lo que es valioso, sobre todo, para industrias como la de sanidad, donde la disponibilidad del sistema es fundamental.
 
 ## 1. Recuperación Elástica ante Desastres
+
+![Recuperación elástica ante desastres de AWS](/icons/recuperacion-elastica.svg)
 
 Puede utilizar la **Recuperación elástica ante desastres** para reducir los tiempos de inactividad y la pérdida de datos y, al mismo tiempo, eliminar los costos asociados con el mantenimiento de los centros de datos secundarios. También ofrece pruebas de recuperación de desastres no disruptivas, lo que significa que es capaz de lanzar instancias de recuperación de inmediato cuando sea necesario.
 

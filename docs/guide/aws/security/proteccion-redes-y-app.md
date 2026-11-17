@@ -17,7 +17,7 @@ Cada capa incorpora controles de seguridad diferentes para reducir el riesgo de 
 Otro componente vital para un entorno seguro en AWS es la protección de redes y aplicaciones. Repasemos cómo funcionan estos ataques.
 
 ### 1.1 Ataques de DoS
-En los **ataques de denegación de servicio**, el atacante inunda una aplicación web con un tráfico de red excesivo. Las solicitudes legítimas de los clientes son rechazadas si la aplicación web se sobrecarga y deja de responder.
+En los **ataques de denegación de servicio** (DoS), el atacante inunda una aplicación web con un tráfico de red excesivo. Las solicitudes legítimas de los clientes son rechazadas si la aplicación web se sobrecarga y deja de responder.
 
 ![Ataques de DoS](/aws/security-img/proteccion-redes-app-ataque-dos.png)
 
