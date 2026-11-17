@@ -7,7 +7,7 @@
     {
         "type": "dir-section-header",
         "name": "aws",
-        "label": "Fundamentos de AWS"
+        "label": "<img src=\"/icons/aws.svg\" class=\"sidebar-icon\" alt=\"\" /> Fundamentos de AWS"
     },
     {
         "type": "dir-section-header",
@@ -17,16 +17,16 @@
     {
         "type": "dir-section-header",
         "name": "zustand",
-        "label": "Zustand"
+        "label": "<img src=\"/icons/zustand.svg\" class=\"sidebar-icon\" alt=\"\" /> Zustand"
     },
     {
         "type": "dir-section-header",
         "name": "nestjs",
-        "label": "NestJS"
+        "label": "<img src=\"/icons/nestjs.svg\" class=\"sidebar-icon\" alt=\"\" /> NestJS"
     },
     {
         "type": "dir-section-header",
         "name": "git",
-        "label": "Git"
+        "label": "<img src=\"/icons/git.svg\" class=\"sidebar-icon\" alt=\"\" /> Git"
     }
 ]

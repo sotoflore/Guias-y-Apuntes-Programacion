@@ -61,3 +61,15 @@ html{
 .rp-doc h3 { color: var(--rp-c-h3); }
 .rp-doc h4 { color: var(--rp-c-h4); }
  */
+/* Iconos en los encabezados de sección del sidebar */
+.rp-sidebar-section-header__left span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}

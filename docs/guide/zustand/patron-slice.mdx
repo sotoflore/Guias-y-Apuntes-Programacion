@@ -27,16 +27,17 @@ Para implementar este patrón de manera profesional en Zustand, se utiliza el ti
 
 **Estructura de carpetas**
 
-```txt
+```tree
 src/
- ├─ store/
- │   ├─ slices/
- │   │   ├─ authSlice.ts
- │   │   └─ userSlice.ts
- │   ├─ store.ts
- └─ components/
-     └─ Profile.tsx
+└── store/
+    ├─ slices/
+    │   ├─ authSlice.ts
+    │   └─ userSlice.ts
+    ├─ store.ts
+    components/
+    └─ Profile.tsx
 ```
+
 ```mermaid
 graph TD
 A[Store Global] --> B[Auth Slice]
